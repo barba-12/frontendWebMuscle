@@ -1,0 +1,40 @@
+Esercizio:
+ - ID
+ - nome
+ - immagini/video
+ - muscoliAllenati (lista)
+ - descrizione
+ - attrezzatura
+ - difficoltà
+
+EsercizioProgramma (o EsercizioScheda):
+ - esercizio (riferimento a Esercizio)
+ - ripetizioni
+ - serie
+ - tempoRecupero
+ - carico
+
+https://musclewiki.com/it-it/directory
+
+Giorno:
+ - nomeGiorno (es. "Lunedì")
+ - listaEserciziProgramma
+
+Scheda:
+ - ID
+ - tipologia:
+  Scheda per principianti
+  Scheda full body
+  Scheda split
+  Scheda push/pull/legs
+  Scheda per ipertrofia
+  Scheda per forza
+  Scheda per dimagrimento / tonificazione
+  Scheda di mantenimento
+ - giorniAllenamento
+ - listaGiorni (lista di Giorno)
+
+utente:
+- ID
+- nome
+- password
