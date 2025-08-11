@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 
 function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
   const videoRef = useRef(null);
 
   const thisVideoUniqueId = esercizioId + "-" + currentIndex;
@@ -18,9 +19,9 @@ function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
 
   const togglePlay = () => {
     if (activeVideoId === thisVideoUniqueId) {
-      setActiveVideoId(null); // Ferma il video
+      setActiveVideoId(null); // Pausa
     } else {
-      setActiveVideoId(thisVideoUniqueId); // Avvia questo video
+      setActiveVideoId(thisVideoUniqueId); // Play
     }
   };
 
@@ -35,13 +36,14 @@ function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
   };
 
   const isPlaying = activeVideoId === thisVideoUniqueId;
+  const showButtons = !isPlaying || isHovered;
 
   return (
     <div
       className="content-video"
       style={{ position: "relative" }}
-      onMouseEnter={() => {}}
-      onMouseLeave={() => {}}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <video
         ref={videoRef}
@@ -49,30 +51,37 @@ function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
         style={{ width: "100%", height: "auto", display: "block" }}
         loop
       />
-      <button
-        onClick={togglePlay}
-        className="botton-pause"
-        aria-label={isPlaying ? "Pause video" : "Play video"}
-      >
-        {isPlaying ? "❚❚" : "►"}
-      </button>
 
-      {videos.length > 1 && (
+      {showButtons && (
         <>
+          {/* Bottone Play/Pausa */}
           <button
-            onClick={prevVideo}
-            className="botton-left"
-            aria-label="Previous video"
+            onClick={togglePlay}
+            className="botton-pause"
+            aria-label={isPlaying ? "Pause video" : "Play video"}
           >
-            ⇦
+            {isPlaying ? "❚❚" : "►"}
           </button>
-          <button
-            onClick={nextVideo}
-            className="botton-right"
-            aria-label="Next video"
-          >
-            ⇨
-          </button>
+
+          {/* Bottoni avanti/indietro */}
+          {videos.length > 1 && (
+            <>
+              <button
+                onClick={prevVideo}
+                className="botton-left"
+                aria-label="Previous video"
+              >
+                ⇦
+              </button>
+              <button
+                onClick={nextVideo}
+                className="botton-right"
+                aria-label="Next video"
+              >
+                ⇨
+              </button>
+            </>
+          )}
         </>
       )}
     </div>

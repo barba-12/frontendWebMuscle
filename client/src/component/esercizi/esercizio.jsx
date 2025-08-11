@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import VideoPlayer from "./videoPlayer";
+import VideoPlayer from "../videoPlayer";
+import { Link } from "react-router-dom";
 
-function ExerciseCard({ esercizio, activeVideoId, setActiveVideoId }) {
+function ExerciseCard({ esercizio, activeVideoId, setActiveVideoId}) {
   const [showVideos, setShowVideos] = useState(false);
 
   return (
@@ -31,9 +32,9 @@ function ExerciseCard({ esercizio, activeVideoId, setActiveVideoId }) {
           <strong className="purple">Difficoltà:</strong> {esercizio.difficoltà}
         </Card.Text>
 
-        <Button>
-          visualizza dettagli
-        </Button>
+        <Link to="/pagEsCompleta" state={{ esercizio }}>
+          <Button variant="primary">visualizza dettagli</Button>
+        </Link>
 
       </Card.Body>
     </Card>
