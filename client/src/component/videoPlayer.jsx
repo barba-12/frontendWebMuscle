@@ -6,6 +6,7 @@ function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
   const videoRef = useRef(null);
 
   const thisVideoUniqueId = esercizioId + "-" + currentIndex;
+  const videosWithoutLast = videos.slice(0, videos.length - 1);
 
   useEffect(() => {
     if (!videoRef.current) return;
@@ -26,12 +27,12 @@ function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
   };
 
   const nextVideo = () => {
-    setCurrentIndex((prev) => (prev + 1) % videos.length);
+    setCurrentIndex((prev) => (prev + 1) % videosWithoutLast.length);
     setActiveVideoId(null);
   };
 
   const prevVideo = () => {
-    setCurrentIndex((prev) => (prev === 0 ? videos.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev === 0 ? videosWithoutLast.length - 1 : prev - 1));
     setActiveVideoId(null);
   };
 
@@ -47,7 +48,7 @@ function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
     >
       <video
         ref={videoRef}
-        src={videos[currentIndex]}
+        src={videosWithoutLast[currentIndex]}
         style={{ width: "100%", height: "auto", display: "block" }}
         loop
       />
@@ -64,7 +65,7 @@ function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
           </button>
 
           {/* Bottoni avanti/indietro */}
-          {videos.length > 1 && (
+          {videosWithoutLast.length > 1 && (
             <>
               <button
                 onClick={prevVideo}
