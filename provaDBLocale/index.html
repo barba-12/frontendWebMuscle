@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>IndexedDB Demo - Salvataggio Numeri</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px 5px 5px 0;
+            font-size: 1rem;
+        }
+        button {
+            cursor: pointer;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: white;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .buttons {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Demo IndexedDB</h1>
+    <input type="number" id="numeroInput" placeholder="Inserisci un numero">
+    <button id="salvaBtn">Salva numero</button>
+
+    <div class="buttons">
+        <button id="exportBtn">Esporta JSON</button>
+        <button id="spazioBtn">Mostra spazio IndexedDB</button>
+    </div>
+
+    <h2>Numeri salvati</h2>
+    <ul id="listaNumeri"></ul>
+
+    <script>
+        let db;
+
+        // Apri o crea il database
+        let request = indexedDB.open("MioDatabase", 1);
+
+        request.onupgradeneeded = function(event) {
+            db = event.target.result;
+            db.createObjectStore("numeri", { autoIncrement: true });
+        };
+
+        request.onsuccess = function(event) {
+            db = event.target.result;
+            mostraNumeri();
+        };
+
+        request.onerror = function(event) {
+            console.error("Errore DB:", event.target.error);
+        };
+
+        // Salva un numero
+        function salvaNumero(numero) {
+            let tx = db.transaction("numeri", "readwrite");
+            let store = tx.objectStore("numeri");
+            store.add(numero);
+            tx.oncomplete = () => {
+                console.log("Numero salvato:", numero);
+                mostraNumeri();
+            };
+        }
+
+        document.getElementById("spazioBtn").addEventListener("click", async () => {
+            if (navigator.storage && navigator.storage.estimate) {
+                const estimate = await navigator.storage.estimate();
+                const usedMB = (estimate.usage / (1024*1024)).toFixed(2);
+                const quotaMB = (estimate.quota / (1024*1024)).toFixed(2);
+                alert(`Spazio usato: ${usedMB} MB\nSpazio stimato disponibile: ${quotaMB} MB`);
+            } else {
+                alert("API StorageManager non supportata in questo browser.");
+            }
+        });
+
+        // Mostra tutti i numeri
+        function mostraNumeri() {
+            let tx = db.transaction("numeri", "readonly");
+            let store = tx.objectStore("numeri");
+            let request = store.getAll();
+            request.onsuccess = () => {
+                let lista = document.getElementById("listaNumeri");
+                lista.innerHTML = "";
+                request.result.forEach(num => {
+                    let li = document.createElement("li");
+                    li.textContent = num;
+                    lista.appendChild(li);
+                });
+            };
+        }
+
+        // Esporta numeri in JSON e scarica file
+        function esportaJSON() {
+            let tx = db.transaction("numeri", "readonly");
+            let store = tx.objectStore("numeri");
+            let request = store.getAll();
+            request.onsuccess = () => {
+                let dati = request.result;
+                let blob = new Blob([JSON.stringify(dati, null, 2)], { type: "application/json" });
+                let link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "numeri.json";
+                link.click();
+            };
+        }
+
+        // Eventi UI
+        document.getElementById("salvaBtn").addEventListener("click", () => {
+            let numero = document.getElementById("numeroInput").value;
+            if (numero !== "") {
+                salvaNumero(Number(numero));
+                document.getElementById("numeroInput").value = "";
+            }
+        });
+
+        document.getElementById("exportBtn").addEventListener("click", esportaJSON);
+    </script>
+</body>
+</html>

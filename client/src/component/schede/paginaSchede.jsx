@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 import Scheda from "./scheda";
 import schede from "../../data/gymSheet";
 
+// aggiungere container con un + per aggiugnere una scheda che apre una pagina dove sara possbili inserire tutti i dati necessari per salvare una scheda
+//nome, giorni di allenamento (lun, mar, mer), esercizi per ogni giorno, ripetizioni-serie-peso-tempi di recupero generici da mantenere
+//salvare il tutto su indexedDB 
+
 function PaginaSchede() {
   return (
     <Container fluid className="project-section">
