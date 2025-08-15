@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import VideoPlayer from "../videoPlayer";
 import { Link } from "react-router-dom";
 
-function ExerciseCard({ esercizio, activeVideoId, setActiveVideoId}) {
+function ExerciseCard({ esercizio, activeVideoId, setActiveVideoId, addButton}) {
   const [showVideos, setShowVideos] = useState(false);
 
   return (
@@ -32,9 +32,13 @@ function ExerciseCard({ esercizio, activeVideoId, setActiveVideoId}) {
           <strong className="purple">Difficoltà:</strong> {esercizio.difficoltà}
         </Card.Text>
 
-        <Link to="/pagEsCompleta" state={{ esercizio }}>
+        <Link to="/esercizioScheda" state={{ esercizio }}>
           <Button variant="primary">visualizza dettagli</Button>
         </Link>
+
+        {addButton && (
+          <Button style={{color:"green"}}>add</Button>
+        )}
 
       </Card.Body>
     </Card>

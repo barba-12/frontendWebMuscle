@@ -10,6 +10,7 @@ function PaginaEsercizi({ esercizi }) {
   const [es, setEs] = useState(esercizi || []);
   const [activeVideoId, setActiveVideoId] = useState(null);
   const [button, setButton] = useState(true);
+  const [idEs, setIdEs] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,16 +39,9 @@ function PaginaEsercizi({ esercizi }) {
   return (
     <Container fluid className="project-section">
       <Container>
-        {button ? (
-          <Link to="/schede">
-            <Button variant="primary">Schede</Button>
-          </Link>
-        ) : (
-          <Button variant="primary" onClick={handleClick}>back</Button>
-        )}
+        <Button variant="primary" onClick={() => navigate(-1)}>back</Button>
 
-
-        <h1 className="project-heading">Exercise</h1>
+        <h1 className="project-heading">Select Exercise</h1>
 
         <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
           {es.map((ex, i) => (
@@ -56,7 +50,7 @@ function PaginaEsercizi({ esercizi }) {
                 esercizio={ex}
                 activeVideoId={activeVideoId}
                 setActiveVideoId={setActiveVideoId}
-                addButton={false}
+                addButton={true}
               />
             </Col>
           ))}

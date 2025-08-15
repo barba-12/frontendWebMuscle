@@ -3,10 +3,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import PaginaEsercizi from './component/esercizi/paginaEsercizi';
 import PaginaSchede from "./component/schede/paginaSchede";
 import Giorni from "./component/schede/giorni";
-import PagEsCompleta from "./component/esercizi/pagEsCompleta";
+import EsercizioScheda from "./component/esercizi/esercizioScheda";
 import Login from "./component/login/login";
 import AggiungiScheda from "./component/schede/aggiungiScheda";
 import exerciseData from './data/exercise';
+import PagSelezionaEs from "./component/esercizi/pagSelezionaEs";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -51,14 +52,19 @@ function App() {
             <PaginaEsercizi esercizi={null} />
           </PrivateRoute>
         } />
-        <Route path="/pagEsCompleta" element={
+        <Route path="/esercizioScheda" element={
           <PrivateRoute>
-            <PagEsCompleta />
+            <EsercizioScheda />
           </PrivateRoute>
         } />
         <Route path="/aggiungiScheda" element={
           <PrivateRoute>
             <AggiungiScheda />
+          </PrivateRoute>
+        } />
+        <Route path="/pagSelezionaEs" element={
+          <PrivateRoute>
+            <PagSelezionaEs esercizi={exerciseData}/>
           </PrivateRoute>
         } />
 

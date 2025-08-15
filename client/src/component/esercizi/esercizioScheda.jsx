@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import VideoPlayer from "../videoPlayer";
 
-function pagEsCompleta() {
+function esercizioScheda() {
   const navigate = useNavigate();
   const location = useLocation();
   const { esercizio } = location.state || {};
@@ -55,4 +55,4 @@ function pagEsCompleta() {
   );
 }
 
-export default pagEsCompleta;
+export default esercizioScheda;

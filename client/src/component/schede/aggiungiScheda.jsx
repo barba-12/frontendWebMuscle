@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button, Card, Form } from "react-bootstrap";
 
 function AggiungiScheda() {
     const[nomeScheda, setNomeScheda] = useState("");
+    const navigate = useNavigate();
   
   return (
     <>
@@ -11,9 +12,7 @@ function AggiungiScheda() {
           <Col md={12} className="schede-card">
             <Card className="project-card-view">
                 <Card.Body>
-                    <Link to="/schede">
-                        <Button variant="primary">Schede</Button>
-                    </Link>
+                    <Button variant="primary" onClick={() => navigate(-1)}>Schede</Button>
 
                     <Form>
                         <Form.Group className="mb-5">
@@ -45,6 +44,8 @@ function AggiungiScheda() {
                             </React.Fragment>
                         ))}
                     </Form.Group>
+
+                        <Button variant="primary" onClick={() => navigate("/pagSelezionaEs")}>scegli esercizi</Button>
 
                         <Button type="submit">
                             Invia
