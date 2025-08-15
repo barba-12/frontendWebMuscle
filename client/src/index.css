@@ -182,3 +182,37 @@ body {
   color: white;
   font-size: 20px;
 }
+
+/* --------- */
+/* form add scheda */
+/* --------- */
+
+form {
+  margin-top: 30px;
+}
+
+.input-viola {
+  background-color: transparent !important; /* Sfondo trasparente */
+  border: 2px solid #5B1C86 !important;     /* Bordo viola */
+  color: #fff !important;                   /* Testo bianco */
+}
+
+.input-viola::placeholder {
+  color: #d8b3ff !important; /* Placeholder viola chiaro */
+}
+
+.input-viola:focus {
+  border-color: #9b30ff !important; /* Cambia il bordo quando è selezionato */
+}
+
+.btn-viola {
+  color: #5B1C86 !important; /* testo iniziale */
+  border: 2px solid #5B1C86 !important; /* bordo viola */
+  background-color: transparent !important; /* sfondo trasparente */
+  margin-right: 5px !important;
+}
+
+.btn-check:checked + .btn-viola {
+  background-color: #5B1C86 !important; /* sfondo viola quando selezionato */
+  color: white !important; /* testo bianco quando selezionato */
+}

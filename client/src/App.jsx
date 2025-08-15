@@ -5,16 +5,20 @@ import PaginaSchede from "./component/schede/paginaSchede";
 import Giorni from "./component/schede/giorni";
 import PagEsCompleta from "./component/esercizi/pagEsCompleta";
 import Login from "./component/login/login";
+import AggiungiScheda from "./component/schede/aggiungiScheda";
 import exerciseData from './data/exercise';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("loggedIn") === "true"
+  );
 
   // Funzione che il componente Login chiamerà quando il login va a buon fine
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
+    localStorage.setItem("loggedIn", "true");
   };
 
   // Componente per rotte protette
@@ -50,6 +54,11 @@ function App() {
         <Route path="/pagEsCompleta" element={
           <PrivateRoute>
             <PagEsCompleta />
+          </PrivateRoute>
+        } />
+        <Route path="/aggiungiScheda" element={
+          <PrivateRoute>
+            <AggiungiScheda />
           </PrivateRoute>
         } />
 
