@@ -19,7 +19,7 @@ function App() {
   // Funzione che il componente Login chiamerà quando il login va a buon fine
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
-    localStorage.setItem("loggedIn", "true");
+    //localStorage.setItem("loggedIn", "true");
   };
 
   // Componente per rotte protette

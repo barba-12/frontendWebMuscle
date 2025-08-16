@@ -1,61 +1,134 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Row, Col, Button, Card, Form } from "react-bootstrap";
+import { Row, Col, Button, Card, Form } from "react-bootstrap";
+import eserciziData from "../../data/exercise";
 
 function AggiungiScheda() {
-    const[nomeScheda, setNomeScheda] = useState("");
-    const navigate = useNavigate();
-  
+  const navigate = useNavigate();
+
+  const giorniSettimana = [
+    "lunedi",
+    "martedi",
+    "mercoledi",
+    "giovedi",
+    "venerdi",
+    "sabato",
+    "domenica",
+  ];
+
+  // Stato esercizi selezionati
+  const [eserciziSelezionati, setEserciziSelezionati] = useState(() => {
+    const salvati = sessionStorage.getItem("eserciziSelezionati");
+    if (salvati) {
+      return JSON.parse(salvati);
+    }
+    return [];
+  });
+
+  // Stato nome e giorni della scheda
+  const schedaSalvata = sessionStorage.getItem("scheda")
+    ? JSON.parse(sessionStorage.getItem("scheda"))
+    : { nome: "", giorniAllenamento: [] };
+
+  const [nomeScheda, setNomeScheda] = useState(schedaSalvata.nome || "");
+  const [giorni, setGiorni] = useState(schedaSalvata.giorniAllenamento || []);
+
+  useEffect(() => {
+    // Aggiorna scheda
+    const scheda = { nome: nomeScheda, giorniAllenamento: giorni };
+    sessionStorage.setItem("scheda", JSON.stringify(scheda));
+
+    // Aggiorna eserciziSelezionati mantenendo tutti i dati degli esercizi
+    setEserciziSelezionati(prevEs => {
+      const nuoviEsercizi = giorni.map(g => {
+        // Trova il giorno esistente mantenendo tutti i dati degli esercizi
+        const esistente = prevEs.find(item => item[0] === g);
+        return esistente || [g, []];
+      });
+      
+      sessionStorage.setItem("eserciziSelezionati", JSON.stringify(nuoviEsercizi));
+      return nuoviEsercizi;
+    });
+  }, [nomeScheda, giorni]);
+
+  // Seleziona / deseleziona giorno
+  const handleGiornoChange = (giorno) => {
+    setGiorni(prev => {
+      if (prev.includes(giorno)) {
+        return prev.filter(g => g !== giorno);
+      } else {
+        return [...prev, giorno];
+      }
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate("/pagSelezionaEs");
+  };
+
   return (
-    <>
-        <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
-          <Col md={12} className="schede-card">
-            <Card className="project-card-view">
-                <Card.Body>
-                    <Button variant="primary" onClick={() => navigate(-1)}>Schede</Button>
+    <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
+      <Col md={12} className="schede-card">
+        <Card className="project-card-view">
+          <Card.Body>
+            <Button variant="primary" onClick={() => navigate(-1)}>Schede</Button>
 
-                    <Form>
-                        <Form.Group className="mb-5">
-                            <Form.Control 
-                                type="text"
-                                placeholder="nome scheda" 
-                                className="input-viola"
-                                value={nomeScheda}
-                                onChange={(e) => setNomeScheda(e.target.value)}
-                            />
-                        </Form.Group>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-5">
+                <Form.Control
+                  type="text"
+                  placeholder="Nome scheda"
+                  className="input-viola"
+                  value={nomeScheda}
+                  onChange={e => setNomeScheda(e.target.value)}
+                />
+              </Form.Group>
 
-                    <Form.Text>seleziona giorni di allenamento</Form.Text>
-                    <Form.Group className="mb-5">
-                        {["lunedi", "martedi", "mercoledi", "giovedi", "venerdi", "sabato", "domenica"].map((giorno, index) => (
-                            <React.Fragment key={giorno}>
-                            <input
-                                type="checkbox"
-                                className="btn-check"
-                                id={`btn-check-${index}`}
-                                autoComplete="off"
-                            />
-                            <label 
-                                className="btn btn-viola" 
-                                htmlFor={`btn-check-${index}`}
-                            >
-                                {giorno}
-                            </label>
-                            </React.Fragment>
-                        ))}
-                    </Form.Group>
+              <Form.Text>Seleziona giorni di allenamento</Form.Text>
+              <Form.Group className="mb-5">
+                {giorniSettimana.map((giorno, index) => (
+                  <React.Fragment key={giorno}>
+                    <input
+                      type="checkbox"
+                      className="btn-check"
+                      id={`btn-check-${index}`}
+                      autoComplete="off"
+                      checked={giorni.includes(giorno)}
+                      onChange={() => handleGiornoChange(giorno)}
+                    />
+                    <label className="btn btn-viola" htmlFor={`btn-check-${index}`}>
+                      {giorno}
+                    </label>
+                  </React.Fragment>
+                ))}
+              </Form.Group>
 
-                        <Button variant="primary" onClick={() => navigate("/pagSelezionaEs")}>scegli esercizi</Button>
+              <div>
+                <h5>Riepilogo esercizi:</h5>
+                {eserciziSelezionati
+                  .filter(([g]) => giorni.includes(g)) // Mostra solo giorni selezionati
+                  .map(([giorno, esercizi]) => (
+                    <div key={giorno}>
+                      <strong>{giorno}:</strong>{" "}
+                      {esercizi.length > 0
+                        ? esercizi.map(es => {
+                            const id = es[0];
+                            const esercizio = eserciziData.find(e => e.id === id);
+                            return esercizio ? esercizio.nome : "Sconosciuto";
+                          }).join(", ")
+                        : "Nessun esercizio"}
+                    </div>
+                  ))}
+              </div>
 
-                        <Button type="submit">
-                            Invia
-                        </Button>
-                    </Form>
-                </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-    </>
+              <Button variant="primary" onClick={() => navigate("/pagSelezionaEs")}>Scegli esercizi</Button>
+              <Button type="submit">Invia</Button>
+            </Form>
+          </Card.Body>
+        </Card>
+      </Col>
+    </Row>
   );
 }
 

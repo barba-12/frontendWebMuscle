@@ -1,15 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import VideoPlayer from "../videoPlayer";
 import { Link } from "react-router-dom";
 
-function ExerciseCard({ esercizio, activeVideoId, setActiveVideoId, addButton}) {
-  const [showVideos, setShowVideos] = useState(false);
+function ExerciseCard({ esercizio, activeVideoId, setActiveVideoId, addButton }) {
+  const [showForm, setShowForm] = useState(false);
+  const [giorno, setGiorno] = useState("");
+  const [serie, setSerie] = useState("");
+  const [ripetizioni, setRipetizioni] = useState("");
+  const [carico, setCarico] = useState("");
+  const [tempoRecupero, setTempoRecupero] = useState("");
+
+  // Giorni selezionati dall'utente nella scheda
+  const giorniDisponibili = JSON.parse(sessionStorage.getItem("scheda"))?.giorniAllenamento || [];
+  
+const salvaEsercizio = () => {
+  if (!giorno) return alert("Seleziona un giorno");
+
+  // Leggo la scheda esistente o creo una nuova struttura
+  const schedaGiorni = JSON.parse(sessionStorage.getItem("eserciziSelezionati")) 
+    || giorniDisponibili.map(g => [g, []]);
+
+  const nuovoScheda = schedaGiorni.map(([g, esercizi]) => {
+    const listaEsercizi = Array.isArray(esercizi) ? esercizi : [];
+
+    if (g === giorno) {
+      // aggiungiamo il nuovo esercizio come array
+      return [
+        g,
+        [...listaEsercizi, [Number(esercizio.id), serie, ripetizioni, carico, tempoRecupero]]
+      ];
+    }
+
+    return [g, listaEsercizi];
+  });
+
+  sessionStorage.setItem("eserciziSelezionati", JSON.stringify(nuovoScheda));
+  console.log("Scheda aggiornata:", nuovoScheda);
+
+  // Reset form
+  setShowForm(false);
+  setGiorno("");
+  setSerie("");
+  setRipetizioni("");
+  setCarico("");
+  setTempoRecupero("");
+};
+
+
 
   return (
     <Card className="project-card-view">
-      {/* Video o immagine anteprima */}
       {esercizio.immaginiVideo && esercizio.immaginiVideo.length > 0 && (
         <VideoPlayer
           videos={esercizio.immaginiVideo}
@@ -37,9 +79,32 @@ function ExerciseCard({ esercizio, activeVideoId, setActiveVideoId, addButton}) 
         </Link>
 
         {addButton && (
-          <Button style={{color:"green"}}>add</Button>
-        )}
+          <>
+            <Button style={{ color: "green", marginTop: "10px" }} onClick={() => setShowForm(!showForm)}>
+              add
+            </Button>
 
+            {showForm && (
+              <div style={{ marginTop: "10px" }}>
+                <select value={giorno} onChange={(e) => setGiorno(e.target.value)}>
+                  <option value="">Seleziona giorno</option>
+                  {giorniDisponibili.map((g) => (
+                    <option key={g} value={g}>{g}</option>
+                  ))}
+                </select>
+
+                <input type="number" placeholder="Serie" value={serie} onChange={(e) => setSerie(e.target.value)} />
+                <input type="number" placeholder="Ripetizioni" value={ripetizioni} onChange={(e) => setRipetizioni(e.target.value)} />
+                <input type="text" placeholder="Carico" value={carico} onChange={(e) => setCarico(e.target.value)} />
+                <input type="text" placeholder="Tempo Recupero" value={tempoRecupero} onChange={(e) => setTempoRecupero(e.target.value)} />
+
+                <Button variant="success" style={{ marginTop: "5px" }} onClick={salvaEsercizio}>
+                  Salva esercizio
+                </Button>
+              </div>
+            )}
+          </>
+        )}
       </Card.Body>
     </Card>
   );
