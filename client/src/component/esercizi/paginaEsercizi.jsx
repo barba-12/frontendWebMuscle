@@ -15,18 +15,21 @@ function PaginaEsercizi({ esercizi }) {
   useEffect(() => {
     if (!esercizi && scheda && giorno) {
       setButton(false);
-      // Prendi gli esercizi con id dalla giornata e mappa per trovare i dettagli completi
+
       const eserciziCompleti = giorno.esercizi.map(item => {
-        const dettagliEsercizio = exerciseData.find(e => e.id === item.esercizio);
+        const dettagliEsercizio = exerciseData.find(e => e.id === item.idEsercizio);
+        if (!dettagliEsercizio) return null; // sicurezza: skip se non trovato
+
         return {
           ...dettagliEsercizio,
-          // aggiungi i dati specifici della scheda per quell'esercizio
+          // aggiungo i dati specifici della scheda
           ripetizioni: item.ripetizioni,
           serie: item.serie,
           tempoRecupero: item.tempoRecupero,
           carico: item.carico
         };
-      });
+      }).filter(e => e !== null); // rimuovo eventuali null
+
       setEs(eserciziCompleti);
     }
   }, [esercizi, scheda, giorno]);

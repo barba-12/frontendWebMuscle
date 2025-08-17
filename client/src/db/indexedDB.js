@@ -11,7 +11,7 @@ function openDB() {
     request.onupgradeneeded = function (event) {
       const db = event.target.result;
       if (!db.objectStoreNames.contains(STORE_NAME)) {
-        db.createObjectStore(STORE_NAME, { keyPath: "idScheda" });
+        db.createObjectStore(STORE_NAME, { keyPath: "id" });
       }
     };
 

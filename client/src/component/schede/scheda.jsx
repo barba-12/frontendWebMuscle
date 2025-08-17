@@ -20,6 +20,8 @@ function Scheda({ scheda }) {
         </Card.Text>    
 
         
+
+        
             {/*scheda.giorni.map((giorno, index) => (
             <div key={index} className="card-workout-day">
                 <strong>{giorno.nomeGiorno}</strong> – {giorno.esercizi.length} esercizi

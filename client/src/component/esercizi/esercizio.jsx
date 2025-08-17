@@ -65,7 +65,7 @@ const salvaEsercizio = () => {
         <Card.Title>{esercizio.nome}</Card.Title>
 
         <Card.Text>
-          <strong className="purple">Muscoli allenati:</strong> {esercizio.muscoliAllenati.join(", ")}
+          <strong className="purple">Muscoli allenati:</strong> {esercizio.muscoliAllenati}
         </Card.Text>
         <Card.Text>
           <strong className="purple">Attrezzatura:</strong> {esercizio.attrezzatura}

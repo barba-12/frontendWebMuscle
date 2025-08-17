@@ -2,6 +2,20 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Row, Col, Button, Card, Form } from "react-bootstrap";
 import eserciziData from "../../data/exercise";
+import { saveScheda } from "../../db/indexedDB";
+import { Scheda } from "../../models/Scheda";
+import { Giorno } from "../../models/Giorno";
+import { EsercizioScheda } from "../../models/EsercizioScheda";
+
+/*
+
+  creare classe scheda
+  salvarla su indexedDB
+
+  una volta modificata la classe cheda bisogna sovrascriverla nel DB
+  con await saveScheda(s);  // s = scheda aggiornata
+
+ */
 
 function AggiungiScheda() {
   const navigate = useNavigate();
@@ -62,9 +76,42 @@ function AggiungiScheda() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate("/pagSelezionaEs");
+
+    // Recupero scheda ed esercizi da sessionStorage
+    const schedaRaw = JSON.parse(sessionStorage.getItem("scheda")) || {};
+    const eserciziSelezionati = JSON.parse(sessionStorage.getItem("eserciziSelezionati")) || [];
+
+    // 🔹 Costruisco i Giorno con i relativi EsercizioScheda
+    const giorni = eserciziSelezionati.map(([nomeGiorno, esercizi]) => {
+      const eserciziScheda = esercizi.map(e => new EsercizioScheda(
+        e[0],        // id esercizio
+        e[1] || 0,   // ripetizioni
+        e[2] || 0,   // serie
+        e[3] || 0,   // tempo recupero
+        e[4] || 0    // carico
+      ));
+      return new Giorno(nomeGiorno, eserciziScheda);
+    });
+
+    // 🔹 Creo un oggetto Scheda
+    const nuovaScheda = new Scheda({
+      id: Date.now(),  // id univoco per IndexedDB
+      tipologia: schedaRaw.nome || "Scheda senza nome",
+      giorniAllenamento: giorni.length,
+      giorni
+    });
+
+    try {
+      await saveScheda(nuovaScheda);
+      console.log("Scheda salvata su IndexedDB:", nuovaScheda);
+
+      // Dopo il salvataggio vai alla pagina successiva
+      navigate("/pagSelezionaEs");
+    } catch (err) {
+      console.error("Errore salvataggio IndexedDB:", err);
+    }
   };
 
   return (
