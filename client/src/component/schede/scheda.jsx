@@ -19,9 +19,6 @@ function Scheda({ scheda }) {
           Giorni di allenamento: {scheda.giorniAllenamento}
         </Card.Text>    
 
-        
-
-        
             {/*scheda.giorni.map((giorno, index) => (
             <div key={index} className="card-workout-day">
                 <strong>{giorno.nomeGiorno}</strong> – {giorno.esercizi.length} esercizi
