@@ -1,4 +1,13 @@
-import { Giorno } from './Giorno.js';
+/**
+ * 
+ *   se c'è lo stesso esericio ripetuto durante la settimana:
+ *   modificare stuttura classi. rimuovere classe giorno
+ *   mettere attributo giorni in esercizio del tipo --> giorni = ["lunedi", "mercoledi"]
+ *   quando aggiungo un esercizio devo verificare se è gia presente nella cheda e verificare che il giono non sia uno di quelli gia inseriti nell'attributo dell'esercizio
+ *   qunado cerco esercizio, cerco in tutta la scheda e modifico l'esercizi in modo "globale" per tutti i giorni della settimana
+ *   es. lunedi: carico = 2     ,    mercoledi: carico = 3       lista carico deve essere: [2, 3] delle'esercizio
+ * 
+ */
 
 export class Scheda {
   /**
@@ -8,14 +17,71 @@ export class Scheda {
    * @param {number} param0.giorniAllenamento
    * @param {Array<{nomeGiorno: string, esercizi: Array<{esercizio: number, ripetizioni: number, serie: number, tempoRecupero: number, carico: number}>}>} param0.giorni
    */
-  constructor({ id, tipologia, giorniAllenamento, giorni }) {
+  constructor({ id, tipologia, giorniAllenamento}) {
     this.id = id;
     this.tipologia = tipologia;
     this.giorniAllenamento = giorniAllenamento;
-    this.giorni = giorni.map(g => new Giorno(g.nomeGiorno, g.esercizi));
+    this.esercizi = [];
+    this.giorni = [];
+  }
+
+  addEsercizio(esercizio) {
+    //controllo se l'esercizio è gia presente all'interno della cheda se si allora verifico il giorno se è lo stesso giono do errore
+    //altrimenti aggiungo il giono delle'esercizi passato come parametro a questo metodo all'esercizio trovato uguale
+
+    if(this.getListaID().includes(esercizio.getIdEsercizio())){
+      for (let i=0; i<this.esercizi.length; i++){
+        let giorni = this.esercizi[i].getGiorni();
+        let id = this.esercizi[i].getIdEsercizio();
+
+        if(id == esercizio.getIdEsercizio()){
+         if(!giorni.includes(esercizio.getGiorni()[0])) {
+            if(!this.giorni.includes(esercizio.getGiorni()[0])) this.giorni.push(esercizio.getGiorni()[0]);
+            this.esercizi[i].addGiorno(esercizio.getGiorni()[0]);
+         }
+        }
+      }
+    }
+    else {
+      this.esercizi.push(esercizio);
+      if(!this.giorni.includes(esercizio.getGiorni()[0])) this.giorni.push(esercizio.getGiorni()[0]);
+    }
+  }
+
+  getListaID() {
+    let lista = []
+
+    this.esercizi.forEach(es => {
+      lista.push(es.getIdEsercizio());
+    });
+
+    return lista;
+  }
+
+  getNumEsXGiorno(giorno){
+    let numero = 0;
+    this.esercizi.forEach(es => {
+      es.giorni.forEach(giornoEs => {
+        if(giornoEs == giorno) numero++;        
+      });
+    });
+    return numero;
   }
 
   // 🔹 Getter e Setter per id
+
+  getGiorni(){
+    return this.giorni;
+  }
+
+  setGiorni(giorni) {
+    this.giorni = giorni;
+  }
+
+  setEsercizi(esercizi){
+    this.esercizi = esercizi;
+  }
+
   getId() {
     return this.id;
   }
@@ -48,34 +114,12 @@ export class Scheda {
     this.giorniAllenamento = value;
   }
 
-  // 🔹 Getter e Setter per giorni
-  getGiorni() {
-    return this.giorni;
-  }
-  setGiorni(value) {
-    if (!Array.isArray(value) || !value.every(g => g instanceof Giorno)) {
-      throw new Error("I giorni devono essere un array di istanze Giorno");
-    }
-    this.giorni = value;
-    this.giorniAllenamento = value.length; // manteniamo coerente
-  }
-
-  // 🔹 Metodo per aggiungere un giorno
-  aggiungiGiorno(giorno) {
-    if (!(giorno instanceof Giorno)) {
-      throw new Error("Il parametro deve essere un'istanza di Giorno");
-    }
-    this.giorni.push(giorno);
-    this.giorniAllenamento = this.giorni.length; // aggiornamento automatico
-  }
-
   // 🔹 Per IndexedDB (serializzazione)
   toJSON() {
     return {
       id: this.id,
       tipologia: this.tipologia,
       giorniAllenamento: this.giorniAllenamento,
-      giorni: this.giorni.map(g => g.toJSON ? g.toJSON() : g)
     };
   }
 }

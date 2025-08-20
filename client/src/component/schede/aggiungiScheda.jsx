@@ -4,7 +4,6 @@ import { Row, Col, Button, Card, Form } from "react-bootstrap";
 import eserciziData from "../../data/exercise";
 import { saveScheda } from "../../db/indexedDB";
 import { Scheda } from "../../models/Scheda";
-import { Giorno } from "../../models/Giorno";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
 
 /*
@@ -83,25 +82,23 @@ function AggiungiScheda() {
     const schedaRaw = JSON.parse(sessionStorage.getItem("scheda")) || {};
     const eserciziSelezionati = JSON.parse(sessionStorage.getItem("eserciziSelezionati")) || [];
 
-    // 🔹 Costruisco i Giorno con i relativi EsercizioScheda
-    const giorni = eserciziSelezionati.map(([nomeGiorno, esercizi]) => {
-      const eserciziScheda = esercizi.map(e => new EsercizioScheda(
-        e[0],        // id esercizio
-        e[1] || 0,   // ripetizioni
-        e[2] || 0,   // serie
-        e[3] || 0,   // tempo recupero
-        e[4] || 0    // carico
-      ));
-      return new Giorno(nomeGiorno, eserciziScheda);
-    });
-
     // 🔹 Creo un oggetto Scheda
     const nuovaScheda = new Scheda({
       id: Date.now(),  // id univoco per IndexedDB
       tipologia: schedaRaw.nome || "Scheda senza nome",
       giorniAllenamento: giorni.length,
-      giorni
     });
+
+    eserciziSelezionati.map(([nomeGiorno, esercizi]) => {
+      esercizi.map(e => nuovaScheda.addEsercizio(new EsercizioScheda(
+        e[0],        // id esercizio
+        e[1] || 0,   // ripetizioni
+        e[2] || 0,   // serie
+        e[3] || 0,   // tempo recupero
+        e[4] || 0,    // carico
+        nomeGiorno
+      )))
+    })
 
     try {
       await saveScheda(nuovaScheda);

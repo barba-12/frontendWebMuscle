@@ -13,10 +13,10 @@ function PaginaEsercizi({ esercizi }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!esercizi && scheda && giorno) {
+    if (!esercizi && scheda) {
       setButton(false);
 
-      const eserciziCompleti = giorno.esercizi.map(item => {
+      const eserciziCompleti = scheda.esercizi.map(item => {
         const dettagliEsercizio = exerciseData.find(e => e.id === item.idEsercizio);
         if (!dettagliEsercizio) return null; // sicurezza: skip se non trovato
 
@@ -26,13 +26,18 @@ function PaginaEsercizi({ esercizi }) {
           ripetizioni: item.ripetizioni,
           serie: item.serie,
           tempoRecupero: item.tempoRecupero,
-          carico: item.carico
+          carico: item.carico,
+          giorni: item.giorni
         };
       }).filter(e => e !== null); // rimuovo eventuali null
 
-      setEs(eserciziCompleti);
+      const eserciziCompletiFiltrati = eserciziCompleti.filter(item => 
+        item.giorni.includes(giorno)  // include, non includeS
+      );
+
+      setEs(eserciziCompletiFiltrati);
     }
-  }, [esercizi, scheda, giorno]);
+  }, [esercizi, scheda]);
 
   function handleClick() {
     navigate("/giorni", { state: { scheda } });

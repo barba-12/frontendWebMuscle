@@ -7,10 +7,10 @@ import { Link } from "react-router-dom";
 function ExerciseCard({ esercizio, activeVideoId, setActiveVideoId, addButton }) {
   const [showForm, setShowForm] = useState(false);
   const [giorno, setGiorno] = useState("");
-  const [serie, setSerie] = useState("");
-  const [ripetizioni, setRipetizioni] = useState("");
-  const [carico, setCarico] = useState("");
-  const [tempoRecupero, setTempoRecupero] = useState("");
+  const [serie, setSerie] = useState(0);
+  const [ripetizioni, setRipetizioni] = useState(0);
+  const [carico, setCarico] = useState(0);
+  const [tempoRecupero, setTempoRecupero] = useState(0);
 
   // Giorni selezionati dall'utente nella scheda
   const giorniDisponibili = JSON.parse(sessionStorage.getItem("scheda"))?.giorniAllenamento || [];
@@ -29,7 +29,7 @@ const salvaEsercizio = () => {
       // aggiungiamo il nuovo esercizio come array
       return [
         g,
-        [...listaEsercizi, [Number(esercizio.id), serie, ripetizioni, carico, tempoRecupero]]
+        [...listaEsercizi, [Number(esercizio.id), Number(serie), Number(ripetizioni), Number(carico), Number(tempoRecupero)]]
       ];
     }
 
@@ -42,13 +42,11 @@ const salvaEsercizio = () => {
   // Reset form
   setShowForm(false);
   setGiorno("");
-  setSerie("");
-  setRipetizioni("");
-  setCarico("");
-  setTempoRecupero("");
+  setSerie(0);
+  setRipetizioni(0);
+  setCarico(0);
+  setTempoRecupero(0);
 };
-
-
 
   return (
     <Card className="project-card-view">
@@ -93,10 +91,10 @@ const salvaEsercizio = () => {
                   ))}
                 </select>
 
-                <input type="number" placeholder="Serie" value={serie} onChange={(e) => setSerie(e.target.value)} />
-                <input type="number" placeholder="Ripetizioni" value={ripetizioni} onChange={(e) => setRipetizioni(e.target.value)} />
-                <input type="text" placeholder="Carico" value={carico} onChange={(e) => setCarico(e.target.value)} />
-                <input type="text" placeholder="Tempo Recupero" value={tempoRecupero} onChange={(e) => setTempoRecupero(e.target.value)} />
+                <input type="number" placeholder="Serie" value={serie} onChange={(e) => setSerie(parseInt(e.target.value))} />
+                <input type="number" placeholder="Ripetizioni" value={ripetizioni} onChange={(e) => setRipetizioni(parseInt(e.target.value))} />
+                <input type="number" placeholder="Carico" value={carico} onChange={(e) => setCarico(parseInt(e.target.value))} />
+                <input type="number" placeholder="Tempo Recupero" value={tempoRecupero} onChange={(e) => setTempoRecupero(parseInt(e.target.value))} />
 
                 <Button variant="success" style={{ marginTop: "5px" }} onClick={salvaEsercizio}>
                   Salva esercizio

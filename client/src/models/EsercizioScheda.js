@@ -1,10 +1,48 @@
 export class EsercizioScheda {
-  constructor(idEsercizio, ripetizioni, serie, tempoRecupero, carico) {
+  constructor(idEsercizio, ripetizioni, serie, tempoRecupero, carico, giorno) {
     this.idEsercizio = idEsercizio;
-    this.ripetizioni = ripetizioni;
-    this.serie = serie;
-    this.tempoRecupero = tempoRecupero;
-    this.carico = carico;
+    this.giorni = [];
+    this.ripetizioni = [];
+    this.serie = [];
+    this.tempoRecupero = [];
+    this.carico = [];
+    this.giorni.push(giorno);
+    this.ripetizioni.push(ripetizioni);
+    this.serie.push(serie);
+    this.tempoRecupero.push(tempoRecupero);
+    this.carico.push(carico);
+  }
+  
+  /*
+    metodi add
+  */
+
+  addRipetizione(ripetizione) {
+    this.ripetizioni.push(ripetizione);
+  }
+
+  addSerie(serie) {
+    this.serie.push(serie);
+  }
+
+  addTempoRecupero(tempoRecupero) {
+    this.tempoRecupero.push(tempoRecupero);
+  }
+
+  addCarico(carico) {
+    this.carico.push(carico);
+  }
+
+  addGiorno(giorno) {
+    if(!this.giorni.includes(giorno)) this.giorni.push(giorno);
+  }
+
+  /*
+    getter e setter
+  */
+
+  getGiorni() {
+    return this.giorni;
   }
 
   getIdEsercizio() {
