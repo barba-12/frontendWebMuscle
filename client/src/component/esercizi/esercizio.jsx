@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import VideoPlayer from "../videoPlayer";
 import { Link } from "react-router-dom";
 
-function ExerciseCard({ esercizio, activeVideoId, setActiveVideoId, addButton }) {
+function ExerciseCard({ scheda, esercizio, activeVideoId, setActiveVideoId, addButton }) {
   const [showForm, setShowForm] = useState(false);
   const [giorno, setGiorno] = useState("");
   const [serie, setSerie] = useState(0);
@@ -72,7 +72,7 @@ const salvaEsercizio = () => {
           <strong className="purple">Difficoltà:</strong> {esercizio.difficoltà}
         </Card.Text>
 
-        <Link to="/esercizioScheda" state={{ esercizio }}>
+        <Link to="/esercizioScheda" state={{ esercizio, scheda }}>
           <Button variant="primary">visualizza dettagli</Button>
         </Link>
 

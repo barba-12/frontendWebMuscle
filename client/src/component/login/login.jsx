@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { checkStatusExercise } from "../../db/indexedDB";
 
 export default function Login({ onLoginSuccess }) {
   const [username, setUsername] = useState("");
@@ -10,6 +11,7 @@ export default function Login({ onLoginSuccess }) {
   function handleLogin(e) {
     e.preventDefault(); // 🔹 impedisce il refresh della pagina
     if (username !== "" && password !== "") {
+      checkStatusExercise();
       onLoginSuccess();
       navigate("/"); // 🔹 naviga subito dopo il login
     } else {

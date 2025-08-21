@@ -1,3 +1,6 @@
+import { Scheda } from "../models/Scheda";
+import { EsercizioScheda } from "../models/EsercizioScheda";
+
 // src/db/indexedDB.js
 const DB_NAME = "AllenamentiDB";
 const STORE_NAME = "schede";
@@ -56,4 +59,36 @@ export async function deleteScheda(id) {
   const tx = db.transaction(STORE_NAME, "readwrite");
   tx.objectStore(STORE_NAME).delete(id);
   return tx.complete;
+}
+
+export async function checkStatusExercise(){
+  const oggi = new Date();
+  const giorno = oggi.getDay();
+  const schede = await getAllSchede();
+
+  if(giorno == 0) {
+    for (const scheda of schede) {
+      const nuovaScheda = new Scheda({
+        id: scheda.id,
+        tipologia: scheda.tipologia,
+        giorniAllenamento: scheda.giorni.length,
+      });
+
+      nuovaScheda.setGiorni(scheda.giorni);
+      nuovaScheda.setEsercizi(scheda.esercizi.map(e => new EsercizioScheda({
+        idEsercizio: e.idEsercizio,
+        carico: e.carico,
+        ripetizioni: e.ripetizioni,
+        serie: e.serie,
+        tempoRecupero: e.tempoRecupero,
+        giorni: e.giorni,
+        completato: e.completato
+      })));
+
+      nuovaScheda.resetCompletatoEs();
+
+      await saveScheda(nuovaScheda);
+    }
+  }
+  console.log(schede);
 }

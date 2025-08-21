@@ -32,7 +32,7 @@ function PaginaEsercizi({ esercizi }) {
       }).filter(e => e !== null); // rimuovo eventuali null
 
       const eserciziCompletiFiltrati = eserciziCompleti.filter(item => 
-        item.giorni.includes(giorno)  // include, non includeS
+        item.giorni.includes(giorno) && !item.completato
       );
 
       setEs(eserciziCompletiFiltrati);
@@ -61,6 +61,7 @@ function PaginaEsercizi({ esercizi }) {
           {es.map((ex, i) => (
             <Col md={4} className="project-card" key={i}>
               <Esercizio
+               scheda={scheda}
                 esercizio={ex}
                 activeVideoId={activeVideoId}
                 setActiveVideoId={setActiveVideoId}

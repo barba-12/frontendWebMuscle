@@ -68,8 +68,13 @@ export class Scheda {
     return numero;
   }
 
-  // 🔹 Getter e Setter per id
+  resetCompletatoEs() {
+    this.esercizi.forEach(esercizio => {
+      esercizio.setCompletato(false);
+    })
+  }
 
+  // 🔹 Getter e Setter per id
   getGiorni(){
     return this.giorni;
   }

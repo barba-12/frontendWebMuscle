@@ -1,17 +1,30 @@
 export class EsercizioScheda {
-  constructor(idEsercizio, ripetizioni, serie, tempoRecupero, carico, giorno) {
+  constructor(idEsercizio, ripetizioni, serie, tempoRecupero, carico, giorno, completato) {
     this.idEsercizio = idEsercizio;
     this.giorni = [];
     this.ripetizioni = [];
     this.serie = [];
     this.tempoRecupero = [];
     this.carico = [];
+    this.completato = completato;
     this.giorni.push(giorno);
     this.ripetizioni.push(ripetizioni);
     this.serie.push(serie);
     this.tempoRecupero.push(tempoRecupero);
     this.carico.push(carico);
   }
+
+  /**
+ * 
+ *  
+ * 
+ * 
+ *  ESERCIZIO CON UN SOLO GIORNO, LO STESSO ESERCIZIO PUO ESSERE ALL'INTERNO DELLA STESSA SCHEDA SE IL GIORNO è DIVERSO
+ * 
+ * 
+ * 
+ * 
+ */
   
   /*
     metodi add
@@ -40,6 +53,14 @@ export class EsercizioScheda {
   /*
     getter e setter
   */
+
+  isCompletato() {
+    return this.completato;
+  }
+
+  setCompletato(completato) {
+    this.completato = completato;
+  }
 
   getGiorni() {
     return this.giorni;

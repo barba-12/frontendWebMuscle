@@ -96,7 +96,8 @@ function AggiungiScheda() {
         e[2] || 0,   // serie
         e[3] || 0,   // tempo recupero
         e[4] || 0,    // carico
-        nomeGiorno
+        nomeGiorno,
+        false
       )))
     })
 
