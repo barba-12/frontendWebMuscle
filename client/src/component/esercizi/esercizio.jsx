@@ -95,13 +95,6 @@ function ExerciseCard({ scheda, esercizio, activeVideoId, setActiveVideoId, addB
                   ))}
                 </select>
 
-                {
-                //<input type="number" placeholder="Serie" value={serie} onChange={(e) => setSerie(parseInt(e.target.value))} />
-                //<input type="number" placeholder="Ripetizioni" value={ripetizioni} onChange={(e) => setRipetizioni(parseInt(e.target.value))} />
-                //<input type="number" placeholder="Carico" value={carico} onChange={(e) => setCarico(parseInt(e.target.value))} />
-                //<input type="number" placeholder="Tempo Recupero" value={tempoRecupero} onChange={(e) => setTempoRecupero(parseInt(e.target.value))} />
-                }
-
                 <Form>
                   <Form.Group className="mb-5">
                     <Form.Control type="number" placeholder="Serie" className="input-viola" value={serie} onChange={(e) => setSerie(parseInt(e.target.value))} />

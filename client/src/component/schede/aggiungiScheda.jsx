@@ -6,16 +6,6 @@ import { saveScheda } from "../../db/indexedDB";
 import { Scheda } from "../../models/Scheda";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
 
-/*
-
-  creare classe scheda
-  salvarla su indexedDB
-
-  una volta modificata la classe cheda bisogna sovrascriverla nel DB
-  con await saveScheda(s);  // s = scheda aggiornata
-
- */
-
 function AggiungiScheda() {
   const navigate = useNavigate();
 

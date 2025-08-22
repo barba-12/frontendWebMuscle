@@ -8,18 +8,6 @@ export class EsercizioScheda {
     this.carico = Array.isArray(carico) ? [...carico] : [carico];
     this.completato = completato;
   }
-
-  /**
- * 
- *  
- * 
- * 
- *  ESERCIZIO CON UN SOLO GIORNO, LO STESSO ESERCIZIO PUO ESSERE ALL'INTERNO DELLA STESSA SCHEDA SE IL GIORNO è DIVERSO
- * 
- * 
- * 
- * 
- */
   
   /*
     metodi add

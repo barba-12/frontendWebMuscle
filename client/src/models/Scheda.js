@@ -1,14 +1,3 @@
-/**
- * 
- *   se c'è lo stesso esericio ripetuto durante la settimana:
- *   modificare stuttura classi. rimuovere classe giorno
- *   mettere attributo giorni in esercizio del tipo --> giorni = ["lunedi", "mercoledi"]
- *   quando aggiungo un esercizio devo verificare se è gia presente nella cheda e verificare che il giono non sia uno di quelli gia inseriti nell'attributo dell'esercizio
- *   qunado cerco esercizio, cerco in tutta la scheda e modifico l'esercizi in modo "globale" per tutti i giorni della settimana
- *   es. lunedi: carico = 2     ,    mercoledi: carico = 3       lista carico deve essere: [2, 3] delle'esercizio
- * 
- */
-
 export class Scheda {
   /**
    * @param {Object} param0

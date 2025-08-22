@@ -18,39 +18,6 @@ function Scheda({ scheda }) {
         <Card.Text>
           Giorni di allenamento: {scheda.giorniAllenamento}
         </Card.Text>    
-
-            {/*scheda.giorni.map((giorno, index) => (
-            <div key={index} className="card-workout-day">
-                <strong>{giorno.nomeGiorno}</strong> – {giorno.esercizi.length} esercizi
-                <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
-                {giorno.esercizi.map(({ esercizio: esercizioId, ripetizioni, serie, tempoRecupero, carico }) => {
-                    // Trova l'esercizio completo dall'id
-                    const esercizioCompleto = esercizi.find(e => e.id === esercizioId);
-
-                    if (!esercizioCompleto) {
-                    return (
-                        <div key={esercizioId}>
-                        Esercizio con ID {esercizioId} non trovato
-                        </div>
-                    );
-                    }
-
-                    return (
-                    <Col md={3}>
-                    <EsercizioXSchede
-                        key={esercizioId}
-                        esercizio={esercizioCompleto}
-                        ripetizioni={ripetizioni}
-                        serie={serie}
-                        tempoRecupero={tempoRecupero}
-                        carico={carico}
-                    />
-                    </Col>
-                    );
-                })}
-                </Row>
-            </div>
-            ))*/}
       </Card.Body>
     </Card>
   );
