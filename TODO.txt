@@ -10,5 +10,14 @@ PAGINA EsercizioScheda:
  * - RIPETIZIONI TUTTE QUELLE DELLE SERIE
  * - E SERIE INDICATE QUANDO AGGIUNTO L'ESERCIZIO ALLA SCHEDA
  * 
- * AGGIUNGERE PAGINE PER VISUALIZZAZIONE DETTAGLI: RIPETIZIONI, CARICO, TEMPO DI RECUPERO CON RELATIVI GRAFICI
+ * AGGIUNGERE PAGINE PER VISUALIZZAZIONE DETTAGLI: RIPETIZIONI, CARICO, TEMPO DI RECUPERO CON RELATIVI GRAFICI:
+ * (per i grafici mettere una select per carico, ripetizioni e tempo di recupero e una per il tempo {di base 1 mese, possibilita di mettere settimana, 6 mesi, anno e totale}
+ * inserire il grafico sotto al bottone completaEsercizio)
  * APERTURA PAGINE TRAMITE BOTTONE, SOLO VISUALIZZAZIONE
+
+
+
+PAGINA utente:
+ * mettere tutti i dati relativi all'utente, scheda e esercizi fatti
+
+ * pensare a quancosa per area utente.
