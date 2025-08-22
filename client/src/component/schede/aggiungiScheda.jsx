@@ -92,10 +92,10 @@ function AggiungiScheda() {
     eserciziSelezionati.map(([nomeGiorno, esercizi]) => {
       esercizi.map(e => nuovaScheda.addEsercizio(new EsercizioScheda(
         e[0],        // id esercizio
-        e[1] || 0,   // ripetizioni
-        e[2] || 0,   // serie
-        e[3] || 0,   // tempo recupero
-        e[4] || 0,    // carico
+        e[2] || 0,   // ripetizioni
+        e[1] || 0,   // serie
+        e[4] || 0,   // tempo recupero
+        e[3] || 0,    // carico
         nomeGiorno,
         false
       )))

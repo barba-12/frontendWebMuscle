@@ -1,7 +1,6 @@
 import {React , useState} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+import { Row, Col, Button, Card, Form } from "react-bootstrap";
 import VideoPlayer from "../videoPlayer";
 import { Scheda } from "../../models/Scheda";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
@@ -13,6 +12,10 @@ function esercizioScheda() {
   const location = useLocation();
   const { scheda, esercizio } = location.state || {};
   const [activeVideoId, setActiveVideoId] = useState(null);
+
+  const [ripetizioni, setRipetizioni] = useState([]);
+  const [carico, setCarico] = useState([]);
+  const [tempoRecupero, setTempoRecupero] = useState([]);
 
   const isEsercizioScheda = esercizio && typeof esercizio.ripetizioni !== "undefined";
 
@@ -27,11 +30,11 @@ function esercizioScheda() {
 
     scheda.esercizi.forEach(e => {
       const idEsercizio = e.idEsercizio?.idEsercizio || e.idEsercizio;
-      const ripetizioni = e.ripetizioni?.[0];
-      const serie = e.serie?.[0];
-      const tempoRecupero = e.tempoRecupero?.[0];
-      const carico = e.carico?.[0];
-      const giorno = e.giorni?.[0];
+      const ripetizioni = e.ripetizioni;
+      const serie = e.serie;
+      const tempoRecupero = e.tempoRecupero;
+      const carico = e.carico;
+      const giorno = e.giorni;
       const completato = e.completato;
 
       const newEs = new EsercizioScheda(
@@ -57,14 +60,16 @@ function esercizioScheda() {
 
     nuovaScheda.esercizi.forEach(es => {
       if (es.getIdEsercizio() === esercizio.id) {
+        es.addRipetizione(ripetizioni);
+        es.addTempoRecupero(tempoRecupero);
+        es.addCarico(carico);
         es.setCompletato(true);
         console.log("Esercizio completato modificato");
-        return; // Esci dal loop una volta trovato (se vuoi)
       }
     });
 
     saveScheda(nuovaScheda);
-    navigate(-1);
+    //navigate(-1);
   }
 
   return (
@@ -85,11 +90,55 @@ function esercizioScheda() {
 
         {isEsercizioScheda && (
           <>
-            <h2>Num serie: {esercizio.serie}</h2>
-            <h2>Num rep (x serie): {esercizio.ripetizioni}</h2>
-            <h2>Peso: {esercizio.carico}</h2>
-            <h2>Tempo di recupero: {esercizio.tempoRecupero}s</h2>
-            <button onClick={cambiaStatoEs}>Conferma esercizio fatto</button>
+            <Form>
+              <Form.Group className="mb-5">
+
+                {Array.from({ length: esercizio.serie}, (_, i) => (
+                  <div key={i} className="flex gap-2 mb-2">
+                    {/* Ripetizioni */}
+                    <Form.Control
+                      type="number"
+                      placeholder="Ripetizioni"
+                      className="input-viola"
+                      value={ripetizioni[i] || ""}
+                      onChange={(e) => {
+                        const newRipetizioni = [...ripetizioni];
+                        newRipetizioni[i] = parseInt(e.target.value) || 0;
+                        setRipetizioni(newRipetizioni);
+                      }}
+                    />
+
+                    {/* Carico */}
+                    <Form.Control
+                      type="number"
+                      placeholder="Carico"
+                      className="input-viola"
+                      value={carico[i] || ""}
+                      onChange={(e) => {
+                        const newCarico = [...carico];
+                        newCarico[i] = parseInt(e.target.value) || 0;
+                        setCarico(newCarico);
+                      }}
+                    />
+
+                    {/* Tempo di Recupero */}
+                    <Form.Control
+                      type="number"
+                      placeholder="Tempo di Recupero"
+                      className="input-viola"
+                      value={tempoRecupero[i] || ""}
+                      onChange={(e) => {
+                        const newTempoRecupero = [...tempoRecupero];
+                        newTempoRecupero[i] = parseInt(e.target.value) || 0;
+                        setTempoRecupero(newTempoRecupero);
+                      }}
+                    />
+                  </div>
+                ))}
+
+                <Button type="submit" onClick={cambiaStatoEs}>Completa Esercizio</Button>
+              </Form.Group>
+            </Form>
             <h2>Grafico del peso per ogni settimana</h2>
           </>
         )}

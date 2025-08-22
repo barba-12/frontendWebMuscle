@@ -191,6 +191,7 @@ form {
   margin-top: 30px;
 }
 
+/*input*/
 .input-viola {
   background-color: transparent !important; /* Sfondo trasparente */
   border: 2px solid #5B1C86 !important;     /* Bordo viola */
@@ -203,6 +204,35 @@ form {
 
 .input-viola:focus {
   border-color: #9b30ff !important; /* Cambia il bordo quando è selezionato */
+}
+
+/*select*/
+/* Stile select */
+.select-viola {
+  background-color: transparent !important; /* Sfondo trasparente */
+  border: 2px solid #5B1C86 !important;     /* Bordo viola */
+  color: #fff !important;                   /* Testo bianco */
+  padding: 8px 12px;                        /* Spaziatura interna */
+  border-radius: 6px;                       /* Angoli arrotondati */
+  outline: none;                            /* Rimuove contorno blu default */
+  appearance: none;                         /* Rimuove stile default browser */
+  cursor: pointer;
+}
+
+/* Opzioni del menu */
+.select-viola option {
+  background-color: #2b0d3a; /* Sfondo viola scuro */
+  color: #fff;              /* Testo bianco */
+}
+
+/* Placeholder */
+.select-viola option[value=""] {
+  color: #d8b3ff; /* Viola chiaro */
+}
+
+/* Stato focus */
+.select-viola:focus {
+  border-color: #9b30ff !important;
 }
 
 .btn-viola {

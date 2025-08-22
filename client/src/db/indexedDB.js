@@ -66,24 +66,44 @@ export async function checkStatusExercise(){
   const giorno = oggi.getDay();
   const schede = await getAllSchede();
 
-  if(giorno == 0) {
+  //refreshare ogni domenica (0)
+  if(giorno != 0) {
     for (const scheda of schede) {
       const nuovaScheda = new Scheda({
         id: scheda.id,
         tipologia: scheda.tipologia,
         giorniAllenamento: scheda.giorni.length,
       });
-
+  
       nuovaScheda.setGiorni(scheda.giorni);
-      nuovaScheda.setEsercizi(scheda.esercizi.map(e => new EsercizioScheda({
-        idEsercizio: e.idEsercizio,
-        carico: e.carico,
-        ripetizioni: e.ripetizioni,
-        serie: e.serie,
-        tempoRecupero: e.tempoRecupero,
-        giorni: e.giorni,
-        completato: e.completato
-      })));
+  
+      scheda.esercizi.forEach(e => {
+        const idEsercizio = e.idEsercizio?.idEsercizio || e.idEsercizio;
+        const ripetizioni = e.ripetizioni;
+        const serie = e.serie;
+        const tempoRecupero = e.tempoRecupero;
+        const carico = e.carico;
+        const giorno = e.giorni;
+        const completato = e.completato;
+  
+        const newEs = new EsercizioScheda(
+          idEsercizio,
+          ripetizioni,
+          serie,
+          tempoRecupero,
+          carico,
+          giorno,
+          completato
+        );
+  
+        if (e.giorni.length > 1) {
+          for (let i = 1; i < e.giorni.length; i++) {
+            newEs.addGiorno(e.giorni[i]);
+          }
+        }
+  
+        nuovaScheda.addEsercizio(newEs);
+      });
 
       nuovaScheda.resetCompletatoEs();
 

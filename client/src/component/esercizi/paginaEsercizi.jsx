@@ -27,7 +27,8 @@ function PaginaEsercizi({ esercizi }) {
           serie: item.serie,
           tempoRecupero: item.tempoRecupero,
           carico: item.carico,
-          giorni: item.giorni
+          giorni: item.giorni,
+          completato: item.completato
         };
       }).filter(e => e !== null); // rimuovo eventuali null
 
@@ -36,6 +37,8 @@ function PaginaEsercizi({ esercizi }) {
       );
 
       setEs(eserciziCompletiFiltrati);
+
+      console.log(eserciziCompletiFiltrati);
     }
   }, [esercizi, scheda]);
 

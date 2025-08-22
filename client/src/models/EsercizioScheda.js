@@ -1,17 +1,12 @@
 export class EsercizioScheda {
-  constructor(idEsercizio, ripetizioni, serie, tempoRecupero, carico, giorno, completato) {
+  constructor(idEsercizio, ripetizioni = [], serie = [], tempoRecupero = [], carico = [], giorno = [], completato = false) {
     this.idEsercizio = idEsercizio;
-    this.giorni = [];
-    this.ripetizioni = [];
-    this.serie = [];
-    this.tempoRecupero = [];
-    this.carico = [];
+    this.giorni = Array.isArray(giorno) ? [...giorno] : [giorno];
+    this.ripetizioni = Array.isArray(ripetizioni) ? [...ripetizioni] : [ripetizioni];
+    this.serie = Array.isArray(serie) ? [...serie] : [serie];
+    this.tempoRecupero = Array.isArray(tempoRecupero) ? [...tempoRecupero] : [tempoRecupero];
+    this.carico = Array.isArray(carico) ? [...carico] : [carico];
     this.completato = completato;
-    this.giorni.push(giorno);
-    this.ripetizioni.push(ripetizioni);
-    this.serie.push(serie);
-    this.tempoRecupero.push(tempoRecupero);
-    this.carico.push(carico);
   }
 
   /**
@@ -31,19 +26,31 @@ export class EsercizioScheda {
   */
 
   addRipetizione(ripetizione) {
-    this.ripetizioni.push(ripetizione);
+    if (Array.isArray(ripetizione)) {
+      this.ripetizioni.push(...ripetizione); // aggiungi tutti gli elementi
+    } else {
+      this.ripetizioni.push(ripetizione);    // aggiungi un singolo numero
+    }
+  }
+
+  addTempoRecupero(tempoRecupero) {
+    if (Array.isArray(tempoRecupero)) {
+      this.tempoRecupero.push(...tempoRecupero); // aggiunge tutti i valori
+    } else {
+      this.tempoRecupero.push(tempoRecupero);    // aggiunge un singolo valore
+    }
+  }
+
+  addCarico(carico) {
+    if (Array.isArray(carico)) {
+      this.carico.push(...carico); // aggiunge tutti i valori
+    } else {
+      this.carico.push(carico);    // aggiunge un singolo valore
+    }
   }
 
   addSerie(serie) {
     this.serie.push(serie);
-  }
-
-  addTempoRecupero(tempoRecupero) {
-    this.tempoRecupero.push(tempoRecupero);
-  }
-
-  addCarico(carico) {
-    this.carico.push(carico);
   }
 
   addGiorno(giorno) {
