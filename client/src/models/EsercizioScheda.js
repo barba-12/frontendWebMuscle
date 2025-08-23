@@ -1,5 +1,6 @@
 export class EsercizioScheda {
-  constructor(idEsercizio, ripetizioni = [], serie = [], tempoRecupero = [], carico = [], giorno = [], completato = false) {
+  constructor(idUnivoco, idEsercizio, ripetizioni = [], serie = [], tempoRecupero = [], carico = [], giorno = [], completato = false) {
+    this.idUnivoco = idUnivoco;
     this.idEsercizio = idEsercizio;
     this.giorni = Array.isArray(giorno) ? [...giorno] : [giorno];
     this.ripetizioni = Array.isArray(ripetizioni) ? [...ripetizioni] : [ripetizioni];
@@ -48,6 +49,14 @@ export class EsercizioScheda {
   /*
     getter e setter
   */
+
+  setIdUnivoco(idUnivoco) {
+    this.idUnivoco = idUnivoco;
+  }
+
+  getIdUnivoco(){
+    return this.idUnivoco;
+  }
 
   isCompletato() {
     return this.completato;

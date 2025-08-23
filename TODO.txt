@@ -1,6 +1,21 @@
+
+ /
+ /
+ /  AGGIUNGERE CONTROLLI PER TUTTI I CAMPI DI INPUT (onBlur)
+ /  possibilita di selezionare 0 nei campi di input
+ /
+ /
+
 CLASSE EsercizioScheda:
  * ESERCIZIO CON UN SOLO GIORNO, LO STESSO ESERCIZIO PUO ESSERE ALL'INTERNO DELLA STESSA SCHEDA SE IL GIORNO è DIVERSO
  * AGGIUNGERE ID UNIVOCI QUANDO SI AGGIUNGO GLI ESERCIZI ALLA SCHEDA OLTRE A QUELLO PER INDICARE L'ESERCIZIO
+ * pensare per stretching e eercizi che richiedono tempo al posto di ripetizioni
+
+- creazione classe esercizio (creo id univoco tramite date.Now()) - aggiungiScheda.jsx 
+- aggiunta idUnivoco qunado ricreo le instanze delle classi - indexedDB.js, esericizioScheda.jsx
+
+- confronti basati su idUnivoco al posto di basarsi su idEsercizio
+- video player utilizzo di idUnivoco - esericizioScheda.jsx, esercizio.jsxs(da fare)
 
 PAGINA EsercizioScheda:
  * DATI RELATIVI SCORSO ALLENAMENTO DI QUESTO ESERCIZIO
@@ -14,8 +29,6 @@ PAGINA EsercizioScheda:
  * (per i grafici mettere una select per carico, ripetizioni e tempo di recupero e una per il tempo {di base 1 mese, possibilita di mettere settimana, 6 mesi, anno e totale}
  * inserire il grafico sotto al bottone completaEsercizio)
  * APERTURA PAGINE TRAMITE BOTTONE, SOLO VISUALIZZAZIONE
-
-
 
 PAGINA utente:
  * mettere tutti i dati relativi all'utente, scheda e esercizi fatti

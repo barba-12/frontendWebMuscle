@@ -5,6 +5,7 @@ import eserciziData from "../../data/exercise";
 import { saveScheda } from "../../db/indexedDB";
 import { Scheda } from "../../models/Scheda";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
+import { getIncrementalId } from "../generatoreID/generatoreID";
 
 function AggiungiScheda() {
   const navigate = useNavigate();
@@ -79,17 +80,21 @@ function AggiungiScheda() {
       giorniAllenamento: giorni.length,
     });
 
-    eserciziSelezionati.map(([nomeGiorno, esercizi]) => {
-      esercizi.map(e => nuovaScheda.addEsercizio(new EsercizioScheda(
-        e[0],        // id esercizio
-        e[2] || 0,   // ripetizioni
-        e[1] || 0,   // serie
-        e[4] || 0,   // tempo recupero
-        e[3] || 0,    // carico
-        nomeGiorno,
-        false
-      )))
-    })
+    for (const [nomeGiorno, esercizi] of eserciziSelezionati) {
+      for (const e of esercizi) {
+        const id = await getIncrementalId(); // attendo l'id incrementale
+        nuovaScheda.addEsercizio(new EsercizioScheda(
+          id,
+          e[0],        // id esercizio
+          e[2] || 0,   // ripetizioni
+          e[1] || 0,   // serie
+          e[4] || 0,   // tempo recupero
+          e[3] || 0,   // carico
+          nomeGiorno,
+          false
+        ));
+      }
+    }
 
     try {
       await saveScheda(nuovaScheda);

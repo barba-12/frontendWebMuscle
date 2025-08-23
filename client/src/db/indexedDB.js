@@ -78,6 +78,7 @@ export async function checkStatusExercise(){
       nuovaScheda.setGiorni(scheda.giorni);
   
       scheda.esercizi.forEach(e => {
+        const idUnivoco = e.idUnivoco;
         const idEsercizio = e.idEsercizio?.idEsercizio || e.idEsercizio;
         const ripetizioni = e.ripetizioni;
         const serie = e.serie;
@@ -87,6 +88,7 @@ export async function checkStatusExercise(){
         const completato = e.completato;
   
         const newEs = new EsercizioScheda(
+          idUnivoco,
           idEsercizio,
           ripetizioni,
           serie,
