@@ -67,7 +67,7 @@ export async function checkStatusExercise(){
   const schede = await getAllSchede();
 
   //refreshare ogni domenica (0)
-  if(giorno != 0) {
+  if(giorno == 0) {
     for (const scheda of schede) {
       const nuovaScheda = new Scheda({
         id: scheda.id,
@@ -84,25 +84,19 @@ export async function checkStatusExercise(){
         const serie = e.serie;
         const tempoRecupero = e.tempoRecupero;
         const carico = e.carico;
-        const giorno = e.giorni;
+        const giorno = e.giorno;
         const completato = e.completato;
   
         const newEs = new EsercizioScheda(
           idUnivoco,
           idEsercizio,
+          giorno,
           ripetizioni,
           serie,
           tempoRecupero,
           carico,
-          giorno,
           completato
         );
-  
-        if (e.giorni.length > 1) {
-          for (let i = 1; i < e.giorni.length; i++) {
-            newEs.addGiorno(e.giorni[i]);
-          }
-        }
   
         nuovaScheda.addEsercizio(newEs);
       });

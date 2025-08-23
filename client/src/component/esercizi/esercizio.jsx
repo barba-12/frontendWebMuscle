@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import { Row, Col, Button, Card, Form } from "react-bootstrap";
 import VideoPlayer from "../videoPlayer";
 import { Link } from "react-router-dom";
+import { EsercizioScheda } from "../../models/EsercizioScheda";
+import exerciseData from "../../data/exercise";
 
 function ExerciseCard({ scheda, esercizio, activeVideoId, setActiveVideoId, addButton }) {
   const [showForm, setShowForm] = useState(false);
@@ -10,6 +12,11 @@ function ExerciseCard({ scheda, esercizio, activeVideoId, setActiveVideoId, addB
   const [ripetizioni, setRipetizioni] = useState();
   const [carico, setCarico] = useState();
   const [tempoRecupero, setTempoRecupero] = useState();
+
+  const [esercizioScheda ,setEsercizioScheda] = useState(esercizio instanceof EsercizioScheda ? esercizio : null);
+  const [esercizioRaw, setEsercizioRaw] = useState(!(esercizio instanceof EsercizioScheda) ? esercizio : exerciseData.find(e => e.id == esercizio.idEsercizio));
+
+  const [isEsercizioScheda, setIsEsercizioScheda] = useState(esercizio instanceof EsercizioScheda);
 
   // Giorni selezionati dall'utente nella scheda
   const giorniDisponibili = JSON.parse(sessionStorage.getItem("scheda"))?.giorniAllenamento || [];
@@ -54,29 +61,29 @@ function ExerciseCard({ scheda, esercizio, activeVideoId, setActiveVideoId, addB
    //AGGIUNGERE CONTROLLI NON HTML5
   return (
     <Card className="project-card-view">
-      {esercizio.immaginiVideo && esercizio.immaginiVideo.length > 0 && (
+      {esercizioRaw.immaginiVideo && esercizioRaw.immaginiVideo.length > 0 && (
         <VideoPlayer
-          videos={esercizio.immaginiVideo}
-          esercizioId={esercizio.id}
+          videos={esercizioRaw.immaginiVideo}
+          esercizioId={esercizioScheda.idUnivoco}
           activeVideoId={activeVideoId}
           setActiveVideoId={setActiveVideoId}
         />
       )}
 
       <Card.Body>
-        <Card.Title>{esercizio.nome}</Card.Title>
+        <Card.Title>{esercizioRaw.nome}</Card.Title>
 
         <Card.Text>
-          <strong className="purple">Muscoli allenati:</strong> {esercizio.muscoliAllenati}
+          <strong className="purple">Muscoli allenati:</strong> {esercizioRaw.muscoliAllenati}
         </Card.Text>
         <Card.Text>
-          <strong className="purple">Attrezzatura:</strong> {esercizio.attrezzatura}
+          <strong className="purple">Attrezzatura:</strong> {esercizioRaw.attrezzatura}
         </Card.Text>
         <Card.Text>
-          <strong className="purple">Difficoltà:</strong> {esercizio.difficoltà}
+          <strong className="purple">Difficoltà:</strong> {esercizioRaw.difficoltà}
         </Card.Text>
 
-        <Link to="/esercizioScheda" state={{ esercizio, scheda }}>
+        <Link to="/esercizioScheda" state={{ esercizioScheda, scheda, esercizioRaw, isEsercizioScheda }}>
           <Button variant="primary">visualizza dettagli</Button>
         </Link>
 

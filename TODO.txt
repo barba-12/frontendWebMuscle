@@ -6,16 +6,10 @@
  /
  /
 
+qunado invio creazione scheda resetto form
+
 CLASSE EsercizioScheda:
- * ESERCIZIO CON UN SOLO GIORNO, LO STESSO ESERCIZIO PUO ESSERE ALL'INTERNO DELLA STESSA SCHEDA SE IL GIORNO è DIVERSO
- * AGGIUNGERE ID UNIVOCI QUANDO SI AGGIUNGO GLI ESERCIZI ALLA SCHEDA OLTRE A QUELLO PER INDICARE L'ESERCIZIO
  * pensare per stretching e eercizi che richiedono tempo al posto di ripetizioni
-
-- creazione classe esercizio (creo id univoco tramite date.Now()) - aggiungiScheda.jsx 
-- aggiunta idUnivoco qunado ricreo le instanze delle classi - indexedDB.js, esericizioScheda.jsx
-
-- confronti basati su idUnivoco al posto di basarsi su idEsercizio
-- video player utilizzo di idUnivoco - esericizioScheda.jsx, esercizio.jsxs(da fare)
 
 PAGINA EsercizioScheda:
  * DATI RELATIVI SCORSO ALLENAMENTO DI QUESTO ESERCIZIO
@@ -34,3 +28,24 @@ PAGINA utente:
  * mettere tutti i dati relativi all'utente, scheda e esercizi fatti
 
  * pensare a quancosa per area utente.
+
+
+
+
+ fatto:
+
+ CLASSE EsercizioScheda:
+    - creazione classe esercizio (creo id univoco tramite date.Now()) - aggiungiScheda.jsx 
+    - aggiunta idUnivoco qunado ricreo le instanze delle classi - indexedDB.js, esericizioScheda.jsx 
+    - ESERCIZIO CON UN SOLO GIORNO, LO STESSO ESERCIZIO PUO ESSERE ALL'INTERNO DELLA STESSA SCHEDA SE IL GIORNO è DIVERSO:
+    - modificate classi esercizioScheda e scheda
+    - AGGIUNGERE ID UNIVOCI QUANDO SI AGGIUNGO GLI ESERCIZI ALLA SCHEDA OLTRE A QUELLO PER INDICARE L'ESERCIZIO:
+    - confronti basati su idUnivoco al posto di basarsi su idEsercizio
+    - video player utilizzo di idUnivoco - esericizioScheda.jsx, esercizio.jsx(da fare)
+
+
+ PAGINA EsercizioScheda:
+
+
+ PAGINA utente:
+

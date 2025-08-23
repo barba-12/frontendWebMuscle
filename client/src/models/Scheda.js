@@ -14,11 +14,21 @@ export class Scheda {
     this.giorni = [];
   }
 
+  /**
+   * 
+   * controllare se giono è presente nella lista gioni del scheda altrimenti aggiungere
+   * 
+   */
+
+
   addEsercizio(esercizio) {
     //controllo se l'esercizio è gia presente all'interno della cheda se si allora verifico il giorno se è lo stesso giono do errore
     //altrimenti aggiungo il giono delle'esercizi passato come parametro a questo metodo all'esercizio trovato uguale
 
-    if(this.getListaID().includes(esercizio.getIdEsercizio())){
+    this.esercizi.push(esercizio);
+    if(!this.giorni.includes(esercizio.getGiorno())) this.giorni.push(esercizio.getGiorno());
+
+    /*if(this.getListaID().includes(esercizio.getIdEsercizio())){
       for (let i=0; i<this.esercizi.length; i++){
         let giorni = this.esercizi[i].getGiorni();
         let id = this.esercizi[i].getIdEsercizio();
@@ -34,7 +44,7 @@ export class Scheda {
     else {
       this.esercizi.push(esercizio);
       if(!this.giorni.includes(esercizio.getGiorni()[0])) this.giorni.push(esercizio.getGiorni()[0]);
-    }
+    }*/
   }
 
   getListaID() {
@@ -50,11 +60,17 @@ export class Scheda {
   getNumEsXGiorno(giorno){
     let numero = 0;
     this.esercizi.forEach(es => {
-      es.giorni.forEach(giornoEs => {
-        if(giornoEs == giorno) numero++;        
-      });
+      if(es.giorno == giorno) numero++;
     });
     return numero;
+  }
+
+  getEsXGiornoENonCompletato(giorno) {
+    let listaEs = [];
+    this.esercizi.forEach(es => {
+      if(es.giorno == giorno && !es.completato) listaEs.push(es);
+    });
+    return listaEs;
   }
 
   resetCompletatoEs() {

@@ -6,18 +6,15 @@ import { Scheda } from "../../models/Scheda";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
 import { saveScheda } from "../../db/indexedDB";
 
-
 function esercizioScheda() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { scheda, esercizio } = location.state || {};
+  const { esercizioScheda, scheda, esercizioRaw, isEsercizioScheda } = location.state || {};
   const [activeVideoId, setActiveVideoId] = useState(null);
 
   const [ripetizioni, setRipetizioni] = useState([]);
   const [carico, setCarico] = useState([]);
   const [tempoRecupero, setTempoRecupero] = useState([]);
-
-  const isEsercizioScheda = esercizio && typeof esercizio.ripetizioni !== "undefined";
 
   function cambiaStatoEs() {
     const nuovaScheda = new Scheda({
@@ -35,25 +32,19 @@ function esercizioScheda() {
       const serie = e.serie;
       const tempoRecupero = e.tempoRecupero;
       const carico = e.carico;
-      const giorno = e.giorni;
+      const giorno = e.giorno;
       const completato = e.completato;
 
       const newEs = new EsercizioScheda(
         idUnivoco,
         idEsercizio,
+        giorno,
         ripetizioni,
         serie,
         tempoRecupero,
         carico,
-        giorno,
         completato
       );
-
-      if (e.giorni.length > 1) {
-        for (let i = 1; i < e.giorni.length; i++) {
-          newEs.addGiorno(e.giorni[i]);
-        }
-      }
 
       nuovaScheda.addEsercizio(newEs);
     });
@@ -61,7 +52,9 @@ function esercizioScheda() {
     console.log(nuovaScheda.esercizi);
 
     nuovaScheda.esercizi.forEach(es => {
-      if (es.getIdEsercizio() === esercizio.id) {
+      console.log(es.getIdUnivoco());
+      console.log(esercizioScheda.idUnivoco);
+      if (es.getIdUnivoco() === esercizioScheda.idUnivoco) {
         es.addRipetizione(ripetizioni);
         es.addTempoRecupero(tempoRecupero);
         es.addCarico(carico);
@@ -79,23 +72,23 @@ function esercizioScheda() {
       <Button variant="primary" onClick={() => navigate(-1)}>back</Button>
 
       <Card.Body>
-        {esercizio.immaginiVideo && esercizio.immaginiVideo.length > 0 && (
+        {esercizioRaw.immaginiVideo && esercizioRaw.immaginiVideo.length > 0 && (
           <VideoPlayer
-            videos={esercizio.immaginiVideo}
-            esercizioId={esercizio.id}
+            videos={esercizioRaw.immaginiVideo}
+            esercizioRawId={esercizioScheda.idUnivoco}
             activeVideoId={activeVideoId}
             setActiveVideoId={setActiveVideoId}
           />
         )}
 
-        <h1>{esercizio.nome}</h1>
+        <h1>{esercizioRaw.nome}</h1>
 
         {isEsercizioScheda && (
           <>
             <Form>
               <Form.Group className="mb-5">
 
-                {Array.from({ length: esercizio.serie}, (_, i) => (
+                {Array.from({ length: esercizioScheda.serie}, (_, i) => (
                   <div key={i} className="flex gap-2 mb-2">
                     {/* Ripetizioni */}
                     <Form.Control
@@ -145,14 +138,14 @@ function esercizioScheda() {
           </>
         )}
 
-        {esercizio.descrizione.split('|').map((sezione, i) => (
+        {esercizioRaw.descrizione.split('|').map((sezione, i) => (
           sezione.split("§").map((sezione, i) => (
             <p key={i} style={{textAlign:"left"}}>{sezione.trim()}</p>
           ))
         ))}
 
         <img 
-          src={esercizio.immaginiVideo[esercizio.immaginiVideo.length - 1]} 
+          src={esercizioRaw.immaginiVideo[esercizioRaw.immaginiVideo.length - 1]} 
           alt="Ultima immagine" 
           style={{ maxWidth: "100%", height: "auto" }}
         />

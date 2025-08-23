@@ -3,6 +3,8 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import Esercizio from "./esercizio";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import exerciseData from "../../data/exercise";
+import { Scheda } from "../../models/Scheda";
+import { EsercizioScheda } from "../../models/EsercizioScheda";
 
 function PaginaEsercizi({ esercizi }) {
   const location = useLocation();
@@ -16,7 +18,7 @@ function PaginaEsercizi({ esercizi }) {
     if (!esercizi && scheda) {
       setButton(false);
 
-      const eserciziCompleti = scheda.esercizi.map(item => {
+      /*const eserciziCompleti = scheda.esercizi.map(item => {
         const dettagliEsercizio = exerciseData.find(e => e.id === item.idEsercizio);
         if (!dettagliEsercizio) return null; // sicurezza: skip se non trovato
 
@@ -25,20 +27,53 @@ function PaginaEsercizi({ esercizi }) {
           // aggiungo i dati specifici della scheda
           ripetizioni: item.ripetizioni,
           serie: item.serie,
+          giorno: item.giorno,
           tempoRecupero: item.tempoRecupero,
           carico: item.carico,
-          giorni: item.giorni,
           completato: item.completato
         };
       }).filter(e => e !== null); // rimuovo eventuali null
 
       const eserciziCompletiFiltrati = eserciziCompleti.filter(item => 
-        item.giorni.includes(giorno) && !item.completato
-      );
+        item.giorno == giorno && !item.completato
+      );*/
 
-      setEs(eserciziCompletiFiltrati);
+      const nuovaScheda = new Scheda({
+        id: scheda.id,
+        tipologia: scheda.tipologia,
+        giorniAllenamento: scheda.giorni.length,
+      });
+  
+      nuovaScheda.setGiorni(scheda.giorni);
+  
+      scheda.esercizi.forEach(e => {
+        const idUnivoco = e.idUnivoco;
+        const idEsercizio = e.idEsercizio?.idEsercizio || e.idEsercizio;
+        const ripetizioni = e.ripetizioni;
+        const serie = e.serie;
+        const tempoRecupero = e.tempoRecupero;
+        const carico = e.carico;
+        const giorno = e.giorno;
+        const completato = e.completato;
+  
+        const newEs = new EsercizioScheda(
+          idUnivoco,
+          idEsercizio,
+          giorno,
+          ripetizioni,
+          serie,
+          tempoRecupero,
+          carico,
+          completato
+        );
+  
+        nuovaScheda.addEsercizio(newEs);
+      });
 
-      console.log(eserciziCompletiFiltrati);
+      //metodo per trovare tutti gli esercizi corrispondenti ad un giorno
+      console.log(nuovaScheda);
+      console.log(nuovaScheda.getEsXGiornoENonCompletato(giorno));
+      setEs(nuovaScheda.getEsXGiornoENonCompletato(giorno));
     }
   }, [esercizi, scheda]);
 
@@ -61,17 +96,20 @@ function PaginaEsercizi({ esercizi }) {
         <h1 className="project-heading">Exercise</h1>
 
         <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
-          {es.map((ex, i) => (
-            <Col md={4} className="project-card" key={i}>
-              <Esercizio
-               scheda={scheda}
-                esercizio={ex}
-                activeVideoId={activeVideoId}
-                setActiveVideoId={setActiveVideoId}
-                addButton={false}
-              />
-            </Col>
-          ))}
+          {es.map((ex, i) => {
+            console.log("Esercizio:", ex); // 👈 stampa ogni elemento dell’array es
+            return (
+              <Col md={4} className="project-card" key={i}>
+                <Esercizio
+                  scheda={scheda}
+                  esercizio={ex}
+                  activeVideoId={activeVideoId}
+                  setActiveVideoId={setActiveVideoId}
+                  addButton={false}
+                />
+              </Col>
+            );
+          })}
         </Row>
       </Container>
     </Container>

@@ -86,11 +86,11 @@ function AggiungiScheda() {
         nuovaScheda.addEsercizio(new EsercizioScheda(
           id,
           e[0],        // id esercizio
+          nomeGiorno,
           e[2] || 0,   // ripetizioni
           e[1] || 0,   // serie
           e[4] || 0,   // tempo recupero
           e[3] || 0,   // carico
-          nomeGiorno,
           false
         ));
       }
