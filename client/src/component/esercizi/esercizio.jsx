@@ -4,19 +4,31 @@ import VideoPlayer from "../videoPlayer";
 import { Link } from "react-router-dom";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
 import exerciseData from "../../data/exercise";
+import { getAllSchede } from "../../db/indexedDB";
 
-function ExerciseCard({ scheda, esercizio, activeVideoId, setActiveVideoId, addButton }) {
+function ExerciseCard({ schedaId, esercizio, activeVideoId, setActiveVideoId, addButton }) {
   const [showForm, setShowForm] = useState(false);
   const [giorno, setGiorno] = useState("");
   const [serie, setSerie] = useState();
   const [ripetizioni, setRipetizioni] = useState();
   const [carico, setCarico] = useState();
   const [tempoRecupero, setTempoRecupero] = useState();
-
-  const [esercizioScheda ,setEsercizioScheda] = useState(esercizio instanceof EsercizioScheda ? esercizio : null);
   const [esercizioRaw, setEsercizioRaw] = useState(!(esercizio instanceof EsercizioScheda) ? esercizio : exerciseData.find(e => e.id == esercizio.idEsercizio));
+  const [scheda, setScheda] = useState(null);
 
-  const [isEsercizioScheda, setIsEsercizioScheda] = useState(esercizio instanceof EsercizioScheda);
+  useEffect(() => {
+    async function fetchScheda() {
+      try {
+        const tutteLeSchede = await getAllSchede(); // recupera tutte le schede
+        const schedaTrovata = tutteLeSchede.find(s => s.id == schedaId);
+        setScheda(schedaTrovata || null); // salva la scheda trovata o null
+      } catch (error) {
+        console.error("Errore nel recupero delle schede:", error);
+      }
+    }
+
+    fetchScheda();
+  }, [schedaId]);
 
   // Giorni selezionati dall'utente nella scheda
   const giorniDisponibili = JSON.parse(sessionStorage.getItem("scheda"))?.giorniAllenamento || [];
@@ -64,7 +76,7 @@ function ExerciseCard({ scheda, esercizio, activeVideoId, setActiveVideoId, addB
       {esercizioRaw.immaginiVideo && esercizioRaw.immaginiVideo.length > 0 && (
         <VideoPlayer
           videos={esercizioRaw.immaginiVideo}
-          esercizioId={esercizioScheda.idUnivoco}
+          esercizioId={esercizioRaw.id}
           activeVideoId={activeVideoId}
           setActiveVideoId={setActiveVideoId}
         />
@@ -83,8 +95,10 @@ function ExerciseCard({ scheda, esercizio, activeVideoId, setActiveVideoId, addB
           <strong className="purple">Difficoltà:</strong> {esercizioRaw.difficoltà}
         </Card.Text>
 
-        <Link to="/esercizioScheda" state={{ esercizioScheda, scheda, esercizioRaw, isEsercizioScheda }}>
-          <Button variant="primary">visualizza dettagli</Button>
+        <Link to={`/esercizioScheda/${!schedaId ? null : schedaId}/${!giorno ? null : giorno}`}>
+          <Button variant="primary">
+            visualizza dettagli
+          </Button>
         </Link>
 
         {addButton && (
@@ -106,7 +120,7 @@ function ExerciseCard({ scheda, esercizio, activeVideoId, setActiveVideoId, addB
                   <Form.Group className="mb-5">
                     <Form.Control type="number" placeholder="Serie" className="input-viola" value={serie} onChange={(e) => setSerie(parseInt(e.target.value))} />
 
-                    <Form.Control type="number" placeholder="Ripetizioni" className="input-viola" value={ripetizioni} onChange={(e) => setRipetizioni(parseInt(e.target.value))} />
+                    <Form.Control type="number" placeholder={esercizioRaw.repOrTime ? "Secondi" : "Ripetizioni"} className="input-viola" value={ripetizioni} onChange={(e) => setRipetizioni(parseInt(e.target.value))} />
 
                     <Form.Control type="number" placeholder="Carico" className="input-viola" value={carico} onChange={(e) => setCarico(parseInt(e.target.value))} />
 

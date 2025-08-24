@@ -1,15 +1,18 @@
 
  /
  /
- /  AGGIUNGERE CONTROLLI PER TUTTI I CAMPI DI INPUT (onBlur)
+ /  AGGIUNGERE CONTROLLI PER TUTTI I CAMPI DI INPUT (post)
  /  possibilita di selezionare 0 nei campi di input
+ /  sistemare tutti i navigateTo  (quando completo esercizio, quando aggiungo scheda)
  /
+ /  bottone remember me al login
+ /
+ /  modificare metodo refresh eserfcizio compeltati
  /
 
-qunado invio creazione scheda resetto form
 
-CLASSE EsercizioScheda:
- * pensare per stretching e eercizi che richiedono tempo al posto di ripetizioni
+passare id scheda e ogni volta prenderla da indexedDB in modo che sia sempre aggiornata
+
 
 PAGINA EsercizioScheda:
  * DATI RELATIVI SCORSO ALLENAMENTO DI QUESTO ESERCIZIO
@@ -26,13 +29,13 @@ PAGINA EsercizioScheda:
 
 PAGINA utente:
  * mettere tutti i dati relativi all'utente, scheda e esercizi fatti
-
  * pensare a quancosa per area utente.
 
 
-
-
  fatto:
+
+ GENERICI:
+    - quando invio creazione scheda resetto form
 
  CLASSE EsercizioScheda:
     - creazione classe esercizio (creo id univoco tramite date.Now()) - aggiungiScheda.jsx 
@@ -41,11 +44,9 @@ PAGINA utente:
     - modificate classi esercizioScheda e scheda
     - AGGIUNGERE ID UNIVOCI QUANDO SI AGGIUNGO GLI ESERCIZI ALLA SCHEDA OLTRE A QUELLO PER INDICARE L'ESERCIZIO:
     - confronti basati su idUnivoco al posto di basarsi su idEsercizio
-    - video player utilizzo di idUnivoco - esericizioScheda.jsx, esercizio.jsx(da fare)
-
+    - video player utilizzo di idUnivoco - esericizioScheda.jsx, esercizio.jsx
+    - pensare per stretching e eercizi che richiedono tempo al posto di ripetizioni  (aggiunto attributo in classe esercizio per indicare se inserire rep o sec, solo graficamente)
 
  PAGINA EsercizioScheda:
 
-
  PAGINA utente:
-

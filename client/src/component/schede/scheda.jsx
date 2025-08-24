@@ -1,14 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router-dom";
+import { getAllSchede } from "../../db/indexedDB";
 
-function Scheda({ scheda }) {
+function Scheda({ schedaId }) {
   const navigate = useNavigate();
+  const [scheda, setScheda] = useState(null);
+
+  useEffect(() => {
+    async function fetchScheda() {
+      try {
+        const tutteLeSchede = await getAllSchede(); // recupera tutte le schede
+        const schedaTrovata = tutteLeSchede.find(s => s.id === schedaId);
+        setScheda(schedaTrovata || null); // salva la scheda trovata o null
+      } catch (error) {
+        console.error("Errore nel recupero delle schede:", error);
+      }
+    }
+
+    fetchScheda();
+  }, [schedaId]);
 
   const handleClick = () => {
     // Naviga verso "/scheda-dettaglio" passando la scheda nello stato
-    navigate("/giorni", { state: { scheda } });
+    console.log("scheda id: " + schedaId);
+    navigate(`/giorni/${schedaId}`);
   };
+
+  if (!scheda) return <div>Caricamento scheda...</div>;
 
   return (
     <Card className="project-card-view" onClick={handleClick}>

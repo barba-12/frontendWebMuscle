@@ -13,13 +13,22 @@ import './App.css';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem("loggedIn") === "true"
+    localStorage.getItem("loggedIn") === "true" ||
+    sessionStorage.getItem("loggedIn") === "true"
   );
 
-  // Funzione che il componente Login chiamerà quando il login va a buon fine
-  const handleLoginSuccess = () => {
+  // chiamata quando il login va a buon fine
+  const handleLoginSuccess = (checked) => {
+    if (checked) {
+      // persistente
+      localStorage.setItem("loggedIn", "true");
+      sessionStorage.removeItem("loggedIn"); // pulizia se c’era
+    } else {
+      // solo per la sessione
+      sessionStorage.setItem("loggedIn", "true");
+      localStorage.removeItem("loggedIn"); // pulizia se c’era
+    }
     setIsLoggedIn(true);
-    //localStorage.setItem("loggedIn", "true");
   };
 
   // Componente per rotte protette
@@ -42,17 +51,17 @@ function App() {
             <PaginaSchede />
           </PrivateRoute>
         } />
-        <Route path="/giorni" element={
+        <Route path="/giorni/:schedaId" element={
           <PrivateRoute>
             <Giorni />
           </PrivateRoute>
         } />
-        <Route path="/eserciziXGiorno" element={
+        <Route path="/eserciziXGiorno/:schedaId/:giorno" element={
           <PrivateRoute>
-            <PaginaEsercizi esercizi={null} />
+            <PaginaEsercizi esercizi={null}/>
           </PrivateRoute>
         } />
-        <Route path="/esercizioScheda" element={
+        <Route path="/esercizioScheda/:schedaId/:giorno" element={
           <PrivateRoute>
             <EsercizioScheda />
           </PrivateRoute>

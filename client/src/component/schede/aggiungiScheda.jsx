@@ -100,6 +100,8 @@ function AggiungiScheda() {
       await saveScheda(nuovaScheda);
       console.log("Scheda salvata su IndexedDB:", nuovaScheda);
 
+      sessionStorage.removeItem("scheda");
+      sessionStorage.removeItem("eserciziSelezionati");
       // Dopo il salvataggio vai alla pagina successiva
       navigate("/pagSelezionaEs");
     } catch (err) {

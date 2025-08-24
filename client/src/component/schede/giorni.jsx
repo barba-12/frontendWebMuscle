@@ -1,24 +1,58 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Card } from "react-bootstrap";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Scheda as SchedaClasse } from "../../models/Scheda";
+import { getAllSchede } from "../../db/indexedDB";
 
 function Giorni() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { scheda } = location.state || {};
-  const schedaClass = new SchedaClasse({
-    id: scheda.id,
-    tipologia: scheda.tipologia,
-    giorniAllenamento: scheda.giorniAllenamento
-  });
+  const { schedaId } = useParams();
+  const [scheda, setScheda] = useState(null);
+  const [schedaClass, setSchedaClass] = useState(null);
 
-  schedaClass.setGiorni(scheda.giorni);
-  schedaClass.setEsercizi(scheda.esercizi);
+  useEffect(() => {
+    async function fetchScheda() {
+      try {
+      const tutteLeSchede = await getAllSchede();
+      const schedaTrovata = tutteLeSchede.find(s => s.id.toString() === schedaId);
+
+      console.log(tutteLeSchede);
+      console.log(schedaId);
+      console.log(schedaTrovata);
+
+      if (!schedaTrovata) {
+        console.error("Scheda non trovata");
+        return;
+      }
+
+      setScheda(schedaTrovata); // salva nello state
+
+      // usa schedaTrovata invece di scheda
+      const newScheda = new SchedaClasse({
+        id: schedaTrovata.id,
+        tipologia: schedaTrovata.tipologia,
+        giorniAllenamento: schedaTrovata.giorniAllenamento
+      });
+
+      newScheda.setGiorni(schedaTrovata.giorni);
+      newScheda.setEsercizi(schedaTrovata.esercizi);
+
+      setSchedaClass(newScheda);
+
+    } catch (error) {
+        console.error("Errore nel recupero delle schede:", error);
+      }
+    }
+
+    fetchScheda();
+  }, []);
 
   const handleClick = (giorno) => {
-    navigate("/eserciziXGiorno", { state: { scheda, giorno } });
+    navigate(`/eserciziXGiorno/${schedaId}/${giorno}`);
   };
+
+  if (!scheda) return <div>Caricamento scheda...</div>;
 
   return (
     <>

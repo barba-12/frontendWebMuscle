@@ -9,14 +9,30 @@ import { saveScheda } from "../../db/indexedDB";
 function esercizioScheda() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { esercizioScheda, scheda, esercizioRaw, isEsercizioScheda } = location.state || {};
   const [activeVideoId, setActiveVideoId] = useState(null);
-
+  const { schedaId, giorno } = useParams();
   const [ripetizioni, setRipetizioni] = useState([]);
   const [carico, setCarico] = useState([]);
   const [tempoRecupero, setTempoRecupero] = useState([]);
+  const [scheda, setScheda] = useState(null);
+  const [isEsercizioScheda, setIsEsercizioScheda] = useState(schedaId == null ? false : true);
 
-  function cambiaStatoEs() {
+  useEffect(() => {
+    async function fetchScheda() {
+      try {
+        const tutteLeSchede = await getAllSchede(); // recupera tutte le schede
+        const schedaTrovata = tutteLeSchede.find(s => s.id.toString() === schedaId);
+        setScheda(schedaTrovata || null); // salva la scheda trovata o null
+      } catch (error) {
+        console.error("Errore nel recupero delle schede:", error);
+      }
+    }
+
+    fetchScheda();
+  }, [schedaId]);
+
+  function cambiaStatoEs(e) {
+    e.preventDefault();
     const nuovaScheda = new Scheda({
       id: scheda.id,
       tipologia: scheda.tipologia,
@@ -64,7 +80,7 @@ function esercizioScheda() {
     });
 
     saveScheda(nuovaScheda);
-    //navigate(-1);
+    navigate(`/eserciziXGiorno/${schedaId}/${giorno}`);
   }
 
   return (
@@ -75,7 +91,7 @@ function esercizioScheda() {
         {esercizioRaw.immaginiVideo && esercizioRaw.immaginiVideo.length > 0 && (
           <VideoPlayer
             videos={esercizioRaw.immaginiVideo}
-            esercizioRawId={esercizioScheda.idUnivoco}
+            esercizioRawId={esercizioRaw.id}
             activeVideoId={activeVideoId}
             setActiveVideoId={setActiveVideoId}
           />
@@ -93,7 +109,7 @@ function esercizioScheda() {
                     {/* Ripetizioni */}
                     <Form.Control
                       type="number"
-                      placeholder="Ripetizioni"
+                      placeholder={esercizioRaw.repOrTime ? "Secondi" : "Ripetizioni"}
                       className="input-viola"
                       value={ripetizioni[i] || ""}
                       onChange={(e) => {

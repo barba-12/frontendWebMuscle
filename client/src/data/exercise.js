@@ -27,7 +27,8 @@ const exerciseData = [
     ["Quadricipiti", "Glutei", "Adduttori"],
     ["Bilanciere", "Rack"],
     "Media",
-    [squatBilancereFront, squatBilancereSide, squatBilancereActivationMuscle]
+    [squatBilancereFront, squatBilancereSide, squatBilancereActivationMuscle],
+    false
   ),
   new Esercizio(
     2,
@@ -36,7 +37,8 @@ const exerciseData = [
     ["Pettorali", "Tricipiti", "Deltoidi Anteriori"],
     ["Panca", "Bilanciere"],
     "Media",
-    [pancaPianaFront, pancaPianaSide, pancaPianaActivationMuscle]
+    [pancaPianaFront, pancaPianaSide, pancaPianaActivationMuscle],
+    false
   ),
   new Esercizio(
     3,
@@ -45,7 +47,8 @@ const exerciseData = [
     ["Dorsali", "Bicipiti", "Trapezio"],
     ["Sbarra per trazioni"],
     "Difficile",
-    [trazioneSbarraFront, trazioneSbarraSide, trazioneSbarraActivationMuscle]
+    [trazioneSbarraFront, trazioneSbarraSide, trazioneSbarraActivationMuscle],
+    false
   ),
   new Esercizio(
     4,
@@ -54,7 +57,8 @@ const exerciseData = [
     ["Quadricipiti", "Glutei", "Femorali"],
     ["Manubri (opzionale)"],
     "Facile",
-    [affondiFront, affondiSide, affondiActivationMuscle]
+    [affondiFront, affondiSide, affondiActivationMuscle],
+    false
   ),
   new Esercizio(
     5,
@@ -63,7 +67,8 @@ const exerciseData = [
     ["Addominali", "Lombari", "Spalle"],
     [],
     "Facile",
-    [plankSide, plankActivationMuscle]
+    [plankSide, plankActivationMuscle],
+    true
   )
 ];
 

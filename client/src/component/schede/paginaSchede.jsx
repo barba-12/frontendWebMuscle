@@ -28,7 +28,7 @@ function PaginaSchede() {
           {schede.length > 0 && (
             schede.map((scheda) => (
               <Col md={12} className="schede-card" key={scheda.id}>
-                <Scheda scheda={scheda} />
+                <Scheda schedaId={scheda.id} />
               </Col>
             ))
           )}
