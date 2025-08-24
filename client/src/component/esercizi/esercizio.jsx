@@ -17,17 +17,19 @@ function ExerciseCard({ schedaId, esercizio, activeVideoId, setActiveVideoId, ad
   const [scheda, setScheda] = useState(null);
 
   useEffect(() => {
-    async function fetchScheda() {
-      try {
-        const tutteLeSchede = await getAllSchede(); // recupera tutte le schede
-        const schedaTrovata = tutteLeSchede.find(s => s.id == schedaId);
-        setScheda(schedaTrovata || null); // salva la scheda trovata o null
-      } catch (error) {
-        console.error("Errore nel recupero delle schede:", error);
+    if(schedaId == null){
+      async function fetchScheda() {
+        try {
+          const tutteLeSchede = await getAllSchede(); // recupera tutte le schede
+          const schedaTrovata = tutteLeSchede.find(s => s.id == schedaId);
+          setScheda(schedaTrovata || null); // salva la scheda trovata o null
+        } catch (error) {
+          console.error("Errore nel recupero delle schede:", error);
+        }
       }
-    }
 
-    fetchScheda();
+      fetchScheda();
+    }
   }, [schedaId]);
 
   // Giorni selezionati dall'utente nella scheda
@@ -95,11 +97,22 @@ function ExerciseCard({ schedaId, esercizio, activeVideoId, setActiveVideoId, ad
           <strong className="purple">Difficoltà:</strong> {esercizioRaw.difficoltà}
         </Card.Text>
 
-        <Link to={`/esercizioScheda/${!schedaId ? null : schedaId}/${!giorno ? null : giorno}`}>
-          <Button variant="primary">
-            visualizza dettagli
-          </Button>
-        </Link>
+
+         {/* se passo scheda id  */}
+
+        {schedaId != null ? (
+          <Link to={`/esercizioScheda/${esercizioRaw.id}/${schedaId}`}>
+            <Button variant="primary">
+              visualizza dettagli
+            </Button>
+          </Link>
+        ) : (
+          <Link to={`/esercizioScheda/${esercizio.idUnivoco}`}>
+            <Button variant="primary">
+              visualizza dettagli
+            </Button>
+          </Link>
+        )}
 
         {addButton && (
           <>

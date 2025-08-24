@@ -8,6 +8,7 @@ import Login from "./component/login/login";
 import AggiungiScheda from "./component/schede/aggiungiScheda";
 import exerciseData from './data/exercise';
 import PagSelezionaEs from "./component/esercizi/pagSelezionaEs";
+import PaginaEserciziScheda from "./component/esercizi/paginaEserciziScheda";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -58,10 +59,15 @@ function App() {
         } />
         <Route path="/eserciziXGiorno/:schedaId/:giorno" element={
           <PrivateRoute>
-            <PaginaEsercizi esercizi={null}/>
+            <PaginaEserciziScheda/>
           </PrivateRoute>
         } />
-        <Route path="/esercizioScheda/:schedaId/:giorno" element={
+        <Route path="/esercizioScheda/:IdEsercizio/:schedaId" element={
+          <PrivateRoute>
+            <EsercizioScheda />
+          </PrivateRoute>
+        } />
+        <Route path="/esercizioScheda/:IdEsercizio" element={
           <PrivateRoute>
             <EsercizioScheda />
           </PrivateRoute>

@@ -1,35 +1,40 @@
-import {React , useState} from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import {React , useState, useEffect } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { Row, Col, Button, Card, Form } from "react-bootstrap";
 import VideoPlayer from "../videoPlayer";
 import { Scheda } from "../../models/Scheda";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
 import { saveScheda } from "../../db/indexedDB";
+import exerciseData from "../../data/exercise";
+import { getAllSchede } from "../../db/indexedDB";
 
 function esercizioScheda() {
   const navigate = useNavigate();
   const location = useLocation();
   const [activeVideoId, setActiveVideoId] = useState(null);
-  const { schedaId, giorno } = useParams();
+  const { IdEsercizio, schedaId } = useParams();
+  const [esercizioRaw, setEsercizioRaw] = useState(exerciseData.find(es => es.id == IdEsercizio));
   const [ripetizioni, setRipetizioni] = useState([]);
   const [carico, setCarico] = useState([]);
   const [tempoRecupero, setTempoRecupero] = useState([]);
   const [scheda, setScheda] = useState(null);
-  const [isEsercizioScheda, setIsEsercizioScheda] = useState(schedaId == null ? false : true);
+  const [isEsercizioScheda, setIsEsercizioScheda] = useState(schedaId != null);
 
   useEffect(() => {
-    async function fetchScheda() {
-      try {
-        const tutteLeSchede = await getAllSchede(); // recupera tutte le schede
-        const schedaTrovata = tutteLeSchede.find(s => s.id.toString() === schedaId);
-        setScheda(schedaTrovata || null); // salva la scheda trovata o null
-      } catch (error) {
-        console.error("Errore nel recupero delle schede:", error);
+    if(isEsercizioScheda){
+      async function fetchScheda() {
+        try {
+          const tutteLeSchede = await getAllSchede(); // recupera tutte le schede
+          const schedaTrovata = tutteLeSchede.find(s => s.id.toString() === schedaId);
+          setScheda(schedaTrovata || null); // salva la scheda trovata o null
+        } catch (error) {
+          console.error("Errore nel recupero delle schede:", error);
+        }
       }
-    }
 
-    fetchScheda();
-  }, [schedaId]);
+      fetchScheda();
+    }
+  }, []);
 
   function cambiaStatoEs(e) {
     e.preventDefault();
@@ -86,7 +91,7 @@ function esercizioScheda() {
   return (
     <Card className="project-card-view">
       <Button variant="primary" onClick={() => navigate(-1)}>back</Button>
-
+      {console.log(IdEsercizio)}
       <Card.Body>
         {esercizioRaw.immaginiVideo && esercizioRaw.immaginiVideo.length > 0 && (
           <VideoPlayer
@@ -103,8 +108,8 @@ function esercizioScheda() {
           <>
             <Form>
               <Form.Group className="mb-5">
-
-                {Array.from({ length: esercizioScheda.serie}, (_, i) => (
+                {console.log(esercizioRaw)}
+                {Array.from({ length: esercizioRaw.serie}, (_, i) => (
                   <div key={i} className="flex gap-2 mb-2">
                     {/* Ripetizioni */}
                     <Form.Control

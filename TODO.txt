@@ -11,6 +11,33 @@
  /
 
 
+
+
+
+
+
+
+
+
+
+
+
+CREARE COMPONENTI SPECIFICI PER OGNI PAGINA
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 passare id scheda e ogni volta prenderla da indexedDB in modo che sia sempre aggiornata
 
 
