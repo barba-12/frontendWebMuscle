@@ -79,6 +79,10 @@ export class Scheda {
     })
   }
 
+  getEsByIdUnivoco(idUnivoco) {
+    return this.esercizi.find(es => es.idUnivoco == idUnivoco);
+  }
+
   // 🔹 Getter e Setter per id
   getGiorni(){
     return this.giorni;

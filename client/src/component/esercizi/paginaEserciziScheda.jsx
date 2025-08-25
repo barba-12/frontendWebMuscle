@@ -6,6 +6,7 @@ import exerciseData from "../../data/exercise";
 import { Scheda } from "../../models/Scheda";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
 import { getAllSchede } from "../../db/indexedDB";
+import CardEsercizioScheda from "./cardEsercizioScheda"; 
 
 function PaginaEserciziScheda() {
   const location = useLocation();
@@ -90,7 +91,7 @@ function PaginaEserciziScheda() {
   }, [scheda, location]);
 
   function handleClick() {
-    navigate(-1);
+    navigate(`/giorni/${schedaId}`);
   }
 
   return (
@@ -105,12 +106,11 @@ function PaginaEserciziScheda() {
             console.log("Esercizio:", ex); // stampa ogni elemento dell’array es
             return (
               <Col md={4} className="project-card" key={i}>
-                <Esercizio
+                <CardEsercizioScheda
                   schedaId={schedaId}
                   esercizio={ex}
                   activeVideoId={activeVideoId}
                   setActiveVideoId={setActiveVideoId}
-                  addButton={false}
                 />
               </Col>
             );
