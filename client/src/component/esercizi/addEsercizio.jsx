@@ -6,16 +6,13 @@ import { EsercizioScheda } from "../../models/EsercizioScheda";
 import exerciseData from "../../data/exercise";
 import { getAllSchede } from "../../db/indexedDB";
 
-function cardEsercizioScheda({ schedaId, esercizio, activeVideoId, setActiveVideoId }) {
+function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
   const [showForm, setShowForm] = useState(false);
   const [giorno, setGiorno] = useState("");
   const [serie, setSerie] = useState();
   const [ripetizioni, setRipetizioni] = useState();
   const [carico, setCarico] = useState();
   const [tempoRecupero, setTempoRecupero] = useState();
-  const [esercizioRaw, setEsercizioRaw] = useState(exerciseData.find(es => es.id == esercizio.idEsercizio));
-
-  //cercare esercizio in exercisedata da idEsercizio cosi da trovare l'es row
 
   // Giorni selezionati dall'utente nella scheda
   const giorniDisponibili = JSON.parse(sessionStorage.getItem("scheda"))?.giorniAllenamento || [];
@@ -60,41 +57,71 @@ function cardEsercizioScheda({ schedaId, esercizio, activeVideoId, setActiveVide
    //AGGIUNGERE CONTROLLI NON HTML5
   return (
     <Card className="project-card-view">
-      {esercizioRaw.immaginiVideo && esercizioRaw.immaginiVideo.length > 0 && (
+      {esercizio.immaginiVideo && esercizio.immaginiVideo.length > 0 && (
         <VideoPlayer
-          videos={esercizioRaw.immaginiVideo}
-          esercizioId={esercizioRaw.id}
+          videos={esercizio.immaginiVideo}
+          esercizioId={esercizio.id}
           activeVideoId={activeVideoId}
           setActiveVideoId={setActiveVideoId}
         />
       )}
 
       <Card.Body>
-        <Card.Title>{esercizioRaw.nome}</Card.Title>
+        <Card.Title>{esercizio.nome}</Card.Title>
 
         <Card.Text>
-          <strong className="purple">Muscoli allenati:</strong> {esercizioRaw.muscoliAllenati}
+          <strong className="purple">Muscoli allenati:</strong> {esercizio.muscoliAllenati}
         </Card.Text>
         <Card.Text>
-          <strong className="purple">Attrezzatura:</strong> {esercizioRaw.attrezzatura}
+          <strong className="purple">Attrezzatura:</strong> {esercizio.attrezzatura}
         </Card.Text>
         <Card.Text>
-          <strong className="purple">Difficoltà:</strong> {esercizioRaw.difficoltà}
+          <strong className="purple">Difficoltà:</strong> {esercizio.difficoltà}
         </Card.Text>
 
 
          {/* se passo scheda id  */}
-
-        {/*devo passare scheda ed esercizio*/}
-
-          <Link to={`/dettaglioEsScheda/${esercizio.idUnivoco}/${schedaId}`}>
+          <Link to={`/dettaglioEsGenerico/${esercizio.id}`}>
+          {console.log(esercizio)}
             <Button variant="primary">
               visualizza dettagli
             </Button>
           </Link>
+
+          <>
+            <Button style={{ color: "green", marginTop: "10px" }} onClick={() => setShowForm(!showForm)}>
+              add
+            </Button>
+
+            {showForm && (
+              <div style={{ marginTop: "10px" }}>
+                <select className="select-viola" value={giorno} onChange={(e) => setGiorno(e.target.value)}>
+                  <option value="">Seleziona giorno</option>
+                  {giorniDisponibili.map((g) => (
+                    <option key={g} value={g}> {g} </option>
+                  ))}
+                </select>
+
+                <Form>
+                  <Form.Group className="mb-5">
+                    <Form.Control type="number" placeholder="Serie" className="input-viola" value={serie} onChange={(e) => setSerie(parseInt(e.target.value))} />
+
+                    <Form.Control type="number" placeholder={esercizio.repOrTime ? "Secondi" : "Ripetizioni"} className="input-viola" value={ripetizioni} onChange={(e) => setRipetizioni(parseInt(e.target.value))} />
+
+                    <Form.Control type="number" placeholder="Carico" className="input-viola" value={carico} onChange={(e) => setCarico(parseInt(e.target.value))} />
+
+                    <Form.Control type="number" placeholder="Tempo Di Recupero" className="input-viola" value={tempoRecupero} onChange={(e) => setTempoRecupero(parseInt(e.target.value))} />
+
+                    <Button type="submit" onClick={salvaEsercizio}>Aggiungi</Button>
+                    <Button type="submit" onClick={chiudiForm}>X</Button>
+                  </Form.Group>
+                </Form>
+              </div>
+            )}
+          </>
       </Card.Body>
     </Card>
   );
 }
 
-export default cardEsercizioScheda;
+export default addEsercizio;

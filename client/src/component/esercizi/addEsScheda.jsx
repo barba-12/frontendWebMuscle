@@ -3,38 +3,14 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import Esercizio from "./esercizio";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import exerciseData from "../../data/exercise";
+import AddEsercizio from "./addEsercizio";
 
-function PaginaEsercizi({ esercizi }) {
-  const location = useLocation();
-  const { scheda, giorno } = location.state || {};
-  const [es, setEs] = useState(esercizi || []);
+function addEsScheda() {
+  const [es, setEs] = useState(exerciseData);
   const [activeVideoId, setActiveVideoId] = useState(null);
   const [button, setButton] = useState(true);
   const [idEs, setIdEs] = useState([]);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!esercizi && scheda && giorno) {
-      setButton(false);
-      // Prendi gli esercizi con id dalla giornata e mappa per trovare i dettagli completi
-      const eserciziCompleti = giorno.esercizi.map(item => {
-        const dettagliEsercizio = exerciseData.find(e => e.id === item.esercizio);
-        return {
-          ...dettagliEsercizio,
-          // aggiungi i dati specifici della scheda per quell'esercizio
-          ripetizioni: item.ripetizioni,
-          serie: item.serie,
-          tempoRecupero: item.tempoRecupero,
-          carico: item.carico
-        };
-      });
-      setEs(eserciziCompleti);
-    }
-  }, [esercizi, scheda, giorno]);
-
-  function handleClick() {
-    navigate("/giorni", { state: { scheda } });
-  }
 
   return (
     <Container fluid className="project-section">
@@ -46,11 +22,10 @@ function PaginaEsercizi({ esercizi }) {
         <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
           {es.map((ex, i) => (
             <Col md={4} className="project-card" key={i}>
-              <Esercizio
+              <AddEsercizio
                 esercizio={ex}
                 activeVideoId={activeVideoId}
                 setActiveVideoId={setActiveVideoId}
-                addButton={true}
               />
             </Col>
           ))}
@@ -60,4 +35,4 @@ function PaginaEsercizi({ esercizi }) {
   );
 }
 
-export default PaginaEsercizi;
+export default addEsScheda;

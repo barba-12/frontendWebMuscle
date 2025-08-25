@@ -28,11 +28,9 @@ function PaginaEsercizi({ esercizi }) {
             return (
               <Col md={4} className="project-card" key={i}>
                 <Esercizio
-                  schedaId={null}
                   esercizio={ex}
                   activeVideoId={activeVideoId}
                   setActiveVideoId={setActiveVideoId}
-                  addButton={false}
                 />
               </Col>
             );

@@ -3,13 +3,13 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import PaginaEsercizi from './component/esercizi/paginaEsercizi';
 import PaginaSchede from "./component/schede/paginaSchede";
 import Giorni from "./component/schede/giorni";
-import EsercizioScheda from "./component/esercizi/esercizioScheda";
 import Login from "./component/login/login";
 import AggiungiScheda from "./component/schede/aggiungiScheda";
 import exerciseData from './data/exercise';
-import PagSelezionaEs from "./component/esercizi/pagSelezionaEs";
 import PaginaEserciziScheda from "./component/esercizi/paginaEserciziScheda";
 import DettaglioEsercizioScheda from "./component/esercizi/dettaglioEsercizioScheda";
+import DettaglioEsGenerico from "./component/esercizi/dettaglioEsGenerico";
+import AddEsScheda from "./component/esercizi/addEsScheda";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -63,29 +63,24 @@ function App() {
             <Giorni />
           </PrivateRoute>
         } />
+        <Route path="/dettaglioEsGenerico/:esercizioId" element={
+          <PrivateRoute>
+            <DettaglioEsGenerico />
+          </PrivateRoute>
+        } />
+        <Route path="/addEsScheda" element={
+          <PrivateRoute>
+            <AddEsScheda />
+          </PrivateRoute>
+        } />
         <Route path="/eserciziXGiorno/:schedaId/:giorno" element={
           <PrivateRoute>
             <PaginaEserciziScheda/>
           </PrivateRoute>
         } />
-        <Route path="/esercizioScheda/:IdEsercizio/:schedaId" element={
-          <PrivateRoute>
-            <EsercizioScheda />
-          </PrivateRoute>
-        } />
-        <Route path="/esercizioScheda/:IdEsercizio" element={
-          <PrivateRoute>
-            <EsercizioScheda />
-          </PrivateRoute>
-        } />
         <Route path="/aggiungiScheda" element={
           <PrivateRoute>
             <AggiungiScheda />
-          </PrivateRoute>
-        } />
-        <Route path="/pagSelezionaEs" element={
-          <PrivateRoute>
-            <PagSelezionaEs esercizi={exerciseData}/>
           </PrivateRoute>
         } />
 
@@ -94,5 +89,20 @@ function App() {
     </Router>
   );
 }
+
+/*
+
+<Route path="/esercizioScheda/:IdEsercizio/:schedaId" element={
+  <PrivateRoute>
+    <EsercizioScheda />
+  </PrivateRoute>
+} />
+<Route path="/esercizioScheda/:IdEsercizio" element={
+  <PrivateRoute>
+    <EsercizioScheda />
+  </PrivateRoute>
+} />
+
+*/
 
 export default App;
