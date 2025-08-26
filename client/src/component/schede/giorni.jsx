@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Card } from "react-bootstrap";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Scheda as SchedaClasse } from "../../models/Scheda";
-import { getAllSchede } from "../../db/indexedDB";
+import { getAllSchede, deleteScheda } from "../../db/indexedDB";
 
 function Giorni() {
   const navigate = useNavigate();
@@ -52,6 +52,15 @@ function Giorni() {
     navigate(`/eserciziXGiorno/${schedaId}/${giorno}`);
   };
 
+  const eliminaScheda = () => {
+    deleteScheda(Number(schedaId));
+    navigate("/schede");
+  }
+
+  const pagAddEs = () => {
+    navigate(`/addEsSchedaEsistente/${schedaId}`)
+  }
+
   if (!scheda) return <div>Caricamento scheda...</div>;
 
   return (
@@ -59,6 +68,8 @@ function Giorni() {
       <Link to="/schede">
         <Button variant="primary">back</Button>
       </Link>
+    
+      <Button variant="primary" style={{marginLeft:"20px"}} onClick={pagAddEs}>add esercizio</Button>
 
       {scheda.giorni.map((giorno, index) => (
         <Card
@@ -75,6 +86,8 @@ function Giorni() {
           </Card.Body>
         </Card>
       ))}
+
+      <Button onClick={eliminaScheda}>elimina scheda</Button>
     </>
   );
 }

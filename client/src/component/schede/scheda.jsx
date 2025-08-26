@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Card from "react-bootstrap/Card";
+import { Row, Col, Button, Card, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { getAllSchede } from "../../db/indexedDB";
 
@@ -33,7 +33,6 @@ function Scheda({ schedaId }) {
     <Card className="project-card-view" onClick={handleClick}>
       <Card.Body>
         <Card.Title>{scheda.tipologia}</Card.Title>
-
         <Card.Text>
           Giorni di allenamento: {scheda.giorniAllenamento}
         </Card.Text>    

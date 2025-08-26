@@ -47,6 +47,19 @@ export class Scheda {
     }*/
   }
 
+  modificaEsercizio (idUnivoco, serie, ripetizioni, carico, tempoRecupero, giorno) {
+    this.esercizi.forEach(es => {
+      if(es.idUnivoco == idUnivoco) es.modifica(serie, ripetizioni, carico, tempoRecupero, giorno);
+    });
+    if(!this.giorni.includes(giorno)) this.giorni.push(giorno);
+
+    this.controllaGiorniVuoti();
+  }
+
+  controllaGiorniVuoti() {
+    this.giorni = this.giorni.filter(g => this.getNumEsXGiorno(g) > 0);
+  }
+
   getListaID() {
     let lista = []
 
@@ -81,6 +94,10 @@ export class Scheda {
 
   getEsByIdUnivoco(idUnivoco) {
     return this.esercizi.find(es => es.idUnivoco == idUnivoco);
+  }
+
+  eliminaEsercizio (idEsercizio) {
+    this.esercizi = this.esercizi.filter(es => es.idUnivoco != idEsercizio);
   }
 
   // 🔹 Getter e Setter per id

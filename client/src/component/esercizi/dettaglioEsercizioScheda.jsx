@@ -85,13 +85,23 @@ useEffect(() => {
     navigate(`/eserciziXGiorno/${schedaId}/${esercizio.giorno}`);
   }
 
-    if (loading) {
-        return (
-        <div className="d-flex justify-content-center align-items-center vh-100">
-            <span className="visually-hidden">Caricamento...</span>
-        </div>
-        );
-    }
+  const modifica = () => {
+    //creare componente a parte per i campi di input
+  }
+
+  const elimina = () => {
+    scheda.eliminaEsercizio(esercizio.idUnivoco);
+    saveScheda(scheda);
+    navigate(`/eserciziXGiorno/${schedaId}/${esercizio.giorno}`);
+  }
+
+  if (loading) {
+      return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+          <span className="visually-hidden">Caricamento...</span>
+      </div>
+      );
+  }
 
   return (
     <Card className="project-card-view">
@@ -182,6 +192,8 @@ useEffect(() => {
           style={{ maxWidth: "100%", height: "auto" }}
         />
       </Card.Body>
+      <Button onClick={modifica}>modifica</Button>
+      <Button onClick={elimina} style={{marginTop:"20px"}}>elimina</Button>
     </Card>
   );
 }

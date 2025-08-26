@@ -1,9 +1,13 @@
 
  /
  /
- /  AGGIUNGERE CONTROLLI PER TUTTI I CAMPI DI INPUT (post)
+ /  AGGIUNGERE CONTROLLI PER TUTTI I CAMPI DI INPUT (post), e di eliminazione e modifica
  /  possibilita di selezionare 0 nei campi di input
- /  modifica / eliminazione / aggiunta : esercizio ad una scheda gia esistente
+ /  
+ /
+ /  in giorni specificare quanti esercizi non completati ci sono rimanenti
+ / 
+ /  pensare come resettare esercizi dopo completamento
  /
  /
 
@@ -30,6 +34,7 @@ PAGINA utente:
     - modificare metodo refresh eserfcizio compeltati
     - bottone remember me al login
     - sistemare tutti i navigateTo  (quando completo esercizio, quando aggiungo scheda)
+    - modifica / eliminazione / aggiunta : esercizio ad una scheda gia esistente
 
  CLASSE EsercizioScheda:
     - creazione classe esercizio (creo id univoco tramite date.Now()) - aggiungiScheda.jsx 

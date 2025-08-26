@@ -86,6 +86,14 @@ export class EsercizioScheda {
     return lista;
   }
 
+  modifica (serie, ripetizione, carico, tempoRecupero, giorno) {
+    this.serie = serie;
+    this.ripetizioni[0] = ripetizione;
+    this.carico[0] = carico;
+    this.tempoRecupero[0] = tempoRecupero;
+    this.giorno = giorno; 
+  }
+
   /*
     getter e setter
   */

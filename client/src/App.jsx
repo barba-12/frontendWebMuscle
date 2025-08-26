@@ -9,6 +9,7 @@ import exerciseData from './data/exercise';
 import PaginaEserciziScheda from "./component/esercizi/paginaEserciziScheda";
 import DettaglioEsercizioScheda from "./component/esercizi/dettaglioEsercizioScheda";
 import DettaglioEsGenerico from "./component/esercizi/dettaglioEsGenerico";
+import AddEsSchedaEsistente from "./component/esercizi/addEsSchedaEsistente";
 import AddEsScheda from "./component/esercizi/addEsScheda";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -51,6 +52,11 @@ function App() {
         <Route path="/schede" element={
           <PrivateRoute>
             <PaginaSchede />
+          </PrivateRoute>
+        } />
+        <Route path="/addEsSchedaEsistente/:idScheda" element={
+          <PrivateRoute>
+            <AddEsSchedaEsistente />
           </PrivateRoute>
         } />
         <Route path="/dettaglioEsScheda/:esercizioId/:schedaId" element={
