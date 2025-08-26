@@ -3,55 +3,12 @@
  /
  /  AGGIUNGERE CONTROLLI PER TUTTI I CAMPI DI INPUT (post)
  /  possibilita di selezionare 0 nei campi di input
- /  sistemare tutti i navigateTo  (quando completo esercizio, quando aggiungo scheda)
+ /  modifica / eliminazione / aggiunta : esercizio ad una scheda gia esistente
  /
- /  bottone remember me al login
  /
- /  modificare metodo refresh eserfcizio compeltati
- /
-
-
-
-
-
-
-
-
-
-
-
-
-
-CREARE COMPONENTI SPECIFICI PER OGNI PAGINA
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-passare id scheda e ogni volta prenderla da indexedDB in modo che sia sempre aggiornata
-
 
 PAGINA EsercizioScheda:
- * DATI RELATIVI SCORSO ALLENAMENTO DI QUESTO ESERCIZIO
- * TIPO: 
- * - CARICO UTILIZZATO ULTIMA VOLTA
- * - TEMPO DI RECUOPERO SCORSO
- * - RIPETIZIONI TUTTE QUELLE DELLE SERIE
- * - E SERIE INDICATE QUANDO AGGIUNTO L'ESERCIZIO ALLA SCHEDA
- * 
  * AGGIUNGERE PAGINE PER VISUALIZZAZIONE DETTAGLI: RIPETIZIONI, CARICO, TEMPO DI RECUPERO CON RELATIVI GRAFICI:
- * (per i grafici mettere una select per carico, ripetizioni e tempo di recupero e una per il tempo {di base 1 mese, possibilita di mettere settimana, 6 mesi, anno e totale}
- * inserire il grafico sotto al bottone completaEsercizio)
  * APERTURA PAGINE TRAMITE BOTTONE, SOLO VISUALIZZAZIONE
 
 PAGINA utente:
@@ -59,10 +16,20 @@ PAGINA utente:
  * pensare a quancosa per area utente.
 
 
+
+
+
+
+
+
  fatto:
 
  GENERICI:
     - quando invio creazione scheda resetto form
+    - CREARE COMPONENTI SPECIFICI PER OGNI PAGINA
+    - modificare metodo refresh eserfcizio compeltati
+    - bottone remember me al login
+    - sistemare tutti i navigateTo  (quando completo esercizio, quando aggiungo scheda)
 
  CLASSE EsercizioScheda:
     - creazione classe esercizio (creo id univoco tramite date.Now()) - aggiungiScheda.jsx 
@@ -75,5 +42,13 @@ PAGINA utente:
     - pensare per stretching e eercizi che richiedono tempo al posto di ripetizioni  (aggiunto attributo in classe esercizio per indicare se inserire rep o sec, solo graficamente)
 
  PAGINA EsercizioScheda:
+    - DATI RELATIVI SCORSO ALLENAMENTO DI QUESTO ESERCIZIO
+    - TIPO: 
+    - CARICO UTILIZZATO ULTIMA VOLTA
+    - TEMPO DI RECUOPERO SCORSO
+    - RIPETIZIONI TUTTE QUELLE DELLE SERIE
+    - E SERIE INDICATE QUANDO AGGIUNTO L'ESERCIZIO ALLA SCHEDA
+    - (per i grafici mettere una select per carico, ripetizioni e tempo di recupero e una per il tempo {di base 1 mese, possibilita di mettere settimana, 6 mesi, anno e totale}
+    - inserire il grafico sotto al bottone completaEsercizio)
 
  PAGINA utente:

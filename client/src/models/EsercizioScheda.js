@@ -1,3 +1,5 @@
+import context from "react-bootstrap/esm/AccordionContext";
+
 export class EsercizioScheda {
   constructor(idUnivoco, idEsercizio, giorno, ripetizioni = [], serie = [], tempoRecupero = [], carico = [], completato = false) {
     this.idUnivoco = idUnivoco;
@@ -40,6 +42,48 @@ export class EsercizioScheda {
 
   addSerie(serie) {
     this.serie.push(serie);
+  }
+
+  getLastRep () {
+    let lista = [];
+    let contatore = this.ripetizioni.length <= this.serie[0] ? this.ripetizioni.length : this.serie[0];
+    for(let i=contatore; i>=1; i--) lista.push(this.ripetizioni[this.ripetizioni.length-i])
+    return lista;
+  }
+
+  getLastCarico () {
+    let lista = [];
+    let contatore = this.carico.length <= this.serie[0] ? this.carico.length : this.serie[0];
+    for(let i=contatore; i>=1; i--) lista.push(this.carico[this.carico.length-i])
+    return lista;
+  } 
+
+  getLastTempoRecupero () {
+    let lista = [];
+    let contatore = this.tempoRecupero.length <= this.serie[0] ? this.tempoRecupero.length : this.serie[0];
+    for(let i=contatore; i>=1; i--) lista.push(this.tempoRecupero[this.tempoRecupero.length-i])
+    return lista;
+  } 
+
+  getRepSpec (numero) {
+    let lista = [];
+    let contatore = this.ripetizioni.length <= numero ? this.ripetizioni.length : numero;
+    for(let i=contatore; i>=1; i--) lista.push(this.ripetizioni[this.ripetizioni.length-i])
+    return lista;
+  }
+
+  getCaricoSpec (numero) {
+    let lista = [];
+    let contatore = this.carico.length <= numero ? this.carico.length : numero;
+    for(let i=contatore; i>=1; i--) lista.push(this.carico[this.carico.length-i])
+    return lista;
+  }
+
+  getTempoRecSpec (numero) {
+    let lista = [];
+    let contatore = this.tempoRecupero.length <= numero ? this.tempoRecupero.length : numero;
+    for(let i=contatore; i>=1; i--) lista.push(this.tempoRecupero[this.tempoRecupero.length-i])
+    return lista;
   }
 
   /*

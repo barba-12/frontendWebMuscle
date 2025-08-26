@@ -7,6 +7,7 @@ import { EsercizioScheda } from "../../models/EsercizioScheda";
 import { saveScheda } from "../../db/indexedDB";
 import exerciseData from "../../data/exercise";
 import { getAllSchede } from "../../db/indexedDB";
+import Grafico from "../grafico/grafico";
 
 function dettaglioEsercizioScheda() {
   const navigate = useNavigate();
@@ -67,7 +68,6 @@ useEffect(() => {
   fetchScheda();
 }, [schedaId, esercizioId]);
 
-
   function cambiaStatoEs(e) {
     e.preventDefault();
 
@@ -109,6 +109,13 @@ useEffect(() => {
         )}
 
         <h1>{esercizioRaw.nome}</h1>
+
+        <div style={{textAlign:"left"}}>
+          <h5>Riepilogo Scorso Allenamento:</h5>
+          <p>Ripetizioni: {esercizio.getLastRep().join(" - ")}</p>
+          <p>Carico: {esercizio.getLastCarico().join(" - ")}</p>
+          <p>Tempo Di Recupero: {esercizio.getLastTempoRecupero().join(" - ")}</p>
+        </div>
 
           <>
             <Form>
@@ -159,7 +166,8 @@ useEffect(() => {
                 <Button type="submit" onClick={cambiaStatoEs}>Completa Esercizio</Button>
               </Form.Group>
             </Form>
-            <h2>Grafico del peso per ogni settimana</h2>
+            
+            <Grafico esercizio={esercizio}></Grafico>
           </>
 
         {esercizioRaw.descrizione.split('|').map((sezione, i) => (
