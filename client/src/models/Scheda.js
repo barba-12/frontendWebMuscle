@@ -119,7 +119,9 @@ export class Scheda {
   resetCompletatoEs() {
     const giorno = new Date().getDay();
     this.esercizi.forEach(es => {
-      if(es.getGiornoNum() == giorno) es.setCompletato(false);
+      if(es.getGiornoNum() == giorno) {
+        es.setCompletato(false);
+      }
     })
   }
 

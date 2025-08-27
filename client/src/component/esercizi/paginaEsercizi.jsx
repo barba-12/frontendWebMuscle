@@ -5,36 +5,65 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import exerciseData from "../../data/exercise";
 import { Scheda } from "../../models/Scheda";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
-import { getAllSchede } from "../../db/indexedDB";
+import { openDB } from "../../db/indexedDB";
 
 function PaginaEsercizi({ esercizi }) {
   const location = useLocation();
   const [es, setEs] = useState(esercizi);
   const [activeVideoId, setActiveVideoId] = useState(null);
+  const STORE_NAME = "schede";
   const navigate = useNavigate();
 
   const scaricaJSON = async () => {
-    // Recupera le schede da IndexedDB
-    const schede = await getAllSchede();
+    const db = await openDB();
 
-    // Converti l'array di schede in JSON
-    const jsonString = JSON.stringify(schede, null, 2); // null,2 per indentazione leggibile
+    // prendo tutte le schede da IndexedDB
+    const schedeDB = await new Promise((resolve) => {
+      const req = db.transaction(STORE_NAME, "readonly")
+        .objectStore(STORE_NAME)
+        .getAll();
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => resolve([]);
+    });
 
-    // Crea un blob e un URL per il download
+    // preparo solo i dati numerici da esportare
+    const schedeExport = schedeDB.map((scheda) => ({
+      id: scheda.id,
+      esercizi: scheda.esercizi.map((ex) => ({
+        idUnivoco: ex.idUnivoco,
+        ripetizioni: ex.ripetizioni || [],
+        carico: ex.carico || [],
+        tempoRecupero: ex.tempoRecupero || [],
+      })),
+    }));
+
+    // download JSON
+    const jsonString = JSON.stringify(schedeExport, null, 2);
     const blob = new Blob([jsonString], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-
-    // Crea un link temporaneo e cliccalo per avviare il download
     const link = document.createElement("a");
     link.href = url;
     link.download = "schede.json";
     document.body.appendChild(link);
     link.click();
-
-    // Pulisci il DOM
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
+
+    // resetto i campi numerici in IndexedDB
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    const store = tx.objectStore(STORE_NAME);
+    schedeDB.forEach((scheda) => {
+      scheda.esercizi = scheda.esercizi.map((ex) => ({
+        ...ex,
+        ripetizioni: [],
+        carico: [],
+        tempoRecupero: [],
+      }));
+      store.put(scheda);
+    });
+    await tx.done;
   };
+
 
   return (
     <Container fluid className="project-section">

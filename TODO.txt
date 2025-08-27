@@ -2,6 +2,12 @@
  / funzione per leggere se presente il file json insieme al contenuto di indexedDB (da modificare)
  /
 
+   funziona tutto pero quando modifico la scheda richiamo getAllSchede e creo la classe con tutti i dati e poi li salva su indexedDB 
+   trovare modo per salvare su indexedDB solo quelli di indexedDB
+
+
+
+
 PAGINA utente:
  * mettere tutti i dati relativi all'utente, scheda e esercizi fatti con tutti i dati relativi
  * pensare a quancosa per area utente.

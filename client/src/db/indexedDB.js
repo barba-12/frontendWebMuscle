@@ -8,7 +8,7 @@ const STORE_NAME = "schede";
 const DB_VERSION = 1;
 
 // 🔹 Funzione per aprire/creare il DB
-function openDB() {
+export function openDB() {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
 
@@ -43,23 +43,41 @@ export async function getScheda(id) {
   });
 }
 
-// 🔹 Recupera tutte le schede
 export async function getAllSchede() {
   const db = await openDB();
 
-  // Recupera le schede da IndexedDB
   const schedeDB = await new Promise((resolve) => {
     const req = db.transaction(STORE_NAME, "readonly")
       .objectStore(STORE_NAME)
       .getAll();
     req.onsuccess = () => resolve(req.result);
-    req.onerror = () => resolve([]); // fallback in caso di errore
+    req.onerror = () => resolve([]);
   });
 
-  // Accoda le schede del file JSON a quelle di IndexedDB
-  //return [...schedeFile, ...schedeDB];
-  if(schedeDB.length != 0) return [schedeDB];
-  else return schedeDB;
+  // merge: IndexedDB = struttura base, JSON = dati numerici
+  const schedeFinali = schedeDB.map((schedaDB) => {
+    const schedaFile = schedeFile.find((s) => s.id === schedaDB.id);
+
+    if (!schedaFile) return schedaDB; // niente merge se non c'è JSON
+
+    return {
+      ...schedaDB, // prendo tutto da DB (incluso 'completato')
+      esercizi: schedaDB.esercizi.map((exDB) => {
+        const exFile = schedaFile.esercizi.find((e) => e.idUnivoco === exDB.idUnivoco);
+        if (!exFile) return exDB;
+
+        // solo aggiornamento dei dati numerici, senza toccare 'completato'
+        return {
+          ...exDB,
+          ripetizioni: exFile.ripetizioni || [],
+          carico: exFile.carico || [],
+          tempoRecupero: exFile.tempoRecupero || [],
+        };
+      }),
+    };
+  });
+
+  return schedeFinali;
 }
 
 // 🔹 Elimina una scheda
@@ -101,7 +119,6 @@ export async function checkStatusExercise(){
       });
 
       if (!(lastRun === oggi)) nuovaScheda.resetCompletatoEs();
-
 
       await saveScheda(nuovaScheda);
     }

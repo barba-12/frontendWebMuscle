@@ -15,6 +15,7 @@ function PaginaSchede() {
     getAllSchede().then(rawSchede => {
       setSchede(rawSchede);
     });
+    console.log(schede);
   }, []);
 
   return (
