@@ -21,68 +21,138 @@ function dettaglioEsercizioScheda() {
   const [tempoRecupero, setTempoRecupero] = useState([]);
   const [scheda, setScheda] = useState();
   const [loading, setLoading] = useState(true);
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState("");
 
-useEffect(() => {
-  async function fetchScheda() {
-    try {
-      const tutteLeSchede = await getAllSchede();
-      const schedaTrovata = tutteLeSchede.find(s => s.id.toString() === schedaId);
+  useEffect(() => {
+    async function fetchScheda() {
+      try {
+        const tutteLeSchede = await getAllSchede();
+        const schedaTrovata = tutteLeSchede.find(s => s.id.toString() === schedaId);
 
-      const nuovaScheda = new Scheda({
-        id: schedaTrovata.id,
-        tipologia: schedaTrovata.tipologia,
-        giorniAllenamento: schedaTrovata.giorni.length,
-      });
-      nuovaScheda.setGiorni(schedaTrovata.giorni);
+        const nuovaScheda = new Scheda({
+          id: schedaTrovata.id,
+          tipologia: schedaTrovata.tipologia,
+          giorniAllenamento: schedaTrovata.giorni.length,
+        });
+        nuovaScheda.setGiorni(schedaTrovata.giorni);
 
-      schedaTrovata.esercizi.forEach(e => {
-        nuovaScheda.addEsercizio(new EsercizioScheda(
-          e.idUnivoco,
-          e.idEsercizio?.idEsercizio || e.idEsercizio,
-          e.giorno,
-          e.ripetizioni,
-          e.serie,
-          e.tempoRecupero,
-          e.carico,
-          e.completato
-        ));
-      });
+        schedaTrovata.esercizi.forEach(e => {
+          nuovaScheda.addEsercizio(new EsercizioScheda(
+            e.idUnivoco,
+            e.idEsercizio?.idEsercizio || e.idEsercizio,
+            e.giorno,
+            e.ripetizioni,
+            e.serie,
+            e.tempoRecupero,
+            e.carico,
+            e.completato
+          ));
+        });
 
-      // 🔹 qui la scheda è pronta
-      setScheda(nuovaScheda);
+        // 🔹 qui la scheda è pronta
+        setScheda(nuovaScheda);
 
-      console.log(nuovaScheda);
-      const esercizioTrovato = nuovaScheda.getEsByIdUnivoco(esercizioId);
-      setEsercizio(esercizioTrovato);
-      setEsercizioRaw(
-        exerciseData.find(es => es.id == esercizioTrovato.idEsercizio)
-      );
+        console.log(nuovaScheda);
+        const esercizioTrovato = nuovaScheda.getEsByIdUnivoco(esercizioId);
+        setEsercizio(esercizioTrovato);
+        setEsercizioRaw(
+          exerciseData.find(es => es.id == esercizioTrovato.idEsercizio)
+        );
 
-    } catch (error) {
-      console.error("Errore nel recupero delle schede:", error);
-    } finally {
-      setLoading(false);
+      } catch (error) {
+        console.error("Errore nel recupero delle schede:", error);
+      } finally {
+        setLoading(false);
+      }
     }
-  }
 
-  fetchScheda();
-}, [schedaId, esercizioId]);
+    fetchScheda();
+  }, [schedaId, esercizioId]);
+
+  useEffect(() => {
+    if (!esercizio) return;
+    const count = Number(esercizio.serie) || 0;
+
+    setRipetizioni(prev => {
+      if (prev.length === count) return prev;
+      return Array.from({ length: count }, (_, i) => prev[i] ?? "");
+    });
+
+    setCarico(prev => {
+      if (prev.length === count) return prev;
+      return Array.from({ length: count }, (_, i) => prev[i] ?? "");
+    });
+
+    setTempoRecupero(prev => {
+      if (prev.length === count) return prev;
+      return Array.from({ length: count }, (_, i) => prev[i] ?? "");
+    });
+  }, [esercizio]);
+
+  //quando una rep è 0 e non "" rimuovo allo stesso indice anche carico e tempo
+  function checkVuoti() {
+    const newRip = [];
+    const newCarico = [];
+    const newTempo = [];
+
+    for (let i = 0; i < ripetizioni.length; i++) {
+      if (Number(ripetizioni[i]) !== 0) {
+        newRip.push(ripetizioni[i]);
+        newCarico.push(carico[i]);
+        newTempo.push(tempoRecupero[i]);
+      }
+    }
+
+    setRipetizioni(newRip);
+    setCarico(newCarico);
+    setTempoRecupero(newTempo);
+
+    return { newRip, newCarico, newTempo };
+  }
 
   function cambiaStatoEs(e) {
     e.preventDefault();
+    const result = checkError();
+    if (result.ok){
+       const { newRip, newCarico, newTempo } = checkVuoti();
+      scheda.esercizi.forEach(es => {
+        if (es.getIdUnivoco() === esercizio.idUnivoco) {
+          es.addRipetizione(newRip.map(Number));
+          es.addTempoRecupero(newTempo.map(Number));
+          es.addCarico(newCarico.map(Number));
+          es.setCompletato(true);
+          console.log("Esercizio completato modificato");
+        }
+      });
 
-    scheda.esercizi.forEach(es => {
-      if (es.getIdUnivoco() === esercizio.idUnivoco) {
-        es.addRipetizione(ripetizioni);
-        es.addTempoRecupero(tempoRecupero);
-        es.addCarico(carico);
-        es.setCompletato(true);
-        console.log("Esercizio completato modificato");
-      }
-    });
+      saveScheda(scheda);
+      navigate(`/eserciziXGiorno/${schedaId}/${esercizio.giorno}`);
+    }
+    else {
+      setShowMessage(true);
+      setMessage(result.message);
+    }
+  }
 
-    saveScheda(scheda);
-    navigate(`/eserciziXGiorno/${schedaId}/${esercizio.giorno}`);
+  const checkError = () => {
+    for(let i=0; i<ripetizioni.length; i++){
+      if(ripetizioni[i] == "") return {ok : false, message: `Inserire ripetizioni nella ${i+1} serie` };
+      if(Number(ripetizioni[i]) < 0) return {ok : false, message: `Inserire ripetizione positiva nella ${i+1} serie` };
+    }
+
+    for(let i=0; i<carico.length; i++){
+      if(carico[i] == "") return {ok : false, message: `Inserire carico nella ${i+1} serie` };
+      if(Number(carico[i]) < 0) return {ok : false, message: `Inserire carico positivo nella ${i+1} serie` };
+    }
+
+    for(let i=0; i<tempoRecupero.length; i++){
+      if(tempoRecupero[i] == "") return {ok : false, message: `Inserire tempo di recupero nella ${i+1} serie` };
+      if(Number(tempoRecupero[i]) < 0) return {ok : false, message: `Inserire tempo di recupero positivo nella ${i+1} serie` };
+    }
+
+    // Se tutti i controlli passano
+    return { ok: true, message: "Dati validi" };
   }
 
   const elimina = () => {
@@ -136,7 +206,7 @@ useEffect(() => {
                       value={ripetizioni[i] || ""}
                       onChange={(e) => {
                         const newRipetizioni = [...ripetizioni];
-                        newRipetizioni[i] = parseInt(e.target.value) || 0;
+                        newRipetizioni[i] = e.target.value || "";
                         setRipetizioni(newRipetizioni);
                       }}
                     />
@@ -149,7 +219,7 @@ useEffect(() => {
                       value={carico[i] || ""}
                       onChange={(e) => {
                         const newCarico = [...carico];
-                        newCarico[i] = parseInt(e.target.value) || 0;
+                        newCarico[i] = e.target.value || "";
                         setCarico(newCarico);
                       }}
                     />
@@ -162,12 +232,14 @@ useEffect(() => {
                       value={tempoRecupero[i] || ""}
                       onChange={(e) => {
                         const newTempoRecupero = [...tempoRecupero];
-                        newTempoRecupero[i] = parseInt(e.target.value) || 0;
+                        newTempoRecupero[i] = e.target.value || "";
                         setTempoRecupero(newTempoRecupero);
                       }}
                     />
                   </div>
                 ))}
+
+                {showMessage && <h1>{message}</h1>}
 
                 <Button type="submit" onClick={cambiaStatoEs}>Completa Esercizio</Button>
               </Form.Group>

@@ -10,14 +10,16 @@ import { Scheda } from "../../models/Scheda";
 function cardEsercizioScheda({ schedaId, esercizio, activeVideoId, setActiveVideoId }) {
   const [esercizioRaw, setEsercizioRaw] = useState(exerciseData.find(es => es.id == esercizio.idEsercizio));
   const [showModal, setShowModal] = useState(false);
-  const [serie, setSerie] = useState(esercizio.serie);
-  const [ripetizioni, setRipetizioni] = useState(esercizio.ripetizioni[0]);
-  const [carico, setCarico] = useState(esercizio.carico[0]);
-  const [tempoRecupero, setTempoRecupero] = useState(esercizio.tempoRecupero[0]);
+  const [serie, setSerie] = useState(esercizio.serie.toString());
+  const [ripetizioni, setRipetizioni] = useState(esercizio.ripetizioni[0].toString());
+  const [carico, setCarico] = useState(esercizio.carico[0].toString());
+  const [tempoRecupero, setTempoRecupero] = useState(esercizio.tempoRecupero[0].toString());
   const [giorno, setGiorno] = useState(esercizio.giorno);
   const [scheda, setScheda] = useState(null);
   const giorni = ["Lunedi", "Martedi", "Mercoledi", "Giovedi", "Venerdi", "Sabato", "Domenica"];
   const navigate = useNavigate();
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     async function fetchScheda() {
@@ -34,39 +36,58 @@ function cardEsercizioScheda({ schedaId, esercizio, activeVideoId, setActiveVide
   }, [schedaId]);
 
   //cercare esercizio in exercisedata da idEsercizio cosi da trovare l'es row
-  const handleSave = () => {
-    //creo instanza classe, modifico esercizio e salva in indexedDB
+  const handleSave = (e) => {
+    e.preventDefault();
+    const result = checkError();
+    if (result.ok){
+      const nuovaScheda = new Scheda({
+        id: scheda.id,
+        tipologia: scheda.tipologia,
+        giorniAllenamento: scheda.giorni.length,
+      });
 
-    const nuovaScheda = new Scheda({
-      id: scheda.id,
-      tipologia: scheda.tipologia,
-      giorniAllenamento: scheda.giorni.length,
-    });
+      nuovaScheda.setGiorni(scheda.giorni);
 
-    nuovaScheda.setGiorni(scheda.giorni);
+      scheda.esercizi.forEach(e => {
+        const newEs = new EsercizioScheda(
+          e.idUnivoco,
+          e.idEsercizio,
+          e.giorno,
+          e.ripetizioni,
+          e.serie,
+          e.tempoRecupero,
+          e.carico,
+          e.completato
+        );
 
-    scheda.esercizi.forEach(e => {
-      const newEs = new EsercizioScheda(
-        e.idUnivoco,
-        e.idEsercizio,
-        e.giorno,
-        e.ripetizioni,
-        e.serie,
-        e.tempoRecupero,
-        e.carico,
-        e.completato
-      );
+        nuovaScheda.addEsercizio(newEs);
+      });
 
-      nuovaScheda.addEsercizio(newEs);
-    });
+      nuovaScheda.modificaEsercizio(esercizio.idUnivoco, serie, ripetizioni, carico, tempoRecupero, giorno);
+      saveScheda(nuovaScheda);
+      navigate(`/giorni/${schedaId}`);
+      console.log("modificato");
+    } else {
+      setShowMessage(true);
+      setMessage(result.message);
+    }
+  }
 
-    nuovaScheda.modificaEsercizio(esercizio.idUnivoco, serie, ripetizioni, carico, tempoRecupero, giorno);
-    saveScheda(nuovaScheda);
-    navigate(`/giorni/${schedaId}`);
-    console.log("modificato");
+  const checkError = () => {
+    if(serie == "") return {ok : false, message: "Inserire il numero di serie"};
+    if(ripetizioni == "") return {ok : false, message: "Inserire il numero di ripetizioni"};
+    if(carico == "") return {ok : false, message: "Inserire il carico"};
+    if(tempoRecupero == "") return {ok : false, message: "Inserire il tempo di recupero"};
+
+    if(Number(serie) < 1) return {ok : false, message: "Inserire almeno una serie"};
+    if(Number(ripetizioni) < 1) return {ok : false, message: "Inserire almeno una ripetizione"};
+    if(Number(carico) < 0) return {ok : false, message: "Inserire un carico positivo"};
+    if(Number(tempoRecupero) < 0) return {ok : false, message: "Inserire un tempo di recupero positivo"};
+    
+    // Se tutti i controlli passano
+    return { ok: true, message: "Dati validi" };
   }
     
-   //AGGIUNGERE CONTROLLI NON HTML5
   return (
     <>
       <Card className="project-card-view">
@@ -124,15 +145,17 @@ function cardEsercizioScheda({ schedaId, esercizio, activeVideoId, setActiveVide
 
                 {/* RIPETIZIONI ESERCIZIO */}
                 <Form.Label>Numero Ripetizioni</Form.Label>
-                <Form.Control type="text" value={ripetizioni} onChange={(e) => setRipetizioni(e.target.value)} />
+                <Form.Control type="number" value={ripetizioni} onChange={(e) => setRipetizioni(e.target.value)} />
 
                 {/* CARICO ESERCIZIO */}
                 <Form.Label>Carico</Form.Label>
-                <Form.Control type="text" value={carico} onChange={(e) => setCarico(e.target.value)} />
+                <Form.Control type="number" value={carico} onChange={(e) => setCarico(e.target.value)} />
 
                 {/* TEMPO DI RECUPERO ESERCIZIO */}
                 <Form.Label>Tempo Di Recupero</Form.Label>
-                <Form.Control type="text" value={tempoRecupero} onChange={(e) => setTempoRecupero(e.target.value)} />
+                <Form.Control type="number" value={tempoRecupero} onChange={(e) => setTempoRecupero(e.target.value)} />
+
+                {showMessage && <h1>{message}</h1>}
               </Form.Group>
             </Form>
           </Modal.Body>

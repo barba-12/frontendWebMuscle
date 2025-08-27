@@ -10,6 +10,8 @@ import { getIncrementalId } from "../generatoreID/generatoreID";
 function AggiungiScheda() {
   const navigate = useNavigate();
   const giorniSettimana = ["Lunedi", "Martedi", "Mercoledi", "Giovedi","Venerdi", "Sabato", "Domenica"];
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState("");
 
   // Stato esercizi selezionati
   const [eserciziSelezionati, setEserciziSelezionati] = useState(() => {
@@ -57,46 +59,75 @@ function AggiungiScheda() {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const checkError = () => {
+    //controllare che il nome della scheda sia coretto,  nomeScheda != ""
+    if(nomeScheda === "") return {ok : false, message: "inserire il nome delle scheda"};
+    //che ci sia almeno un giorno selezionato,   esercizioSelezionati in sessionStorage != []
 
-    // Recupero scheda ed esercizi da sessionStorage
-    const schedaRaw = JSON.parse(sessionStorage.getItem("scheda")) || {};
-    const eserciziSelezionati = JSON.parse(sessionStorage.getItem("eserciziSelezionati")) || [];
+    if (!Array.isArray(eserciziSelezionati) || eserciziSelezionati.length === 0) {
+      return { ok: false, message: "Seleziona almeno un giorno" };
+    }
 
-    // 🔹 Creo un oggetto Scheda
-    const nuovaScheda = new Scheda({
-      id: Date.now(),  // id univoco per IndexedDB
-      tipologia: schedaRaw.nome || "Scheda senza nome",
-      giorniAllenamento: giorni.length,
-    });
-
-    for (const [nomeGiorno, esercizi] of eserciziSelezionati) {
-      for (const e of esercizi) {
-        const id = await getIncrementalId(); // attendo l'id incrementale
-        nuovaScheda.addEsercizio(new EsercizioScheda(
-          id,
-          e[0],        // id esercizio
-          nomeGiorno,
-          e[2] || 0,   // ripetizioni
-          e[1] || 0,   // serie
-          e[4] || 0,   // tempo recupero
-          e[3] || 0,   // carico
-          false
-        ));
+    // 3. Tutti i giorni selezionati devono avere almeno un esercizio
+    for (const [giorno, esercizi] of eserciziSelezionati) {
+      if (!Array.isArray(esercizi) || esercizi.length === 0) {
+        return { 
+          ok: false, 
+          message: `Il giorno ${giorno} non ha nessun esercizio` 
+        };
       }
     }
 
-    try {
-      await saveScheda(nuovaScheda);
-      console.log("Scheda salvata su IndexedDB:", nuovaScheda);
+    // Se tutti i controlli passano
+    return { ok: true, message: "Dati validi" };
+  }
 
-      sessionStorage.removeItem("scheda");
-      sessionStorage.removeItem("eserciziSelezionati");
-      // Dopo il salvataggio vai alla pagina successiva
-      navigate("/schede");
-    } catch (err) {
-      console.error("Errore salvataggio IndexedDB:", err);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const result = checkError();
+    if(result.ok){
+
+      // Recupero scheda ed esercizi da sessionStorage
+      const schedaRaw = JSON.parse(sessionStorage.getItem("scheda")) || {};
+      const eserciziSelezionati = JSON.parse(sessionStorage.getItem("eserciziSelezionati")) || [];
+
+      // 🔹 Creo un oggetto Scheda
+      const nuovaScheda = new Scheda({
+        id: Date.now(),  // id univoco per IndexedDB
+        tipologia: schedaRaw.nome || "Scheda senza nome",
+        giorniAllenamento: giorni.length,
+      });
+
+      for (const [nomeGiorno, esercizi] of eserciziSelezionati) {
+        for (const e of esercizi) {
+          const id = await getIncrementalId(); // attendo l'id incrementale
+          nuovaScheda.addEsercizio(new EsercizioScheda(
+            id,
+            e[0],        // id esercizio
+            nomeGiorno,
+            e[2] || 0,   // ripetizioni
+            e[1] || 0,   // serie
+            e[4] || 0,   // tempo recupero
+            e[3] || 0,   // carico
+            false
+          ));
+        }
+      }
+
+      try {
+        await saveScheda(nuovaScheda);
+        console.log("Scheda salvata su IndexedDB:", nuovaScheda);
+
+        sessionStorage.removeItem("scheda");
+        sessionStorage.removeItem("eserciziSelezionati");
+        // Dopo il salvataggio vai alla pagina successiva
+        navigate("/schede");
+      } catch (err) {
+        console.error("Errore salvataggio IndexedDB:", err);
+      }
+    } else {
+      setShowMessage(true);
+      setMessage(result.message);
     }
   };
 
@@ -154,6 +185,8 @@ function AggiungiScheda() {
                     </div>
                   ))}
               </div>
+              
+              {showMessage && <h1>{message}</h1>}
 
               <Button variant="primary" onClick={() => navigate("/addEsScheda")}>Scegli esercizi</Button>
               <Button type="submit">Invia</Button>
