@@ -28,6 +28,9 @@ export class Scheda {
     this.esercizi.push(esercizio);
     if(!this.giorni.includes(esercizio.getGiorno())) this.giorni.push(esercizio.getGiorno());
 
+    console.log(this.giorni);
+    this.controllaGiorniVuoti();
+    this.ordinaGiorni();
     /*if(this.getListaID().includes(esercizio.getIdEsercizio())){
       for (let i=0; i<this.esercizi.length; i++){
         let giorni = this.esercizi[i].getGiorni();
@@ -54,10 +57,21 @@ export class Scheda {
     if(!this.giorni.includes(giorno)) this.giorni.push(giorno);
 
     this.controllaGiorniVuoti();
+    this.ordinaGiorni();
   }
 
   controllaGiorniVuoti() {
     this.giorni = this.giorni.filter(g => this.getNumEsXGiorno(g) > 0);
+    this.giorniAllenamento = this.giorni.length;
+  }
+
+  ordinaGiorni() {
+    let listaGiorni = ["Lunedi", "Martedi", "Mercoledi", "Giovedi", "Venerdi", "Sabato", "Domenica"];
+    let giorniOrdinati = [];
+    listaGiorni.forEach(g => {
+      if(this.giorni.includes(g)) giorniOrdinati.push(g);
+    });
+    this.giorni = giorniOrdinati;
   }
 
   getListaID() {
@@ -74,6 +88,14 @@ export class Scheda {
     let numero = 0;
     this.esercizi.forEach(es => {
       if(es.giorno == giorno) numero++;
+    });
+    return numero;
+  }
+
+  getNumEsXGiornoDaCompletare (giorno) {
+    let numero = 0;
+    this.esercizi.forEach(es => {
+      if(es.giorno == giorno && !es.completato) numero++;
     });
     return numero;
   }
@@ -98,6 +120,7 @@ export class Scheda {
 
   eliminaEsercizio (idEsercizio) {
     this.esercizi = this.esercizi.filter(es => es.idUnivoco != idEsercizio);
+    this.controllaGiorniVuoti();
   }
 
   // 🔹 Getter e Setter per id

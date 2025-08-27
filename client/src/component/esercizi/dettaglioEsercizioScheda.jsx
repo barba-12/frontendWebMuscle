@@ -85,10 +85,6 @@ useEffect(() => {
     navigate(`/eserciziXGiorno/${schedaId}/${esercizio.giorno}`);
   }
 
-  const modifica = () => {
-    //creare componente a parte per i campi di input
-  }
-
   const elimina = () => {
     scheda.eliminaEsercizio(esercizio.idUnivoco);
     saveScheda(scheda);
@@ -192,7 +188,6 @@ useEffect(() => {
           style={{ maxWidth: "100%", height: "auto" }}
         />
       </Card.Body>
-      <Button onClick={modifica}>modifica</Button>
       <Button onClick={elimina} style={{marginTop:"20px"}}>elimina</Button>
     </Card>
   );

@@ -16,7 +16,7 @@ function cardEsercizioScheda({ schedaId, esercizio, activeVideoId, setActiveVide
   const [tempoRecupero, setTempoRecupero] = useState(esercizio.tempoRecupero[0]);
   const [giorno, setGiorno] = useState(esercizio.giorno);
   const [scheda, setScheda] = useState(null);
-  const giorni = ["Lunedi", "Martedi", "Mercoledi", "Giovedi", "Venerdi", "Sabato", "Domenica"]
+  const giorni = ["Lunedi", "Martedi", "Mercoledi", "Giovedi", "Venerdi", "Sabato", "Domenica"];
   const navigate = useNavigate();
 
   useEffect(() => {

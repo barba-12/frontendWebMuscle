@@ -18,7 +18,7 @@ function addEsSchedaEsistente() {
   return (
     <Container fluid className="project-section">
       <Container>
-        <Button variant="primary" onClick={ navigate(changePag)}>back</Button>
+        <Button variant="primary" onClick={changePag}>back</Button>
 
         <h1 className="project-heading">Select Exercise</h1>
 

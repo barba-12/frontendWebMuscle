@@ -9,16 +9,7 @@ import { getIncrementalId } from "../generatoreID/generatoreID";
 
 function AggiungiScheda() {
   const navigate = useNavigate();
-
-  const giorniSettimana = [
-    "lunedi",
-    "martedi",
-    "mercoledi",
-    "giovedi",
-    "venerdi",
-    "sabato",
-    "domenica",
-  ];
+  const giorniSettimana = ["Lunedi", "Martedi", "Mercoledi", "Giovedi","Venerdi", "Sabato", "Domenica"];
 
   // Stato esercizi selezionati
   const [eserciziSelezionati, setEserciziSelezionati] = useState(() => {

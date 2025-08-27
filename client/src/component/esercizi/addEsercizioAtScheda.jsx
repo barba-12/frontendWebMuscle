@@ -17,6 +17,7 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
   const [tempoRecupero, setTempoRecupero] = useState();
   const [schedaRaw, setSchedaRaw] = useState();
   const [scheda, setScheda] = useState();
+  const giorni = ["Lunedi", "Martedi", "Mercoledi", "Giovedi", "Venerdi", "Sabato", "Domenica"];
   const navigate = useNavigate();
 
     useEffect(() => {
@@ -150,9 +151,8 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
 
             {showForm && (
               <div style={{ marginTop: "10px" }}>
-                <select className="select-viola" value={giorno} onChange={(e) => setGiorno(e.target.value)}>
-                  <option value="">Seleziona giorno</option>
-                  {schedaRaw.giorni.map((g) => (
+                <select value={giorno} onChange={(e) => setGiorno(e.target.value)} className="select-viola">
+                  {giorni.map((g) => (
                     <option key={g} value={g}> {g} </option>
                   ))}
                 </select>

@@ -1,25 +1,17 @@
-
  /
  /
  /  AGGIUNGERE CONTROLLI PER TUTTI I CAMPI DI INPUT (post), e di eliminazione e modifica
  /  possibilita di selezionare 0 nei campi di input
- /  
+ /  sistemare grafica in generale
  /
- /  in giorni specificare quanti esercizi non completati ci sono rimanenti
  / 
  /  pensare come resettare esercizi dopo completamento
  /
  /
 
-PAGINA EsercizioScheda:
- * AGGIUNGERE PAGINE PER VISUALIZZAZIONE DETTAGLI: RIPETIZIONI, CARICO, TEMPO DI RECUPERO CON RELATIVI GRAFICI:
- * APERTURA PAGINE TRAMITE BOTTONE, SOLO VISUALIZZAZIONE
-
 PAGINA utente:
- * mettere tutti i dati relativi all'utente, scheda e esercizi fatti
+ * mettere tutti i dati relativi all'utente, scheda e esercizi fatti con tutti i dati relativi
  * pensare a quancosa per area utente.
-
-
 
 
 
@@ -35,6 +27,10 @@ PAGINA utente:
     - bottone remember me al login
     - sistemare tutti i navigateTo  (quando completo esercizio, quando aggiungo scheda)
     - modifica / eliminazione / aggiunta : esercizio ad una scheda gia esistente
+    - quando elimino ultimo esercio relatico a quel giorno tolgo anche il giono
+    - visualizzazione giorni allenamento corette numero
+    - vedere quanti esercizio sono da completare ripestto ai totali del giorno
+    - ordinare i gioni in modo cronologico
 
  CLASSE EsercizioScheda:
     - creazione classe esercizio (creo id univoco tramite date.Now()) - aggiungiScheda.jsx 

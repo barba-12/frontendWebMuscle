@@ -71,6 +71,7 @@ function Giorni() {
     
       <Button variant="primary" style={{marginLeft:"20px"}} onClick={pagAddEs}>add esercizio</Button>
 
+      {/*creare metodo per scheda che restituisce i giorni in ordine cronologico o salvarli direttamente in ordine */}
       {scheda.giorni.map((giorno, index) => (
         <Card
           key={index}
@@ -81,7 +82,7 @@ function Giorni() {
           <Card.Body>
             <div className="card-workout-day">
               <strong>{giorno}</strong>
-              <p>{schedaClass.getNumEsXGiorno(giorno)}</p>
+              <p>{schedaClass.getNumEsXGiornoDaCompletare(giorno)} esercizio da completare su {schedaClass.getNumEsXGiorno(giorno)}</p>
             </div>
           </Card.Body>
         </Card>
