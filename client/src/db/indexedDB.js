@@ -1,5 +1,6 @@
 import { Scheda } from "../models/Scheda";
 import { EsercizioScheda } from "../models/EsercizioScheda";
+import schedeFile from "../component/json/schede.json";
 
 // src/db/indexedDB.js
 const DB_NAME = "AllenamentiDB";
@@ -45,12 +46,20 @@ export async function getScheda(id) {
 // 🔹 Recupera tutte le schede
 export async function getAllSchede() {
   const db = await openDB();
-  return new Promise((resolve) => {
+
+  // Recupera le schede da IndexedDB
+  const schedeDB = await new Promise((resolve) => {
     const req = db.transaction(STORE_NAME, "readonly")
       .objectStore(STORE_NAME)
       .getAll();
     req.onsuccess = () => resolve(req.result);
+    req.onerror = () => resolve([]); // fallback in caso di errore
   });
+
+  // Accoda le schede del file JSON a quelle di IndexedDB
+  //return [...schedeFile, ...schedeDB];
+  if(schedeDB.length != 0) return [schedeDB];
+  else return schedeDB;
 }
 
 // 🔹 Elimina una scheda
@@ -62,12 +71,11 @@ export async function deleteScheda(id) {
 }
 
 export async function checkStatusExercise(){
-  const oggi = new Date();
-  const giorno = oggi.getDay();
   const schede = await getAllSchede();
+  const oggi = new Date().toISOString().split('T')[0]; // formato YYYY-MM-DD
+  const lastRun = localStorage.getItem('lastExerciseCheck');
 
-  //refreshare ogni domenica (0)
-  if(giorno != 0) {
+  //refreshare gli esercizi del giorno di oggi (salvare risultato su localStorage per ricordare se si è gia fatto l'accesso oggi o meno)
     for (const scheda of schede) {
       const nuovaScheda = new Scheda({
         id: scheda.id,
@@ -78,33 +86,25 @@ export async function checkStatusExercise(){
       nuovaScheda.setGiorni(scheda.giorni);
   
       scheda.esercizi.forEach(e => {
-        const idUnivoco = e.idUnivoco;
-        const idEsercizio = e.idEsercizio?.idEsercizio || e.idEsercizio;
-        const ripetizioni = e.ripetizioni;
-        const serie = e.serie;
-        const tempoRecupero = e.tempoRecupero;
-        const carico = e.carico;
-        const giorno = e.giorno;
-        const completato = e.completato;
-  
         const newEs = new EsercizioScheda(
-          idUnivoco,
-          idEsercizio,
-          giorno,
-          ripetizioni,
-          serie,
-          tempoRecupero,
-          carico,
-          completato
+          e.idUnivoco,
+          e.idEsercizio?.idEsercizio || e.idEsercizio,
+          e.giorno,
+          e.ripetizioni,
+          e.serie,
+          e.tempoRecupero,
+          e.carico,
+          e.completato
         );
   
         nuovaScheda.addEsercizio(newEs);
       });
 
-      nuovaScheda.resetCompletatoEs();
+      if (!(lastRun === oggi)) nuovaScheda.resetCompletatoEs();
+
 
       await saveScheda(nuovaScheda);
     }
-  }
-  console.log(schede);
+
+    localStorage.setItem('lastExerciseCheck', oggi);
 }

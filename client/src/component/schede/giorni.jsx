@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Modal, Form } from "react-bootstrap";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Scheda as SchedaClasse } from "../../models/Scheda";
 import { getAllSchede, deleteScheda } from "../../db/indexedDB";
@@ -10,6 +10,7 @@ function Giorni() {
   const { schedaId } = useParams();
   const [scheda, setScheda] = useState(null);
   const [schedaClass, setSchedaClass] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     async function fetchScheda() {
@@ -88,7 +89,24 @@ function Giorni() {
         </Card>
       ))}
 
-      <Button onClick={eliminaScheda}>elimina scheda</Button>
+      <Button onClick={() => setShowModal(true)}>elimina scheda</Button>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>conferma eliminazione</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+          <Form.Label>Sei sicuro di voler eliminare la scheda: {scheda.tipologia}</Form.Label>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowModal(false)}>
+              Annulla
+            </Button>
+            <Button variant="success" onClick={eliminaScheda}>
+              Conferma
+            </Button>
+          </Modal.Footer>
+        </Modal>
     </>
   );
 }

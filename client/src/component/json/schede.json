@@ -1,0 +1,118 @@
+[
+  {
+    "id": 1756307890901,
+    "tipologia": "scheada",
+    "giorniAllenamento": 2,
+    "esercizi": [
+      {
+        "idUnivoco": 70,
+        "idEsercizio": 3,
+        "giorno": "Lunedi",
+        "ripetizioni": [
+          1,
+          2
+        ],
+        "serie": [
+          1
+        ],
+        "tempoRecupero": [
+          1,
+          2
+        ],
+        "carico": [
+          1,
+          2
+        ],
+        "completato": false
+      },
+      {
+        "idUnivoco": 71,
+        "idEsercizio": 2,
+        "giorno": "Mercoledi",
+        "ripetizioni": [
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "serie": [
+          3
+        ],
+        "tempoRecupero": [
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "carico": [
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "completato": false
+      },
+      {
+        "idUnivoco": 72,
+        "idEsercizio": 4,
+        "giorno": "Mercoledi",
+        "ripetizioni": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "serie": [
+          2
+        ],
+        "tempoRecupero": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "carico": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "completato": false
+      }
+    ],
+    "giorni": [
+      "Lunedi",
+      "Mercoledi"
+    ]
+  }
+]

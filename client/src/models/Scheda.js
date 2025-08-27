@@ -92,6 +92,14 @@ export class Scheda {
     return numero;
   }
 
+  getNumEsXGiornoAttivi (giorno) {
+    let numero = 0;
+    this.esercizi.forEach(es => {
+      if(es.giorno == giorno && !es.completato) numero++;
+    });
+    return numero;
+  }
+
   getNumEsXGiornoDaCompletare (giorno) {
     let numero = 0;
     this.esercizi.forEach(es => {
@@ -109,8 +117,9 @@ export class Scheda {
   }
 
   resetCompletatoEs() {
-    this.esercizi.forEach(esercizio => {
-      esercizio.setCompletato(false);
+    const giorno = new Date().getDay();
+    this.esercizi.forEach(es => {
+      if(es.getGiornoNum() == giorno) es.setCompletato(false);
     })
   }
 

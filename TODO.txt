@@ -1,20 +1,14 @@
- se quando modifico un giono elimnando un esercizio e il giorno rimane vuoro allora navigo verso giorni e non esXGiorno altrimenti navigo verso esXGiorno
-
-
  /
- /  eliminazione e modifica con bottone di conferma
- /  
- /  sistemare grafica in generale
- /
- /  pensare come resettare esercizi dopo completamento    (resettare il giorno quando è il giono stesso es. se si apre l'app il mercoledi resetto gli es al mercoledi)
- /  (ci sarebbe da salvare in localStorage se si è gia fatto il login in quel giorno seno resetta sempre all'avvio dell'app in quel giorno)
- /   localStorage      giaLoggatoOggi = true --> non aggiunro gli es altrimenti si e lo faccio solo per il girno in cui si è aperta l'app
+ / funzione per leggere se presente il file json insieme al contenuto di indexedDB (da modificare)
  /
 
 PAGINA utente:
  * mettere tutti i dati relativi all'utente, scheda e esercizi fatti con tutti i dati relativi
  * pensare a quancosa per area utente.
 
+ /  sistemare grafica in generale
+ / quando aggiungo esercizi in aggiungiScheda possibilita di rimuovere esercizioSpecifico
+ / salvare su indexedDB tutti i dati e quando l'utente li elimina da UI li rimangono tipo DB utente (schede, esercizi)
 
 
  fatto:
@@ -32,6 +26,13 @@ PAGINA utente:
     - ordinare i gioni in modo cronologico
     - AGGIUNGERE CONTROLLI PER TUTTI I CAMPI DI INPUT (post),
     - possibilita di selezionare 0 nei campi di input
+    -  se quando modifico un giono elimnando un esercizio e il giorno rimane vuoro allora navigo verso giorni e non esXGiorno altrimenti navigo verso esXGiorno
+    - eliminazione con bottone di conferma
+    - pensare come resettare esercizi dopo completamento    (resettare il giorno quando è il giono stesso es. se si apre l'app il mercoledi resetto gli es al mercoledi)
+      (ci sarebbe da salvare in localStorage se si è gia fatto il login in quel giorno seno resetta sempre all'avvio dell'app in quel giorno)
+      localStorage      giaLoggatoOggi = true --> non aggiunro gli es altrimenti si e lo faccio solo per il girno in cui si è aperta l'app
+    - quando completo ultimo es di un giorno torna a /gioni e non esXgiorno
+    - bottone download JSON contenente indexedDB
 
  CLASSE EsercizioScheda:
     - creazione classe esercizio (creo id univoco tramite date.Now()) - aggiungiScheda.jsx 

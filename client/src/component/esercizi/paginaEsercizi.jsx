@@ -13,12 +13,37 @@ function PaginaEsercizi({ esercizi }) {
   const [activeVideoId, setActiveVideoId] = useState(null);
   const navigate = useNavigate();
 
+  const scaricaJSON = async () => {
+    // Recupera le schede da IndexedDB
+    const schede = await getAllSchede();
+
+    // Converti l'array di schede in JSON
+    const jsonString = JSON.stringify(schede, null, 2); // null,2 per indentazione leggibile
+
+    // Crea un blob e un URL per il download
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    // Crea un link temporaneo e cliccalo per avviare il download
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "schede.json";
+    document.body.appendChild(link);
+    link.click();
+
+    // Pulisci il DOM
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <Container fluid className="project-section">
       <Container>
         <Link to="/schede">
           <Button variant="primary">Schede</Button>
         </Link>
+
+        <Button variant="primary" style={{marginLeft:"30px"}} onClick={scaricaJSON}>Scarica JSON</Button>
 
         <h1 className="project-heading">Exercise</h1>
 

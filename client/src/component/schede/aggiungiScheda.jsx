@@ -188,7 +188,7 @@ function AggiungiScheda() {
               
               {showMessage && <h1>{message}</h1>}
 
-              <Button variant="primary" onClick={() => navigate("/addEsScheda")}>Scegli esercizi</Button>
+              <Button variant="primary" onClick={() => navigate("/addEsScheda")} style={{marginRight:"30px"}}>Scegli esercizi</Button>
               <Button type="submit">Invia</Button>
             </Form>
           </Card.Body>

@@ -94,6 +94,13 @@ export class EsercizioScheda {
     this.giorno = giorno; 
   }
 
+  getGiornoNum () {
+    let listaGiorni = ["Domenica", "Lunedi", "Martedi", "Mercoledi", "Giovedi", "Venerdi", "Sabato"];
+    for(let i=0; i<listaGiorni.length; i++){
+      if(this.giorno == listaGiorni[i]) return i;
+    }
+  }
+
   /*
     getter e setter
   */

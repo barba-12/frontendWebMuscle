@@ -1,6 +1,6 @@
 import {React , useState, useEffect } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import { Row, Col, Button, Card, Form } from "react-bootstrap";
+import { Row, Col, Button, Card, Modal, Form  } from "react-bootstrap";
 import VideoPlayer from "../videoPlayer";
 import { Scheda } from "../../models/Scheda";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
@@ -23,6 +23,7 @@ function dettaglioEsercizioScheda() {
   const [loading, setLoading] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
   const [message, setMessage] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     async function fetchScheda() {
@@ -127,7 +128,8 @@ function dettaglioEsercizioScheda() {
       });
 
       saveScheda(scheda);
-      navigate(`/eserciziXGiorno/${schedaId}/${esercizio.giorno}`);
+      if(scheda.getNumEsXGiornoAttivi(esercizio.giorno) == 0) navigate(`/giorni/${schedaId}`);
+      else navigate(`/eserciziXGiorno/${schedaId}/${esercizio.giorno}`);
     }
     else {
       setShowMessage(true);
@@ -158,7 +160,8 @@ function dettaglioEsercizioScheda() {
   const elimina = () => {
     scheda.eliminaEsercizio(esercizio.idUnivoco);
     saveScheda(scheda);
-    navigate(`/eserciziXGiorno/${schedaId}/${esercizio.giorno}`);
+    if(scheda.getNumEsXGiorno(esercizio.giorno) == 0) navigate(`/giorni/${schedaId}`);
+    else navigate(`/eserciziXGiorno/${schedaId}/${esercizio.giorno}`);
   }
 
   if (loading) {
@@ -170,6 +173,7 @@ function dettaglioEsercizioScheda() {
   }
 
   return (
+    <>
     <Card className="project-card-view">
         {console.log(esercizio)}
         {console.log(esercizioRaw)}
@@ -260,8 +264,27 @@ function dettaglioEsercizioScheda() {
           style={{ maxWidth: "100%", height: "auto" }}
         />
       </Card.Body>
-      <Button onClick={elimina} style={{marginTop:"20px"}}>elimina</Button>
+      <Button onClick={() => setShowModal(true)} style={{marginTop:"20px"}}>elimina</Button>
     </Card>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>conferma eliminazione</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <Form.Label>Sei sicuro di voler eliminare l'esercizio: {esercizioRaw.nome}</Form.Label>
+        <Form.Label>dalla scheda: {scheda.tipologia}</Form.Label>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Annulla
+          </Button>
+          <Button variant="success" onClick={elimina}>
+            Conferma
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 }
 
