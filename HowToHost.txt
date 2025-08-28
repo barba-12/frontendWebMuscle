@@ -1,0 +1,37 @@
+1) nel progetto react installare: npm install gh-pages --save-dev
+2) in package.json alla radice: "homepage": "https://mariorossi.github.io/mio-sito-react"
+3) sempre in package.json in scirpt:
+"scripts": {
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d build"
+}
+4) verificare che il sito sia nel branch main
+5) inserire nella cartella public un file chiamato 404.html per indirizzare corettamente le route:
+
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting...</title>
+    <script>
+      // Se esiste un redirect salvato, sostituisce l'URL corrente con quello originale
+      var redirect = sessionStorage.redirect;
+      if (redirect && redirect !== location.href) {
+        history.replaceState(null, null, redirect);
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Redirecting...</h1>
+    <p>Verrai reindirizzato alla tua applicazione.</p>
+    <script>
+      // Salva l'URL richiesto e ricarica index.html
+      sessionStorage.redirect = location.href;
+      window.location.replace("/");
+    </script>
+  </body>
+</html>
+
+6) lanciare il comando: npm run deploy
+7) andare su GitHub, setting repo, pages, scegliere il branch gh-pages e direcotry /root
+8) aspettare qualche minuto: poi https://<tuo-username>.github.io/<nome-repo>
