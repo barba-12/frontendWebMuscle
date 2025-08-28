@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import Esercizio from "./esercizio";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import exerciseData from "../../data/exercise";
 import AddEsercizioAtScheda from "./addEsercizioAtScheda";
 

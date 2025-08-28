@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Button, Card, Form } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { getAllSchede } from "../../db/indexedDB";
 
@@ -22,8 +22,6 @@ function Scheda({ schedaId }) {
   }, [schedaId]);
 
   const handleClick = () => {
-    // Naviga verso "/scheda-dettaglio" passando la scheda nello stato
-    console.log("scheda id: " + schedaId);
     navigate(`/giorni/${schedaId}`);
   };
 

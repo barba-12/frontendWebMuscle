@@ -43,6 +43,20 @@ export async function getScheda(id) {
   });
 }
 
+export async function getAllSchedeDB() {
+  const db = await openDB();
+
+   const schedeDB = await new Promise((resolve) => {
+    const req = db.transaction(STORE_NAME, "readonly")
+      .objectStore(STORE_NAME)
+      .getAll();
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => resolve([]);
+  });
+
+  return schedeDB;
+}
+
 export async function getAllSchede() {
   const db = await openDB();
 
@@ -58,25 +72,25 @@ export async function getAllSchede() {
   const schedeFinali = schedeDB.map((schedaDB) => {
     const schedaFile = schedeFile.find((s) => s.id === schedaDB.id);
 
-    if (!schedaFile) return schedaDB; // niente merge se non c'è JSON
+    if (!schedaFile) return schedaDB; // se non è nel file JSON, uso solo DB
 
     return {
-      ...schedaDB, // prendo tutto da DB (incluso 'completato')
+      ...schedaDB,
       esercizi: schedaDB.esercizi.map((exDB) => {
         const exFile = schedaFile.esercizi.find((e) => e.idUnivoco === exDB.idUnivoco);
         if (!exFile) return exDB;
 
-        // solo aggiornamento dei dati numerici, senza toccare 'completato'
         return {
           ...exDB,
-          ripetizioni: exFile.ripetizioni || [],
-          carico: exFile.carico || [],
-          tempoRecupero: exFile.tempoRecupero || [],
+          ripetizioni: [...(exFile.ripetizioni || []), ...(exDB.ripetizioni || [])],
+          carico: [...(exFile.carico || []), ...(exDB.carico || [])],
+          tempoRecupero: [...(exFile.tempoRecupero || []), ...(exDB.tempoRecupero || [])],
         };
       }),
     };
   });
 
+  console.log(schedeFinali);
   return schedeFinali;
 }
 
@@ -89,7 +103,7 @@ export async function deleteScheda(id) {
 }
 
 export async function checkStatusExercise(){
-  const schede = await getAllSchede();
+  const schede = await getAllSchedeDB();
   const oggi = new Date().toISOString().split('T')[0]; // formato YYYY-MM-DD
   const lastRun = localStorage.getItem('lastExerciseCheck');
 

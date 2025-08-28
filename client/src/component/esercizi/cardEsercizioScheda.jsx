@@ -1,10 +1,10 @@
-import React, { useState, useEffect, use } from "react";
-import { Row, Col, Button, Card, Form, Modal } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Button, Card, Form, Modal } from "react-bootstrap";
 import VideoPlayer from "../videoPlayer";
 import { Link, useNavigate } from "react-router-dom";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
 import exerciseData from "../../data/exercise";
-import { getAllSchede, saveScheda } from "../../db/indexedDB";
+import { getAllSchedeDB, saveScheda } from "../../db/indexedDB";
 import { Scheda } from "../../models/Scheda";
 
 function cardEsercizioScheda({ schedaId, esercizio, activeVideoId, setActiveVideoId }) {
@@ -24,7 +24,7 @@ function cardEsercizioScheda({ schedaId, esercizio, activeVideoId, setActiveVide
   useEffect(() => {
     async function fetchScheda() {
       try {
-        const tutteLeSchede = await getAllSchede(); // recupera tutte le schede
+        const tutteLeSchede = await getAllSchedeDB(); // recupera tutte le schede
         const schedaTrovata = tutteLeSchede.find(s => s.id.toString() === schedaId);
         setScheda(schedaTrovata || null); // salva la scheda trovata o null
       } catch (error) {
@@ -63,10 +63,9 @@ function cardEsercizioScheda({ schedaId, esercizio, activeVideoId, setActiveVide
         nuovaScheda.addEsercizio(newEs);
       });
 
-      nuovaScheda.modificaEsercizio(esercizio.idUnivoco, serie, ripetizioni, carico, tempoRecupero, giorno);
+      nuovaScheda.modificaEsercizio(esercizio.idUnivoco, Number(serie), Number(ripetizioni), Number(carico), Number(tempoRecupero), giorno);
       saveScheda(nuovaScheda);
       navigate(`/giorni/${schedaId}`);
-      console.log("modificato");
     } else {
       setShowMessage(true);
       setMessage(result.message);

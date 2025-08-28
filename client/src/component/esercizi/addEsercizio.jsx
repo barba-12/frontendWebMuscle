@@ -1,10 +1,7 @@
-import React, { useState, useEffect, use } from "react";
-import { Row, Col, Button, Card, Form, ThemeProvider } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Card, Form } from "react-bootstrap";
 import VideoPlayer from "../videoPlayer";
 import { Link } from "react-router-dom";
-import { EsercizioScheda } from "../../models/EsercizioScheda";
-import exerciseData from "../../data/exercise";
-import { getAllSchede } from "../../db/indexedDB";
 
 function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
   const [showForm, setShowForm] = useState(false);
@@ -42,7 +39,6 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
       });
 
       sessionStorage.setItem("eserciziSelezionati", JSON.stringify(nuovoScheda));
-      console.log("Scheda aggiornata:", nuovoScheda);
 
       // Reset form
       setShowForm(false);
@@ -107,7 +103,6 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
 
          {/* se passo scheda id  */}
           <Link to={`/dettaglioEsGenerico/${esercizio.id}`}>
-          {console.log(esercizio)}
             <Button variant="primary">
               visualizza dettagli
             </Button>

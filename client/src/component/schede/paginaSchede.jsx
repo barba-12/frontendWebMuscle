@@ -2,20 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, CardBody } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Scheda from "./Scheda"; // Assumo sia il componente che mostra una singola scheda
-import { Scheda as SchedaModel } from "../../models/Scheda";
 import { getAllSchede } from "../../db/indexedDB"; // Funzione dal servizio IndexedDB
 import Card from "react-bootstrap/Card";
 
 function PaginaSchede() {
   const [schede, setSchede] = useState([]);
-  const navigate = useNavigate();
 
   // Carica le schede dal DB quando il componente si monta
   useEffect(() => {
     getAllSchede().then(rawSchede => {
       setSchede(rawSchede);
     });
-    console.log(schede);
   }, []);
 
   return (

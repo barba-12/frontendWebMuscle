@@ -1,12 +1,5 @@
- /
- / funzione per leggere se presente il file json insieme al contenuto di indexedDB (da modificare)
- /
-
-   funziona tutto pero quando modifico la scheda richiamo getAllSchede e creo la classe con tutti i dati e poi li salva su indexedDB 
-   trovare modo per salvare su indexedDB solo quelli di indexedDB
-
-
-
+ modal di conferma scaricaggio son che elimina dati da indexedDB con password amministatore
+ pubblicazione su github pages
 
 PAGINA utente:
  * mettere tutti i dati relativi all'utente, scheda e esercizi fatti con tutti i dati relativi
@@ -39,6 +32,8 @@ PAGINA utente:
       localStorage      giaLoggatoOggi = true --> non aggiunro gli es altrimenti si e lo faccio solo per il girno in cui si è aperta l'app
     - quando completo ultimo es di un giorno torna a /gioni e non esXgiorno
     - bottone download JSON contenente indexedDB
+    - funzione per leggere se presente il file json insieme al contenuto di indexedDB (da modificare)
+      qunado richimo getAllSchede per modificare dati devo restituire solo quelli di indexedDB
 
  CLASSE EsercizioScheda:
     - creazione classe esercizio (creo id univoco tramite date.Now()) - aggiungiScheda.jsx 

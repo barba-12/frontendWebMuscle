@@ -87,7 +87,7 @@ export class EsercizioScheda {
   }
 
   modifica (serie, ripetizione, carico, tempoRecupero, giorno) {
-    this.serie = serie;
+    this.serie[0] = serie;
     this.ripetizioni[0] = ripetizione;
     this.carico[0] = carico;
     this.tempoRecupero[0] = tempoRecupero;

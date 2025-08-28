@@ -18,10 +18,6 @@ function Giorni() {
       const tutteLeSchede = await getAllSchede();
       const schedaTrovata = tutteLeSchede.find(s => s.id.toString() === schedaId);
 
-      console.log(tutteLeSchede);
-      console.log(schedaId);
-      console.log(schedaTrovata);
-
       if (!schedaTrovata) {
         console.error("Scheda non trovata");
         return;

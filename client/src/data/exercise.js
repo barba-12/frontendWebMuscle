@@ -65,7 +65,7 @@ const exerciseData = [
     "Plank",
     "Esercizio isometrico per il rinforzo del core e della postura.",
     ["Addominali", "Lombari", "Spalle"],
-    [],
+    ["Nessuna attrezzatura richiesta"],
     "Facile",
     [plankSide, plankActivationMuscle],
     true

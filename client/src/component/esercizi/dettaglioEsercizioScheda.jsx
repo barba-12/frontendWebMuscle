@@ -1,17 +1,16 @@
-import {React , useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import { Row, Col, Button, Card, Modal, Form  } from "react-bootstrap";
+import { Button, Card, Modal, Form  } from "react-bootstrap";
 import VideoPlayer from "../videoPlayer";
 import { Scheda } from "../../models/Scheda";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
 import { saveScheda } from "../../db/indexedDB";
 import exerciseData from "../../data/exercise";
-import { getAllSchede } from "../../db/indexedDB";
+import { getAllSchedeDB, getAllSchede } from "../../db/indexedDB";
 import Grafico from "../grafico/grafico";
 
 function dettaglioEsercizioScheda() {
   const navigate = useNavigate();
-  const location = useLocation();
   const [activeVideoId, setActiveVideoId] = useState(null);
   const { esercizioId, schedaId } = useParams();
   const [esercizioRaw, setEsercizioRaw] = useState();
@@ -20,6 +19,7 @@ function dettaglioEsercizioScheda() {
   const [carico, setCarico] = useState([]);
   const [tempoRecupero, setTempoRecupero] = useState([]);
   const [scheda, setScheda] = useState();
+  const [schedaDB, setSchedaDB] = useState();
   const [loading, setLoading] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
   const [message, setMessage] = useState("");
@@ -54,12 +54,52 @@ function dettaglioEsercizioScheda() {
         // 🔹 qui la scheda è pronta
         setScheda(nuovaScheda);
 
-        console.log(nuovaScheda);
         const esercizioTrovato = nuovaScheda.getEsByIdUnivoco(esercizioId);
         setEsercizio(esercizioTrovato);
         setEsercizioRaw(
           exerciseData.find(es => es.id == esercizioTrovato.idEsercizio)
         );
+
+      } catch (error) {
+        console.error("Errore nel recupero delle schede:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchScheda();
+  }, [schedaId, esercizioId]);
+
+  useEffect(() => {
+    async function fetchScheda() {
+      try {
+        const tutteLeSchede = await getAllSchedeDB();
+        const schedaTrovata = tutteLeSchede.find(s => s.id.toString() === schedaId);
+
+        const nuovaScheda = new Scheda({
+          id: schedaTrovata.id,
+          tipologia: schedaTrovata.tipologia,
+          giorniAllenamento: schedaTrovata.giorni.length,
+        });
+        nuovaScheda.setGiorni(schedaTrovata.giorni);
+
+        schedaTrovata.esercizi.forEach(e => {
+          nuovaScheda.addEsercizio(new EsercizioScheda(
+            e.idUnivoco,
+            e.idEsercizio?.idEsercizio || e.idEsercizio,
+            e.giorno,
+            e.ripetizioni,
+            e.serie,
+            e.tempoRecupero,
+            e.carico,
+            e.completato
+          ));
+        });
+
+        // 🔹 qui la scheda è pronta
+        setSchedaDB(nuovaScheda);
+
+        const esercizioTrovato = nuovaScheda.getEsByIdUnivoco(esercizioId);
 
       } catch (error) {
         console.error("Errore nel recupero delle schede:", error);
@@ -117,18 +157,17 @@ function dettaglioEsercizioScheda() {
     const result = checkError();
     if (result.ok){
        const { newRip, newCarico, newTempo } = checkVuoti();
-      scheda.esercizi.forEach(es => {
+      schedaDB.esercizi.forEach(es => {
         if (es.getIdUnivoco() === esercizio.idUnivoco) {
           es.addRipetizione(newRip.map(Number));
           es.addTempoRecupero(newTempo.map(Number));
           es.addCarico(newCarico.map(Number));
           es.setCompletato(true);
-          console.log("Esercizio completato modificato");
         }
       });
 
-      saveScheda(scheda);
-      if(scheda.getNumEsXGiornoAttivi(esercizio.giorno) == 0) navigate(`/giorni/${schedaId}`);
+      saveScheda(schedaDB);
+      if(schedaDB.getNumEsXGiornoAttivi(esercizio.giorno) == 0) navigate(`/giorni/${schedaId}`);
       else navigate(`/eserciziXGiorno/${schedaId}/${esercizio.giorno}`);
     }
     else {
@@ -175,8 +214,6 @@ function dettaglioEsercizioScheda() {
   return (
     <>
     <Card className="project-card-view">
-        {console.log(esercizio)}
-        {console.log(esercizioRaw)}
       <Button variant="primary" onClick={() => navigate(`/eserciziXGiorno/${schedaId}/${esercizio.giorno}`)}>back</Button>
       <Card.Body>
         {esercizioRaw.immaginiVideo && esercizioRaw.immaginiVideo.length > 0 && (

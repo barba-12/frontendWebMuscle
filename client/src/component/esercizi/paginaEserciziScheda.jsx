@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useImperativeHandle } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import Esercizio from "./esercizio";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import exerciseData from "../../data/exercise";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Scheda } from "../../models/Scheda";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
 import { getAllSchede } from "../../db/indexedDB";
@@ -84,9 +82,6 @@ function PaginaEserciziScheda() {
         nuovaScheda.addEsercizio(newEs);
       });
 
-      //metodo per trovare tutti gli esercizi corrispondenti ad un giorno
-      console.log(nuovaScheda);
-      console.log(nuovaScheda.getEsXGiornoENonCompletato(giorno));
       setEs(nuovaScheda.getEsXGiornoENonCompletato(giorno));
   }, [scheda, location]);
 
@@ -103,7 +98,6 @@ function PaginaEserciziScheda() {
 
         <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
           {es.map((ex, i) => {
-            console.log("Esercizio:", ex); // stampa ogni elemento dell’array es
             return (
               <Col md={4} className="project-card" key={i}>
                 <CardEsercizioScheda

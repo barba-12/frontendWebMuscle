@@ -1,16 +1,11 @@
-import {React , useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import { Row, Col, Button, Card, Form } from "react-bootstrap";
+import { Button, Card, Form } from "react-bootstrap";
 import VideoPlayer from "../videoPlayer";
-import { Scheda } from "../../models/Scheda";
-import { EsercizioScheda } from "../../models/EsercizioScheda";
-import { saveScheda } from "../../db/indexedDB";
 import exerciseData from "../../data/exercise";
-import { getAllSchede } from "../../db/indexedDB";
 
 function esercizioScheda() {
   const navigate = useNavigate();
-  const location = useLocation();
   const [activeVideoId, setActiveVideoId] = useState(null);
   const { esercizioId } = useParams();
   const [esercizioRaw, setEsercizioRaw] = useState(exerciseData.find(es => es.id == esercizioId));

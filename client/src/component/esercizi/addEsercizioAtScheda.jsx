@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { Row, Col, Button, Card, Form } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import { Button, Card, Form } from "react-bootstrap";
 import VideoPlayer from "../videoPlayer";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
 import { Scheda } from "../../models/Scheda";
-import exerciseData from "../../data/exercise";
-import { getAllSchede, saveScheda } from "../../db/indexedDB";
+import { saveScheda, getAllSchedeDB } from "../../db/indexedDB";
 import { getIncrementalId } from "../generatoreID/generatoreID";
 
 function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) {
@@ -25,7 +24,7 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
     useEffect(() => {
         async function fetchScheda() {
         try {
-            const tutteLeSchede = await getAllSchede(); // recupera tutte le schede
+            const tutteLeSchede = await getAllSchedeDB(); // recupera tutte le schede
             const schedaTrovata = tutteLeSchede.find(s => s.id.toString() === idScheda);
             setSchedaRaw(schedaTrovata || null); // salva la scheda trovata o null
         } catch (error) {
@@ -89,9 +88,6 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
             Number(carico),
             false
         );
-
-        console.log(newEs);
-        console.log(scheda);
 
         scheda.addEsercizio(newEs);
 
@@ -159,7 +155,6 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
 
          {/* se passo scheda id  */}
           <Link to={`/dettaglioEsGenerico/${esercizio.id}`}>
-          {console.log(esercizio)}
             <Button variant="primary">
               visualizza dettagli
             </Button>

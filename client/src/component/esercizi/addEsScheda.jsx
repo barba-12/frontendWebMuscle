@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import Esercizio from "./esercizio";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import exerciseData from "../../data/exercise";
 import AddEsercizio from "./addEsercizio";
 
 function addEsScheda() {
   const [es, setEs] = useState(exerciseData);
   const [activeVideoId, setActiveVideoId] = useState(null);
-  const [button, setButton] = useState(true);
-  const [idEs, setIdEs] = useState([]);
   const navigate = useNavigate();
 
   return (
