@@ -32,6 +32,12 @@
   </body>
 </html>
 
-6) lanciare il comando: npm run deploy
-7) andare su GitHub, setting repo, pages, scegliere il branch gh-pages e direcotry /root
-8) aspettare qualche minuto: poi https://<tuo-username>.github.io/<nome-repo>
+6) inserire base: '/frontendWebMuscle/' in vite.config.js:
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  base: '/frontendWebMuscle/'
+})
+7) lanciare il comando: npm run deploy
+8) andare su GitHub, setting repo, pages, scegliere il branch gh-pages e direcotry /root
+9) aspettare qualche minuto: poi https://<tuo-username>.github.io/<nome-repo>

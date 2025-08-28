@@ -1,5 +1,5 @@
- modal di conferma scaricaggio son che elimina dati da indexedDB con password amministatore
- pubblicazione su github pages
+
+   interfaccia grafica per amministatore dove poter gestire le memorie
 
 PAGINA utente:
  * mettere tutti i dati relativi all'utente, scheda e esercizi fatti con tutti i dati relativi
@@ -34,6 +34,8 @@ PAGINA utente:
     - bottone download JSON contenente indexedDB
     - funzione per leggere se presente il file json insieme al contenuto di indexedDB (da modificare)
       qunado richimo getAllSchede per modificare dati devo restituire solo quelli di indexedDB
+    - modal di conferma scaricaggio son che elimina dati da indexedDB con password amministatore
+    - pubblicazione su github pages
 
  CLASSE EsercizioScheda:
     - creazione classe esercizio (creo id univoco tramite date.Now()) - aggiungiScheda.jsx 
