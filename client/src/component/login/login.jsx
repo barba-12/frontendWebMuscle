@@ -11,10 +11,14 @@ export default function Login({ onLoginSuccess }) {
 
   function handleLogin(e) {
     e.preventDefault(); // 🔹 impedisce il refresh della pagina
-    if (username !== "" && password !== "") {
+    if(username === "amm" && password === "123"){
       checkStatusExercise();
       onLoginSuccess(checked);
-      navigate("/"); // 🔹 naviga subito dopo il login
+      navigate("/pagAmm"); // pagina amministratore
+    } else if (username !== "" && password !== "") {
+      checkStatusExercise();
+      onLoginSuccess(checked);
+      navigate("/");
     } else {
       setMessage("Inserisci username e password");
     }

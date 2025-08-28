@@ -24,6 +24,26 @@ export function openDB() {
   });
 }
 
+// 🔹 Cancella completamente tutte le schede dal DB
+export async function clearDB() {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(STORE_NAME, "readwrite");
+    const store = transaction.objectStore(STORE_NAME);
+    const clearRequest = store.clear();
+
+    clearRequest.onsuccess = () => {
+      console.log("Tutte le schede sono state eliminate da IndexedDB.");
+      resolve(true);
+    };
+
+    clearRequest.onerror = () => {
+      console.error("Errore durante la cancellazione delle schede da IndexedDB.");
+      reject(clearRequest.error);
+    };
+  });
+}
+
 // 🔹 Salva o aggiorna una scheda
 export async function saveScheda(scheda) {
   const db = await openDB();

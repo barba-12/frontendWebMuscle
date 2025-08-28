@@ -1,11 +1,10 @@
 
-   interfaccia grafica per amministatore dove poter gestire le memorie
 
 PAGINA utente:
  * mettere tutti i dati relativi all'utente, scheda e esercizi fatti con tutti i dati relativi
  * pensare a quancosa per area utente.
 
- /  sistemare grafica in generale
+ / sistemare grafica in generale
  / quando aggiungo esercizi in aggiungiScheda possibilita di rimuovere esercizioSpecifico
  / salvare su indexedDB tutti i dati e quando l'utente li elimina da UI li rimangono tipo DB utente (schede, esercizi)
 
@@ -36,6 +35,7 @@ PAGINA utente:
       qunado richimo getAllSchede per modificare dati devo restituire solo quelli di indexedDB
     - modal di conferma scaricaggio son che elimina dati da indexedDB con password amministatore
     - pubblicazione su github pages
+    -  interfaccia grafica per amministatore dove poter gestire le memorie
 
  CLASSE EsercizioScheda:
     - creazione classe esercizio (creo id univoco tramite date.Now()) - aggiungiScheda.jsx 

@@ -10,6 +10,7 @@ import PaginaEserciziScheda from "./component/esercizi/paginaEserciziScheda";
 import DettaglioEsercizioScheda from "./component/esercizi/dettaglioEsercizioScheda";
 import DettaglioEsGenerico from "./component/esercizi/dettaglioEsGenerico";
 import AddEsSchedaEsistente from "./component/esercizi/addEsSchedaEsistente";
+import PagAmm from "./component/amministratore/pagAmm";
 import AddEsScheda from "./component/esercizi/addEsScheda";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -47,6 +48,11 @@ function App() {
         <Route path="/" element={
           <PrivateRoute>
             <PaginaEsercizi esercizi={exerciseData} />
+          </PrivateRoute>
+        } />
+        <Route path="/pagAmm" element={
+          <PrivateRoute>
+            <PagAmm />
           </PrivateRoute>
         } />
         <Route path="/schede" element={
