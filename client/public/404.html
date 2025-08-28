@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting...</title>
+    <script>
+      // Se esiste un redirect salvato, sostituisce l'URL corrente con quello originale
+      var redirect = sessionStorage.redirect;
+      if (redirect && redirect !== location.href) {
+        history.replaceState(null, null, redirect);
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Redirecting...</h1>
+    <p>Verrai reindirizzato alla tua applicazione.</p>
+    <script>
+      // Salva l'URL richiesto e ricarica index.html
+      sessionStorage.redirect = location.href;
+      window.location.replace("/");
+    </script>
+  </body>
+</html>

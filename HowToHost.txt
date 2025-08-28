@@ -3,7 +3,7 @@
 3) sempre in package.json in scirpt:
 "scripts": {
   "predeploy": "npm run build",
-  "deploy": "gh-pages -d build"
+  "deploy": "gh-pages -d build"    per vite:"deploy": "gh-pages -d dist"
 }
 4) verificare che il sito sia nel branch main
 5) inserire nella cartella public un file chiamato 404.html per indirizzare corettamente le route:
