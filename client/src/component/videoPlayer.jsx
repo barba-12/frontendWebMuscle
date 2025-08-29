@@ -42,7 +42,6 @@ function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
   return (
     <div
       className="content-video"
-      style={{ position: "relative" }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

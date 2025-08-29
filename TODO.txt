@@ -1,5 +1,10 @@
 
 
+video card occupano tutta la card
+la card occupa piu spazio possbili in larghezza
+pensare navbar per navigazione pagine e ritorno al login
+
+
 PAGINA utente:
  * mettere tutti i dati relativi all'utente, scheda e esercizi fatti con tutti i dati relativi
  * pensare a quancosa per area utente.

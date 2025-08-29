@@ -39,10 +39,8 @@ body {
 }
 
 .project-card {
-  padding-top: 50px !important;
+  padding: 0px !important;
   padding-bottom: 50px !important;
-  padding-left: 25px !important;
-  padding-right: 25px !important;
   height: auto !important;
 }
 
@@ -163,6 +161,7 @@ body {
 
 
 .project-card-view {
+  padding: 0% !important;
   box-shadow: 0 4px 5px 3px rgba(119, 53, 136, 0.459) !important;
   color: white !important;
   background-color: transparent !important;
@@ -247,7 +246,10 @@ body {
 .content-video {
   position: relative;
   width: 100%;
-  max-width: 600;
+  max-width: 600px;       /* aggiunta unità px */
+  border-radius: 5px;    /* arrotondamento in pixel */
+  border-bottom: 2px solid rgba(145, 77, 161, 0.459);
+  overflow: hidden;       /* fondamentale per ritagliare il video */
   margin: auto;
 }
 
