@@ -414,3 +414,17 @@ form {
 ::-webkit-scrollbar-thumb:hover {
   background-color: #5a1e8a; /* hover */
 }
+
+/* Solo su schermi desktop (>= 992px di Bootstrap) */
+@media (min-width: 992px) {
+  .desktop-margin-right {
+    margin-right: 20px;
+  }
+}
+
+/* Su mobile niente margin-right */
+@media (max-width: 991px) {
+  .desktop-margin-right {
+    margin-right: 0;
+  }
+}

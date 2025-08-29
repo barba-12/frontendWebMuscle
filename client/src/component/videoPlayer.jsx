@@ -36,6 +36,36 @@ function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
     setActiveVideoId(null);
   };
 
+  // Play icon
+  const PlayIcon = () => (
+    <svg width="24" height="24" viewBox="-1 3 24 24">
+      <polygon points="5,3 19,12 5,21" fill="currentColor" />
+    </svg>
+  );
+
+  // Pause icon
+  const PauseIcon = () => (
+    <svg width="24" height="24" viewBox="0 4 24 24">
+      <rect x="5" y="3" width="5" height="18" fill="currentColor" />
+      <rect x="14" y="3" width="5" height="18" fill="currentColor" />
+    </svg>
+  );
+
+  // Freccia sinistra
+  const LeftArrow = () => (
+    <svg width="24" height="24" viewBox="1 3 24 24">
+      <polygon points="15,3 6,12 15,21" fill="currentColor" />
+    </svg>
+  );
+
+  // Freccia destra
+  const RightArrow = () => (
+    <svg width="24" height="24" viewBox="0 3 24 24">
+      <polygon points="9,3 18,12 9,21" fill="currentColor" />
+    </svg>
+  );
+
+
   const isPlaying = activeVideoId === thisVideoUniqueId;
   const showButtons = !isPlaying || isHovered;
 
@@ -60,25 +90,16 @@ function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
             className="botton-pause"
             aria-label={isPlaying ? "Pause video" : "Play video"}
           >
-            {isPlaying ? "❚❚" : "►"}
+            {isPlaying ? <PauseIcon /> : <PlayIcon />}
           </button>
 
-          {/* Bottoni avanti/indietro */}
           {videosWithoutLast.length > 1 && (
             <>
-              <button
-                onClick={prevVideo}
-                className="botton-left"
-                aria-label="Previous video"
-              >
-                ⇦
+              <button onClick={prevVideo} className="botton-left" aria-label="Previous video">
+                <LeftArrow />
               </button>
-              <button
-                onClick={nextVideo}
-                className="botton-right"
-                aria-label="Next video"
-              >
-                ⇨
+              <button onClick={nextVideo} className="botton-right" aria-label="Next video">
+                <RightArrow />
               </button>
             </>
           )}

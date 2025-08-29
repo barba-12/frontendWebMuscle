@@ -9,7 +9,7 @@ import { getIncrementalId } from "../generatoreID/generatoreID";
 
 function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) {
   const [showForm, setShowForm] = useState(false);
-  const [giorno, setGiorno] = useState("");
+  const [giorno, setGiorno] = useState("Lunedi");
   const [serie, setSerie] = useState("");
   const [ripetizioni, setRipetizioni] = useState("");
   const [carico, setCarico] = useState("");

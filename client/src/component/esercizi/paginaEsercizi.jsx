@@ -28,7 +28,7 @@ function PaginaEsercizi({ esercizi }) {
           <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
             {es.map((ex, i) => {
               return (
-                <Col md={4} className="project-card" key={i}>
+                <Col md={4} className="project-card desktop-margin-right" key={i}>
                   <Esercizio
                     esercizio={ex}
                     activeVideoId={activeVideoId}
