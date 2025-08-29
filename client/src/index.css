@@ -54,6 +54,114 @@ body {
   height: auto !important;
 }
 
+/*
+  PAGINA LOGIN
+*/
+
+.card-login {
+  width: 100% !important;             /* occupa tutta la larghezza del container */
+  min-height: 100% !important;        /* occupa tutta l’altezza del container */
+  box-shadow: 0 4px 5px 3px rgba(119, 53, 136, 0.459) !important;
+  color: white !important;
+  background-color: transparent !important;
+  opacity: 0.9 !important;
+  transition: all 0.5s ease 0s !important;
+}
+
+.contenitore-login {
+  height: 90vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.login-button {
+  color: #fff !important;
+  background-color: transparent !important;
+  border-color: rgba(129, 72, 144, 0.561) !important;
+}
+
+.login-button:hover {
+  color: #fff !important;
+  background-color: rgba(129, 72, 144, 0.561) !important;
+  border-color: rgba(129, 72, 144, 0.561) !important;
+}
+
+.form-check-custom {
+  display: flex !important;
+  align-items: center !important; /* centra verticalmente */
+  justify-content: center !important;
+  gap: 10px !important;           /* distanza tra checkbox e testo */
+}
+
+.check-custom {
+  width: 20px;
+  height: 20px;
+  background-color: transparent !important;
+  border: 2px solid rgba(129, 72, 144, 0.561) !important;
+  border-radius: 4px;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  appearance: none !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.check-custom:checked {
+  background-color: rgba(129, 72, 144, 0.561) !important; /* colore interno quando è spuntato */
+  border-color: rgba(129, 72, 144, 0.561) !important;
+  box-shadow: 0 0 10px rgba(129, 72, 144, 0.6);
+}
+
+.check-custom-label {
+  margin-top: 6px !important;
+  user-select: none !important;
+  color: white !important;         /* testo leggibile */
+  margin-left: 6px;     /* un po’ di spazio dalla checkbox */
+  user-select: none;    /* evita la selezione accidentale */
+}
+
+.input-custom {
+  background-color: transparent !important; /* sfondo semi trasparente */
+  color: white !important;                               /* testo bianco */
+  border: 1px solid rgba(129, 72, 144, 0.561) !important; /* bordo chiaro */
+  border-radius: 10px;                        /* angoli arrotondati */
+  padding: 12px;
+  transition: all 0.3s ease;
+}
+
+.input-custom::placeholder {
+  color: white !important;
+}
+
+.input-custom:focus {
+  outline: none; /* rimuove il bordo blu del browser */
+  border-color: #9b59b6 !important; /* puoi cambiare colore del bordo al focus */
+  box-shadow: 0 0 8px rgba(155, 89, 182, 0.6) !important; /* alone viola soft */
+}
+
+.alert-warning-login {
+  background-color: #775b07 !important;
+  color: #ffbf00 !important;
+  border-color: #ffbf00 !important;
+  margin-top: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 .project-card-view {
   box-shadow: 0 4px 5px 3px rgba(119, 53, 136, 0.459) !important;
   color: white !important;

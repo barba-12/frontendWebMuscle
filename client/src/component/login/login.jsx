@@ -1,5 +1,6 @@
 import { use, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Container, Card } from "react-bootstrap";
 import { checkStatusExercise } from "../../db/indexedDB";
 
 export default function Login({ onLoginSuccess }) {
@@ -25,38 +26,56 @@ export default function Login({ onLoginSuccess }) {
   }
 
   return (
-    <form onSubmit={handleLogin}>
-      <h2>Login</h2>
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">Login</button>
+    <Container fluid className="contenitore-login">
+      <Container>
+        <Card className="card-login">
+          <form onSubmit={handleLogin}>
+            <h1 style={{marginBottom:"40px"}}>Login</h1>
+            <div className="mb-3">
+              <input
+                type="text"
+                className="form-control input-custom"
+                aria-describedby="emailHelp"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
 
+            <div className="mb-3">
+              <input
+                type="password"
+                className="form-control input-custom"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
 
-      <div className="form-check">
-        <input
-          className="form-check-input"
-          type="checkbox"
-          id="checkDefault"
-          checked={checked}
-          onChange={(e) => setChecked(e.target.checked)}
-        />
-        <label className="form-check-label" htmlFor="checkDefault">
-          Default checkbox
-        </label>
-      </div>
+            <div className="mb-3 form-check form-check-custom">
+              <input
+                type="checkbox"
+                className="form-check-input check-custom"
+                id="exampleCheck1"
+                checked={checked}
+                onChange={(e) => setChecked(e.target.checked)}
+              />
+              <label className="check-custom-label">
+                Remember me
+              </label>
+            </div>
 
-
-      {message && <p>{message}</p>}
-    </form>
+            <button type="submit" className="btn login-button">
+              Submit
+            </button>
+              {message && (
+                <div className="alert alert-warning alert-warning-login" role="alert">
+                  {message}
+                </div>
+              )}
+          </form>
+         </Card>
+      </Container>
+    </Container>
   );
 }
