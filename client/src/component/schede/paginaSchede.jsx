@@ -22,7 +22,7 @@ function PaginaSchede() {
           <Button variant="primary">Esercizi</Button>
         </Link>
 
-        <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
+        <Row style={{ justifyContent: "center", paddingBottom: "5px" }}>
           {schede.length > 0 && (
             schede.map((scheda) => (
               <Col md={12} className="schede-card" key={scheda.id}>
@@ -34,7 +34,7 @@ function PaginaSchede() {
             <Link to="/aggiungiScheda" style={{ textDecoration: "none", color: "inherit" }}>
               <Card className="project-card-view">
                 <Card.Body>
-                  <Card.Title style={{color:"green"}}>AGGIUNGI SCHEDA</Card.Title>
+                  <Card.Title style={{color:"rgba(119, 53, 136)"}}>AGGIUNGI SCHEDA</Card.Title>
                 </Card.Body>
               </Card>
             </Link>

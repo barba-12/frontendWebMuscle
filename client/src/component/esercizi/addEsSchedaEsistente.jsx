@@ -11,7 +11,7 @@ function addEsSchedaEsistente() {
   const navigate = useNavigate();
 
   const changePag = () => {
-    navigate("/schede");
+    navigate(`/giorni/${idScheda}`);
   }
 
   return (

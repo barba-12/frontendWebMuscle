@@ -1,5 +1,11 @@
 
 
+modifica es
+pagina amministatore
+elimina esercizio
+
+
+
 video card occupano tutta la card
 la card occupa piu spazio possbili in larghezza
 pensare navbar per navigazione pagine e ritorno al login

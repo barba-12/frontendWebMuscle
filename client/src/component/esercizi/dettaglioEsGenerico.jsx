@@ -12,7 +12,7 @@ function esercizioScheda() {
 
   return (
     <Card className="project-card-view">
-      <Button variant="primary" onClick={() => navigate(-1)}>back</Button>
+      <Button type="submit" variant="primary" onClick={() => navigate("/")}>Back</Button>
       <Card.Body>
         {esercizioRaw.immaginiVideo && esercizioRaw.immaginiVideo.length > 0 && (
           <VideoPlayer

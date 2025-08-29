@@ -135,55 +135,57 @@ function AggiungiScheda() {
       <Col md={12} className="schede-card">
         <Card className="project-card-view">
           <Card.Body>
-            <Button variant="primary" onClick={() => navigate(-1)}>Schede</Button>
+            <Button variant="primary" onClick={() => navigate("/schede")}>Schede</Button>
 
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-5">
                 <Form.Control
                   type="text"
                   placeholder="Nome scheda"
-                  className="input-viola"
+                  className="input-custom"
                   value={nomeScheda}
                   onChange={e => setNomeScheda(e.target.value)}
                 />
               </Form.Group>
 
-              <Form.Text>Seleziona giorni di allenamento</Form.Text>
-              <Form.Group className="mb-5">
+              <h6 style={{color:"white"}}>Seleziona giorni di allenamento:</h6>
+              <Form.Group className="mb-4">
                 {giorniSettimana.map((giorno, index) => (
-                  <React.Fragment key={giorno}>
-                    <input
-                      type="checkbox"
-                      className="btn-check"
-                      id={`btn-check-${index}`}
-                      autoComplete="off"
-                      checked={giorni.includes(giorno)}
-                      onChange={() => handleGiornoChange(giorno)}
-                    />
-                    <label className="btn btn-viola" htmlFor={`btn-check-${index}`}>
-                      {giorno}
-                    </label>
-                  </React.Fragment>
+                    <React.Fragment key={giorno}>
+                      <input
+                        type="checkbox"
+                        className="btn-check"
+                        id={`btn-check-${index}`}
+                        autoComplete="off"
+                        checked={giorni.includes(giorno)}
+                        onChange={() => handleGiornoChange(giorno)}
+                      />
+                      <label className="btn btn-viola" htmlFor={`btn-check-${index}`} style={{marginBottom:"10px"}}>
+                        {giorno}
+                      </label>
+                    </React.Fragment>
                 ))}
               </Form.Group>
 
-              <div>
-                <h5>Riepilogo esercizi:</h5>
-                {eserciziSelezionati
-                  .filter(([g]) => giorni.includes(g)) // Mostra solo giorni selezionati
-                  .map(([giorno, esercizi]) => (
-                    <div key={giorno}>
-                      <strong>{giorno}:</strong>{" "}
-                      {esercizi.length > 0
-                        ? esercizi.map(es => {
-                            const id = es[0];
-                            const esercizio = eserciziData.find(e => e.id === id);
-                            return esercizio ? esercizio.nome : "Sconosciuto";
-                          }).join(", ")
-                        : "Nessun esercizio"}
-                    </div>
-                  ))}
-              </div>
+              {giorni.length > 0 && (
+                <div style={{marginBottom:"30px"}}>
+                  <h6>Riepilogo esercizi:</h6>
+                  {eserciziSelezionati
+                    .filter(([g]) => giorni.includes(g)) // Mostra solo giorni selezionati
+                    .map(([giorno, esercizi]) => (
+                      <div key={giorno}>
+                        <strong>{giorno}:</strong>{" "}
+                        {esercizi.length > 0
+                          ? esercizi.map(es => {
+                              const id = es[0];
+                              const esercizio = eserciziData.find(e => e.id === id);
+                              return esercizio ? esercizio.nome : "Sconosciuto";
+                            }).join(", ")
+                          : "Nessun esercizio"}
+                      </div>
+                    ))}
+                </div>
+              )}
               
               {showMessage && <h1>{message}</h1>}
 

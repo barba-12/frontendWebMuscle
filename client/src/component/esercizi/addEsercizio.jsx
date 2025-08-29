@@ -91,10 +91,10 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
         <Card.Title>{esercizio.nome}</Card.Title>
 
         <Card.Text>
-          <strong className="purple">Muscoli allenati:</strong> {esercizio.muscoliAllenati}
+          <strong className="purple">Muscoli allenati:</strong> {esercizio.muscoliAllenati.join(" - ")}
         </Card.Text>
         <Card.Text>
-          <strong className="purple">Attrezzatura:</strong> {esercizio.attrezzatura}
+          <strong className="purple">Attrezzatura:</strong> {esercizio.attrezzatura.join(" - ")}
         </Card.Text>
         <Card.Text>
           <strong className="purple">Difficoltà:</strong> {esercizio.difficoltà}
@@ -102,17 +102,24 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
 
 
          {/* se passo scheda id  */}
-          <Link to={`/dettaglioEsGenerico/${esercizio.id}`}>
-            <Button variant="primary">
-              visualizza dettagli
+          <div style={{ 
+              display: "flex", 
+              flexWrap: "wrap",       // permette ai pulsanti di andare a capo su schermi piccoli
+              gap: "8px",             // distanza uniforme tra pulsanti
+              justifyContent: "center"  // allinea i pulsanti a sinistra, puoi cambiare in "center"
+            }}>
+            <Link to={`/dettaglioEsGenerico/${esercizio.id}`}>
+              <Button variant="primary">
+                visualizza dettagli
+              </Button>
+            </Link>
+            
+            <Button style={{ marginLeft:"3px" }} onClick={() => setShowForm(!showForm)}>
+              {showForm ? "close" : "add"}
             </Button>
-          </Link>
+          </div>
 
           <>
-            <Button style={{ color: "green", marginTop: "10px" }} onClick={() => setShowForm(!showForm)}>
-              add
-            </Button>
-
             {showForm && (
               <div style={{ marginTop: "10px" }}>
                 <select className="select-viola" value={giorno} onChange={(e) => setGiorno(e.target.value)}>
@@ -123,19 +130,22 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
                 </select>
 
                 <Form>
-                  <Form.Group className="mb-5">
-                    <Form.Control type="number" placeholder="Serie" className="input-viola" value={serie} onChange={(e) => setSerie(e.target.value)} />
+                  <Form.Group className="mb-4">
+                    <Form.Control type="number" placeholder="Serie" className="input-viola" value={serie} onChange={(e) => setSerie(e.target.value)} style={{marginBottom:"5px"}}/>
 
-                    <Form.Control type="number" placeholder={esercizio.repOrTime ? "Secondi" : "Ripetizioni"} className="input-viola" value={ripetizioni} onChange={(e) => setRipetizioni(e.target.value)} />
+                    <Form.Control type="number" placeholder={esercizio.repOrTime ? "Secondi" : "Ripetizioni"} className="input-viola" value={ripetizioni} onChange={(e) => setRipetizioni(e.target.value)} style={{marginBottom:"5px"}}/>
 
-                    <Form.Control type="number" placeholder="Carico" className="input-viola" value={carico} onChange={(e) => setCarico(e.target.value)} />
+                    <Form.Control type="number" placeholder="Carico" className="input-viola" value={carico} onChange={(e) => setCarico(e.target.value)} style={{marginBottom:"5px"}}/>
 
-                    <Form.Control type="number" placeholder="Tempo Di Recupero" className="input-viola" value={tempoRecupero} onChange={(e) => setTempoRecupero(e.target.value)} />
+                    <Form.Control type="number" placeholder="Tempo Di Recupero" className="input-viola" value={tempoRecupero} onChange={(e) => setTempoRecupero(e.target.value)} style={{marginBottom:"5px"}}/>
 
-                    {showMessage && <h1>{message}</h1>}
+                    {showMessage && (
+                      <div className="alert alert-warning alert-warning-login" role="alert">
+                        {message}
+                      </div>
+                    )}
 
-                    <Button type="submit" onClick={salvaEsercizio}>Aggiungi</Button>
-                    <Button type="submit" onClick={chiudiForm}>X</Button>
+                    <Button type="submit" onClick={salvaEsercizio} style={{marginTop:"20px"}}>Aggiungi</Button>
                   </Form.Group>
                 </Form>
               </div>

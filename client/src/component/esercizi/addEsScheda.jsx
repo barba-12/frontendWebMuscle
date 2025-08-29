@@ -12,7 +12,7 @@ function addEsScheda() {
   return (
     <Container fluid className="project-section">
       <Container>
-        <Button variant="primary" onClick={() => navigate(-1)}>back</Button>
+        <Button variant="primary" onClick={() => navigate("/aggiungiScheda")}>back</Button>
 
         <h1 className="project-heading">Select Exercise</h1>
 

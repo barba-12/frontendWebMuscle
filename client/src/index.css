@@ -46,7 +46,7 @@ body {
 
 .schede-card {
   padding-top: 50px !important;
-  padding-bottom: 50px !important;
+  padding-bottom: 0px !important;
   padding-left: 0px !important;
   padding-right: 0px !important;
   height: auto !important;
@@ -67,7 +67,7 @@ body {
 }
 
 .contenitore-login {
-  height: 90vh !important;
+  height: 70vh !important;
   margin: 0 !important;
   padding: 0 !important;
   display: flex !important;
@@ -149,8 +149,25 @@ body {
   margin-top: 20px;
 }
 
+/* Trasparente su tutto il modal */
+.modal-content {
+  background: transparent !important;
+  border: none !important;
+}
 
+/* Header stile vetro */
+.modal-header-glass {
+  background-color: rgba(155, 89, 182, 0.3) !important;
+  backdrop-filter: blur(0.2rem) !important;
+  padding: 1rem !important ;
+  color: white !important;
+  border:1px solid #2b0d3a !important;
+}
 
+/* Titolo bianco */
+.modal-header-glass .modal-title {
+  color: white !important;
+}
 
 
 
@@ -234,8 +251,9 @@ body {
   box-shadow: none !important;
 }
 .project-heading {
+  margin: 20px 0px;
   color: white !important;
-  font-size: 2.3em !important;
+  font-size: 2em !important;
   font-weight: 500 !important;
 }
 
@@ -329,21 +347,36 @@ form {
   cursor: pointer;
 }
 
-/* Opzioni del menu */
-.select-viola option {
-  background-color: #2b0d3a; /* Sfondo viola scuro */
-  color: #fff;              /* Testo bianco */
+.select-viola-modal {
+  background-color: rgba(155, 89, 182, 0.3) !important; /* Sfondo semi-trasparente */
+  border: 2px solid #752eb8 !important;     /* Bordo viola */
+  color: #fff !important;                   /* Testo bianco */
+  padding: 8px 12px;                        /* Spaziatura interna */
+  border-radius: 6px;                       /* Angoli arrotondati */
+  outline: none;                            /* Rimuove contorno blu default */
+  appearance: none;                         /* Rimuove stile default browser */
+  cursor: pointer;
 }
 
-/* Placeholder */
-.select-viola option[value=""] {
+/* Opzioni del menu */
+.select-viola option,
+.select-viola-modal option {
+  background-color: #2b0d3a; /* Sfondo viola scuro */
+  color: #fff;               /* Testo bianco */
+}
+
+/* Placeholder (opzione vuota) */
+.select-viola option[value=""],
+.select-viola-modal option[value=""] {
   color: #d8b3ff; /* Viola chiaro */
 }
 
 /* Stato focus */
-.select-viola:focus {
+.select-viola:focus,
+.select-viola-modal:focus {
   border-color: #9b30ff !important;
 }
+
 
 .btn-viola {
   color: #5B1C86 !important; /* testo iniziale */
@@ -355,4 +388,29 @@ form {
 .btn-check:checked + .btn-viola {
   background-color: #5B1C86 !important; /* sfondo viola quando selezionato */
   color: white !important; /* testo bianco quando selezionato */
+}
+
+.table-custom {
+  background-color: rgba(155, 89, 182, 0.3) !important; /* viola */
+  border:2px solid #2b0d3a !important;
+  color: white !important; /* testo bianco */
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #2b0d3a; /* sfondo scuro */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #752eb8; /* viola */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #5a1e8a; /* hover */
 }

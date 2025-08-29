@@ -73,7 +73,7 @@ function Giorni() {
         <Card
           key={index}
           className="project-card-view"
-          style={{ marginBottom: "5%" }}
+          style={{ margin: "30px 0px" }}
           onClick={() => handleClick(giorno)}
         >
           <Card.Body>
@@ -88,17 +88,14 @@ function Giorni() {
       <Button onClick={() => setShowModal(true)}>elimina scheda</Button>
 
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-          <Modal.Header closeButton>
+          <Modal.Header closeButton className="modal-header-glass">
             <Modal.Title>conferma eliminazione</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body className="modal-header-glass">
           <Form.Label>Sei sicuro di voler eliminare la scheda: {scheda.tipologia}</Form.Label>
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowModal(false)}>
-              Annulla
-            </Button>
-            <Button variant="success" onClick={eliminaScheda}>
+          <Modal.Footer className="modal-header-glass">
+            <Button variant="primary" onClick={eliminaScheda}>
               Conferma
             </Button>
           </Modal.Footer>

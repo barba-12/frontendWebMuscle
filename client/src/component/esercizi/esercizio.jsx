@@ -22,10 +22,10 @@ function ExerciseCard({ esercizio, activeVideoId, setActiveVideoId }) {
         <Card.Title>{esercizioRaw.nome}</Card.Title>
 
         <Card.Text>
-          <strong className="purple">Muscoli allenati:</strong> {esercizioRaw.muscoliAllenati}
+          <strong className="purple">Muscoli allenati:</strong> {esercizioRaw.muscoliAllenati.join(" - ")}
         </Card.Text>
         <Card.Text>
-          <strong className="purple">Attrezzatura:</strong> {esercizioRaw.attrezzatura}
+          <strong className="purple">Attrezzatura:</strong> {esercizioRaw.attrezzatura.join(" - ")}
         </Card.Text>
         <Card.Text>
           <strong className="purple">Difficoltà:</strong> {esercizioRaw.difficoltà}

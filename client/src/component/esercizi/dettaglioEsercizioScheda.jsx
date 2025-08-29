@@ -305,18 +305,15 @@ function dettaglioEsercizioScheda() {
     </Card>
 
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton className="modal-header-glass">
           <Modal.Title>conferma eliminazione</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="modal-header-glass">
         <Form.Label>Sei sicuro di voler eliminare l'esercizio: {esercizioRaw.nome}</Form.Label>
         <Form.Label>dalla scheda: {scheda.tipologia}</Form.Label>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Annulla
-          </Button>
-          <Button variant="success" onClick={elimina}>
+        <Modal.Footer className="modal-header-glass">
+          <Button variant="primary" onClick={elimina}>
             Conferma
           </Button>
         </Modal.Footer>

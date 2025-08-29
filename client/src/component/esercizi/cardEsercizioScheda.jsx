@@ -10,7 +10,7 @@ import { Scheda } from "../../models/Scheda";
 function cardEsercizioScheda({ schedaId, esercizio, activeVideoId, setActiveVideoId }) {
   const [esercizioRaw, setEsercizioRaw] = useState(exerciseData.find(es => es.id == esercizio.idEsercizio));
   const [showModal, setShowModal] = useState(false);
-  const [serie, setSerie] = useState(esercizio.serie.toString());
+  const [serie, setSerie] = useState(esercizio.serie[0].toString());
   const [ripetizioni, setRipetizioni] = useState(esercizio.ripetizioni[0].toString());
   const [carico, setCarico] = useState(esercizio.carico[0].toString());
   const [tempoRecupero, setTempoRecupero] = useState(esercizio.tempoRecupero[0].toString());
@@ -103,35 +103,42 @@ function cardEsercizioScheda({ schedaId, esercizio, activeVideoId, setActiveVide
           <Card.Title>{esercizioRaw.nome}</Card.Title>
 
           <Card.Text>
-            <strong className="purple">Muscoli allenati:</strong> {esercizioRaw.muscoliAllenati}
+            <strong className="purple">Muscoli allenati:</strong> {esercizioRaw.muscoliAllenati.join(" - ")}
           </Card.Text>
           <Card.Text>
-            <strong className="purple">Attrezzatura:</strong> {esercizioRaw.attrezzatura}
+            <strong className="purple">Attrezzatura:</strong> {esercizioRaw.attrezzatura.join(" - ")}
           </Card.Text>
           <Card.Text>
             <strong className="purple">Difficoltà:</strong> {esercizioRaw.difficoltà}
           </Card.Text>
 
-          <Link to={`/dettaglioEsScheda/${esercizio.idUnivoco}/${schedaId}`}>
-            <Button variant="primary">
-              visualizza dettagli
-            </Button>
-          </Link>
+          <div style={{ 
+            display: "flex", 
+            flexWrap: "wrap",       // permette ai pulsanti di andare a capo su schermi piccoli
+            gap: "8px",             // distanza uniforme tra pulsanti
+            justifyContent: "center"  // allinea i pulsanti a sinistra, puoi cambiare in "center"
+          }}>
+            <Link to={`/dettaglioEsScheda/${esercizio.idUnivoco}/${schedaId}`}>
+              <Button variant="primary">
+                visualizza dettagli
+              </Button>
+            </Link>
 
-          <Button variant="primary" onClick={() => setShowModal(true)} style={{marginTop:"20px"}}>
-            Modifica
-          </Button>
+            <Button variant="primary" onClick={() => setShowModal(true)}>
+              Modifica
+            </Button>
+          </div>
         </Card.Body>
       </Card>
 
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-          <Modal.Header closeButton>
+          <Modal.Header closeButton className="modal-header-glass">
             <Modal.Title>Modifica esercizio</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body className="modal-header-glass">
             <Form>
-              <Form.Label>Sposta Esercizio: </Form.Label>
-                <select value={giorno} onChange={(e) => setGiorno(e.target.value)} className="select-viola">
+              <Form.Label style={{marginRight:"20px"}}>Sposta Esercizio: </Form.Label>
+                <select value={giorno} onChange={(e) => setGiorno(e.target.value)} className="select-viola-modal">
                   {giorni.map((g) => (
                     <option key={g} value={g}> {g} </option>
                   ))}
@@ -140,29 +147,30 @@ function cardEsercizioScheda({ schedaId, esercizio, activeVideoId, setActiveVide
 
                 {/* SERIE ESERCIZIO */}
                 <Form.Label>Numero Serie</Form.Label>
-                <Form.Control type="number" value={serie} onChange={(e) => setSerie(e.target.value)} />
+                <Form.Control type="number" value={serie} onChange={(e) => setSerie(e.target.value)} className="form-control input-custom"/>
 
                 {/* RIPETIZIONI ESERCIZIO */}
                 <Form.Label>Numero Ripetizioni</Form.Label>
-                <Form.Control type="number" value={ripetizioni} onChange={(e) => setRipetizioni(e.target.value)} />
+                <Form.Control type="number" value={ripetizioni} onChange={(e) => setRipetizioni(e.target.value)} className="form-control input-custom"/>
 
                 {/* CARICO ESERCIZIO */}
                 <Form.Label>Carico</Form.Label>
-                <Form.Control type="number" value={carico} onChange={(e) => setCarico(e.target.value)} />
+                <Form.Control type="number" value={carico} onChange={(e) => setCarico(e.target.value)} className="form-control input-custom"/>
 
                 {/* TEMPO DI RECUPERO ESERCIZIO */}
                 <Form.Label>Tempo Di Recupero</Form.Label>
-                <Form.Control type="number" value={tempoRecupero} onChange={(e) => setTempoRecupero(e.target.value)} />
+                <Form.Control type="number" value={tempoRecupero} onChange={(e) => setTempoRecupero(e.target.value)} className="form-control input-custom"/>
 
-                {showMessage && <h1>{message}</h1>}
+                {showMessage && (
+                  <div className="alert alert-warning alert-warning-login" role="alert">
+                    {message}
+                  </div>
+                )}
               </Form.Group>
             </Form>
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowModal(false)}>
-              Annulla
-            </Button>
-            <Button variant="success" onClick={handleSave}>
+          <Modal.Footer className="modal-header-glass">
+            <Button variant="primary" onClick={handleSave}>
               Salva
             </Button>
           </Modal.Footer>

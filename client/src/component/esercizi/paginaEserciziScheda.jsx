@@ -30,26 +30,6 @@ function PaginaEserciziScheda() {
 
   useEffect(() => {
     if (!scheda) return;
-      /*const eserciziCompleti = scheda.esercizi.map(item => {
-        const dettagliEsercizio = exerciseData.find(e => e.id === item.idEsercizio);
-        if (!dettagliEsercizio) return null; // sicurezza: skip se non trovato
-
-        return {
-          ...dettagliEsercizio,
-          // aggiungo i dati specifici della scheda
-          ripetizioni: item.ripetizioni,
-          serie: item.serie,
-          giorno: item.giorno,
-          tempoRecupero: item.tempoRecupero,
-          carico: item.carico,
-          completato: item.completato
-        };
-      }).filter(e => e !== null); // rimuovo eventuali null
-
-      const eserciziCompletiFiltrati = eserciziCompleti.filter(item => 
-        item.giorno == giorno && !item.completato
-      );*/
-
       const nuovaScheda = new Scheda({
         id: scheda.id,
         tipologia: scheda.tipologia,
