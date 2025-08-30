@@ -1,6 +1,11 @@
-lettura file JSON con il fetch in pubblic
-aggiunta di esericizi
-quando cambio pagina mi torna in automatico in cima alla pagina
+lettura file JSON con il fetch in public
+quando cambio pagina mi torna in automatico in cima alla pagina 
+aggiunta di esericizi in exercise.js
+
+aggiugnere filtri di ricerca in esercizi
+
+impostare numero quando resetto indexedDB su undefined e gestire il tutto sulla pagina dove li visualizzo
+se la lungheza di rep in db è uguale a 1 non unisco al file json
 
 PAGINA utente:
  * mettere tutti i dati relativi all'utente, scheda e esercizi fatti con tutti i dati relativi
@@ -38,6 +43,7 @@ PAGINA utente:
     - pubblicazione su github pages
     -  interfaccia grafica per amministatore dove poter gestire le memorie
     - sistemare grafica in generale
+    - compatibilita safari
 
  CLASSE EsercizioScheda:
     - creazione classe esercizio (creo id univoco tramite date.Now()) - aggiungiScheda.jsx 

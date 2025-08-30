@@ -95,7 +95,7 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
 
         // Reset form
         setShowForm(false);
-        setGiorno("");
+        setGiorno("Lunedi");
         setSerie("");
         setRipetizioni("");
         setCarico("");

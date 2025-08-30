@@ -1,6 +1,5 @@
 import { Scheda } from "../models/Scheda";
 import { EsercizioScheda } from "../models/EsercizioScheda";
-import schedeFile from "../component/json/schede.json";
 
 // src/db/indexedDB.js
 const DB_NAME = "AllenamentiDB";
@@ -79,6 +78,21 @@ export async function getAllSchedeDB() {
 
 export async function getAllSchede() {
   const db = await openDB();
+  let schedeFile = [];
+
+  try {
+      const basePath = import.meta.env.BASE_URL || "/";  // Vite mette BASE_URL
+      const response = await fetch(`${basePath}schede.json`);
+    if (response.ok) {
+      schedeFile = await response.json();
+    } else {
+      console.error("Errore nel caricamento di schede.json:", response.status);
+    }
+  } catch (err) {
+    console.error("Errore nel fetch di schede.json:", err);
+  }
+
+  console.log(schedeFile);
 
   const schedeDB = await new Promise((resolve) => {
     const req = db.transaction(STORE_NAME, "readonly")

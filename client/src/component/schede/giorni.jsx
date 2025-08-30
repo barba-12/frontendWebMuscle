@@ -79,7 +79,7 @@ function Giorni() {
           <Card.Body>
             <div className="card-workout-day">
               <strong>{giorno}</strong>
-              <p>{schedaClass.getNumEsXGiornoDaCompletare(giorno)} esercizio da completare su {schedaClass.getNumEsXGiorno(giorno)}</p>
+              <p style={{color:"#5a1e8a"}}>{schedaClass.getNumEsXGiornoDaCompletare(giorno)} esercizio da completare su {schedaClass.getNumEsXGiorno(giorno)}</p>
             </div>
           </Card.Body>
         </Card>

@@ -18,7 +18,7 @@ function addEsScheda() {
 
         <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
           {es.map((ex, i) => (
-            <Col md={4} className="project-card" key={i}>
+            <Col md={4} className="project-card desktop-margin-right" key={i}>
               <AddEsercizio
                 esercizio={ex}
                 activeVideoId={activeVideoId}
