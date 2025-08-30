@@ -1,8 +1,8 @@
-
-quando cambio pagina mi torna in automatico in cima alla pagina 
 aggiunta di esericizi in exercise.js
-
-aggiugnere filtri di ricerca in esercizi
+aggiugnere filtri di ricerca in esercizi:
+   - cercare in exercise.js tutti i tipi di muscoli e inserirli come filtri + se richiedono o meno attrezzatura
+aggiungere timer in base a tempoRecupero
+pagAmm : bottone per resettare stato a tutti gli esercizi
 
 PAGINA utente:
  * mettere tutti i dati relativi all'utente, scheda e esercizi fatti con tutti i dati relativi
@@ -10,8 +10,6 @@ PAGINA utente:
 
  / quando aggiungo esercizi in aggiungiScheda possibilita di rimuovere esercizioSpecifico
  / salvare su indexedDB tutti i dati e quando l'utente li elimina da UI li rimangono tipo DB utente (schede, esercizi)
-
-
 
 
 
