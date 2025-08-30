@@ -36,34 +36,35 @@ function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
     setActiveVideoId(null);
   };
 
-  // Play icon
-  const PlayIcon = () => (
-    <svg width="24" height="24" viewBox="-1 3 24 24">
-      <polygon points="5,3 19,12 5,21" fill="currentColor" />
-    </svg>
-  );
+// Play
+const PlayIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24">
+    <polygon points="6,4 20,12 6,20" fill="currentColor" />
+  </svg>
+);
 
-  // Pause icon
-  const PauseIcon = () => (
-    <svg width="24" height="24" viewBox="0 4 24 24">
-      <rect x="5" y="3" width="5" height="18" fill="currentColor" />
-      <rect x="14" y="3" width="5" height="18" fill="currentColor" />
-    </svg>
-  );
+// Pause
+const PauseIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24">
+    <rect x="6" y="4" width="4" height="16" fill="currentColor" />
+    <rect x="14" y="4" width="4" height="16" fill="currentColor" />
+  </svg>
+);
 
-  // Freccia sinistra
-  const LeftArrow = () => (
-    <svg width="24" height="24" viewBox="1 3 24 24">
-      <polygon points="15,3 6,12 15,21" fill="currentColor" />
-    </svg>
-  );
+// Freccia sinistra
+const LeftArrow = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24">
+    <polygon points="15,4 7,12 15,20" fill="currentColor" />
+  </svg>
+);
 
-  // Freccia destra
-  const RightArrow = () => (
-    <svg width="24" height="24" viewBox="0 3 24 24">
-      <polygon points="9,3 18,12 9,21" fill="currentColor" />
-    </svg>
-  );
+// Freccia destra
+const RightArrow = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24">
+    <polygon points="9,4 17,12 9,20" fill="currentColor" />
+  </svg>
+);
+
 
 
   const isPlaying = activeVideoId === thisVideoUniqueId;
