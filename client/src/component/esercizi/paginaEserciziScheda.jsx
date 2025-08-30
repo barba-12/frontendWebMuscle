@@ -82,7 +82,7 @@ function PaginaEserciziScheda() {
               <Col md={4} className="project-card desktop-margin-right" key={i}>
                 <CardEsercizioScheda
                   schedaId={schedaId}
-                  esercizio={ex}
+                  esercizioId={ex.idUnivoco}
                   activeVideoId={activeVideoId}
                   setActiveVideoId={setActiveVideoId}
                 />

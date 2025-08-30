@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import VideoPlayer from "../videoPlayer";
 import { Link } from "react-router-dom";
@@ -16,6 +16,18 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
   // Giorni selezionati dall'utente nella scheda
   const giorniDisponibili = JSON.parse(sessionStorage.getItem("scheda"))?.giorniAllenamento || [];
     
+
+    const scrollToTarget = () => {
+      const element = document.getElementById("target");
+      element?.scrollIntoView({ behavior: "smooth", block: "center" });
+    };
+
+    useEffect(() => {
+      if (showForm) {
+        scrollToTarget();
+      }
+    }, [showForm]);
+
   const salvaEsercizio = (e) => {
     e.preventDefault();
     const result = checkError();
@@ -121,7 +133,7 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
 
           <>
             {showForm && (
-              <div style={{ marginTop: "10px" }}>
+              <div style={{ marginTop: "10px" }} id="target">
                 <select className="select-viola" value={giorno} onChange={(e) => setGiorno(e.target.value)}>
                   <option value="">Seleziona giorno</option>
                   {giorniDisponibili.map((g) => (

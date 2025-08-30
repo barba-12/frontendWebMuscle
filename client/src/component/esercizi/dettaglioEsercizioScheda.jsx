@@ -15,6 +15,7 @@ function dettaglioEsercizioScheda() {
   const { esercizioId, schedaId } = useParams();
   const [esercizioRaw, setEsercizioRaw] = useState();
   const [esercizio, setEsercizio] = useState();
+  const [datiEs, setDatiEs] = useState();
   const [ripetizioni, setRipetizioni] = useState([]);
   const [carico, setCarico] = useState([]);
   const [tempoRecupero, setTempoRecupero] = useState([]);
@@ -99,6 +100,12 @@ function dettaglioEsercizioScheda() {
         // 🔹 qui la scheda è pronta
         setSchedaDB(nuovaScheda);
 
+        const esercizioTrovato = nuovaScheda.getEsByIdUnivoco(esercizioId);
+        let lista = [];
+        lista.push(esercizioTrovato.ripetizioni[0]);
+        lista.push(esercizioTrovato.carico[0]);
+        lista.push(esercizioTrovato.tempoRecupero[0]);
+        setDatiEs(lista);
       } catch (error) {
         console.error("Errore nel recupero delle schede:", error);
       } finally {
@@ -228,9 +235,9 @@ function dettaglioEsercizioScheda() {
         <div style={{textAlign:"left"}}>
           <h5>Dati esercizio:</h5>
           <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-            <p style={{ margin: 0}}>Ripetizioni: {esercizio.ripetizioni[0]}</p>
-            <p style={{ margin: 0, textAlign: "center", flex: 1 }}>Carico: {esercizio.carico[0]}</p>
-            <p style={{ margin: 0, textAlign: "right" }}>Recupero: {esercizio.tempoRecupero[0]}</p>
+            <p style={{ margin: 0}}>Ripetizioni: {datiEs[0]}</p>
+            <p style={{ margin: 0, textAlign: "center", flex: 1 }}>Carico: {datiEs[1]}</p>
+            <p style={{ margin: 0, textAlign: "right" }}>Recupero: {datiEs[2]}</p>
           </div>
           <h5 style={{marginTop:"15px"}}>Riepilogo Scorso Allenamento:</h5>
           <p style={{margin:"5px"}}>Ripetizioni: {esercizio.getLastRep().join(" - ")}</p>

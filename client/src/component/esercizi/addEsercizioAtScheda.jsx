@@ -21,6 +21,17 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
   const [showMessage, setShowMessage] = useState(false);
   const [message, setMessage] = useState("");
 
+    const scrollToTarget = () => {
+      const element = document.getElementById("target");
+      element?.scrollIntoView({ behavior: "smooth", block: "center" });
+    };
+
+    useEffect(() => {
+      if (showForm) {
+        scrollToTarget();
+      }
+    }, [showForm]);
+
     useEffect(() => {
         async function fetchScheda() {
         try {
@@ -173,7 +184,7 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
 
           <>
             {showForm && (
-              <div style={{ marginTop: "10px" }}>
+              <div style={{ marginTop: "10px" }} id="target">
                 <select value={giorno} onChange={(e) => setGiorno(e.target.value)} className="select-viola">
                   {giorni.map((g) => (
                     <option key={g} value={g}> {g} </option>

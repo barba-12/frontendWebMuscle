@@ -34,8 +34,12 @@ function PagAmm() {
 
   const scaricaJSON = async () => {
     if(pass == "Amministratore12"){
+
+      //nel JSON ometto il primo elemneto del DB
+
       // 🔹 Ottieni le schede già merge-ate (DB + JSON)
       const schedeDB = await getAllSchede();
+      const schedeDBTot = await getAllSchedeDB();
 
       // 🔹 Preparo solo i dati numerici da esportare
       const schedeExport = schedeDB.map((scheda) => ({
@@ -65,7 +69,7 @@ function PagAmm() {
       const tx = db.transaction(STORE_NAME, "readwrite");
       const store = tx.objectStore(STORE_NAME);
 
-      for (const scheda of schedeDB) {
+      for (const scheda of schedeDBTot) {
         scheda.esercizi = scheda.esercizi.map((ex) => ({
           ...ex,
           ripetizioni: [ex.ripetizioni[0]],

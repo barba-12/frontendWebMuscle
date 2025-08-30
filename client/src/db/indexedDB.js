@@ -77,12 +77,11 @@ export async function getAllSchedeDB() {
 }
 
 export async function getAllSchede() {
-  const db = await openDB();
   let schedeFile = [];
 
   try {
-      const basePath = import.meta.env.BASE_URL || "/";  // Vite mette BASE_URL
-      const response = await fetch(`${basePath}schede.json`);
+    const basePath = import.meta.env.BASE_URL || "/";
+    const response = await fetch(`${basePath}schede.json`);
     if (response.ok) {
       schedeFile = await response.json();
     } else {
@@ -92,35 +91,39 @@ export async function getAllSchede() {
     console.error("Errore nel fetch di schede.json:", err);
   }
 
-  console.log(schedeFile);
+  const schedeDB = await getAllSchedeDB();
 
-  const schedeDB = await new Promise((resolve) => {
-    const req = db.transaction(STORE_NAME, "readonly")
-      .objectStore(STORE_NAME)
-      .getAll();
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => resolve([]);
-  });
-
-  // merge: IndexedDB = struttura base, JSON = dati numerici
   const schedeFinali = schedeDB.map((schedaDB) => {
+    // cerchiamo scheda JSON corrispondente
     const schedaFile = schedeFile.find((s) => s.id === schedaDB.id);
 
-    if (!schedaFile) return schedaDB; // se non è nel file JSON, uso solo DB
+    // Mappiamo sempre gli esercizi per tagliare il primo elemento
+    const eserciziFinali = schedaDB.esercizi.map((exDB) => {
+      if (!schedaFile) {
+        // Non c’è corrispondenza nel JSON → tagliamo il primo elemento
+        return {
+          ...exDB,
+          ripetizioni: exDB.ripetizioni?.slice(1) || [],
+          carico: exDB.carico?.slice(1) || [],
+          tempoRecupero: exDB.tempoRecupero?.slice(1) || [],
+        };
+      }
+
+      const exFile = schedaFile.esercizi.find((e) => e.idUnivoco === exDB.idUnivoco);
+
+      const mergeArray = (jsonArr = [], dbArr = []) => [...jsonArr, ...dbArr.slice(1)];
+
+      return {
+        ...exDB,
+        ripetizioni: mergeArray(exFile?.ripetizioni, exDB.ripetizioni),
+        carico: mergeArray(exFile?.carico, exDB.carico),
+        tempoRecupero: mergeArray(exFile?.tempoRecupero, exDB.tempoRecupero),
+      };
+    });
 
     return {
       ...schedaDB,
-      esercizi: schedaDB.esercizi.map((exDB) => {
-        const exFile = schedaFile.esercizi.find((e) => e.idUnivoco === exDB.idUnivoco);
-        if (!exFile) return exDB;
-
-        return {
-          ...exDB,
-          ripetizioni: [...(exFile.ripetizioni || []), ...(exDB.ripetizioni || [])],
-          carico: [...(exFile.carico || []), ...(exDB.carico || [])],
-          tempoRecupero: [...(exFile.tempoRecupero || []), ...(exDB.tempoRecupero || [])],
-        };
-      }),
+      esercizi: eserciziFinali,
     };
   });
 

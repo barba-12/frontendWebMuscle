@@ -7,26 +7,28 @@ import exerciseData from "../../data/exercise";
 import { getAllSchedeDB, saveScheda } from "../../db/indexedDB";
 import { Scheda } from "../../models/Scheda";
 
-function cardEsercizioScheda({ schedaId, esercizio, activeVideoId, setActiveVideoId }) {
-  const [esercizioRaw, setEsercizioRaw] = useState(exerciseData.find(es => es.id == esercizio.idEsercizio));
-  const [showModal, setShowModal] = useState(false);
-  const [serie, setSerie] = useState(esercizio.serie[0].toString());
-  const [ripetizioni, setRipetizioni] = useState(esercizio.ripetizioni[0].toString());
-  const [carico, setCarico] = useState(esercizio.carico[0].toString());
-  const [tempoRecupero, setTempoRecupero] = useState(esercizio.tempoRecupero[0].toString());
-  const [giorno, setGiorno] = useState(esercizio.giorno);
+function cardEsercizioScheda({ schedaId, esercizioId, activeVideoId, setActiveVideoId }) {
+  const [esercizioRaw, setEsercizioRaw] = useState(null);
+  const [esercizio, setEsercizio] = useState(null);
+  const [serie, setSerie] = useState("");
+  const [ripetizioni, setRipetizioni] = useState("");
+  const [carico, setCarico] = useState("");
+  const [tempoRecupero, setTempoRecupero] = useState("");
+  const [giorno, setGiorno] = useState("");
   const [scheda, setScheda] = useState(null);
-  const giorni = ["Lunedi", "Martedi", "Mercoledi", "Giovedi", "Venerdi", "Sabato", "Domenica"];
-  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+  const giorni = ["Lunedi", "Martedi", "Mercoledi", "Giovedi", "Venerdi", "Sabato", "Domenica"];
 
+  // Recupero scheda
   useEffect(() => {
     async function fetchScheda() {
       try {
-        const tutteLeSchede = await getAllSchedeDB(); // recupera tutte le schede
+        const tutteLeSchede = await getAllSchedeDB();
         const schedaTrovata = tutteLeSchede.find(s => s.id.toString() === schedaId);
-        setScheda(schedaTrovata || null); // salva la scheda trovata o null
+        setScheda(schedaTrovata || null);
       } catch (error) {
         console.error("Errore nel recupero delle schede:", error);
       }
@@ -34,6 +36,22 @@ function cardEsercizioScheda({ schedaId, esercizio, activeVideoId, setActiveVide
 
     fetchScheda();
   }, [schedaId]);
+
+  // Quando scheda e esercizio sono disponibili, inizializza gli stati
+  useEffect(() => {
+    if (scheda) {
+      const ex = scheda.esercizi.find(e => e.idUnivoco === esercizioId); // esercizioId dev’essere passato
+      setEsercizio(ex || null);
+      if (ex) {
+        setSerie(ex.serie?.[0]?.toString() || "");
+        setRipetizioni(ex.ripetizioni?.[0]?.toString() || "");
+        setCarico(ex.carico?.[0]?.toString() || "");
+        setTempoRecupero(ex.tempoRecupero?.[0]?.toString() || "");
+        setGiorno(ex.giorno || "");
+        setEsercizioRaw(exerciseData.find(es => es.id === ex.idEsercizio) || null);
+      }
+    }
+  }, [scheda, esercizioId]);
 
   //cercare esercizio in exercisedata da idEsercizio cosi da trovare l'es row
   const handleSave = (e) => {
@@ -86,6 +104,8 @@ function cardEsercizioScheda({ schedaId, esercizio, activeVideoId, setActiveVide
     // Se tutti i controlli passano
     return { ok: true, message: "Dati validi" };
   }
+
+  {if(!esercizioRaw) return <h1>caricamento</h1>}
     
   return (
     <>
@@ -118,7 +138,7 @@ function cardEsercizioScheda({ schedaId, esercizio, activeVideoId, setActiveVide
             gap: "8px",             // distanza uniforme tra pulsanti
             justifyContent: "center"  // allinea i pulsanti a sinistra, puoi cambiare in "center"
           }}>
-            <Link to={`/dettaglioEsScheda/${esercizio.idUnivoco}/${schedaId}`}>
+            <Link to={`/dettaglioEsScheda/${esercizioId}/${schedaId}`}>
               <Button variant="primary">
                 visualizza dettagli
               </Button>
