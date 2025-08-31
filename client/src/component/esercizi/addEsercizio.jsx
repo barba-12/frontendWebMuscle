@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Card, Form } from "react-bootstrap";
+import { Button, Card, Form, InputGroup } from "react-bootstrap";
 import VideoPlayer from "../videoPlayer";
 import { Link } from "react-router-dom";
 
@@ -15,7 +15,6 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
 
   // Giorni selezionati dall'utente nella scheda
   const giorniDisponibili = JSON.parse(sessionStorage.getItem("scheda"))?.giorniAllenamento || [];
-    
 
     const scrollToTarget = () => {
       const element = document.getElementById("target");
@@ -149,7 +148,10 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
 
                     <Form.Control type="number" placeholder="Carico" className="input-viola" value={carico} onChange={(e) => setCarico(e.target.value)} style={{marginBottom:"5px"}}/>
 
-                    <Form.Control type="number" placeholder="Tempo Di Recupero" className="input-viola" value={tempoRecupero} onChange={(e) => setTempoRecupero(e.target.value)} style={{marginBottom:"5px"}}/>
+                    <InputGroup>
+                      <Form.Control type="number" placeholder="Tempo Di Recupero" className="input-viola" value={tempoRecupero} onChange={(e) => setTempoRecupero(e.target.value)} style={{marginBottom:"5px"}}/>
+                      <InputGroup.Text style={{background:"transparent", color:"#d8b3ff", border:"2px solid #5B1C86", marginBottom:"5px"}}>s</InputGroup.Text>
+                    </InputGroup>
 
                     {showMessage && (
                       <div className="alert alert-warning alert-warning-login" role="alert">

@@ -131,6 +131,39 @@ export async function getAllSchede() {
   return schedeFinali;
 }
 
+export async function resetAllStatusEs() {
+    const schede = await getAllSchedeDB();
+
+    for (const scheda of schede) {
+      const nuovaScheda = new Scheda({
+        id: scheda.id,
+        tipologia: scheda.tipologia,
+        giorniAllenamento: scheda.giorni.length,
+      });
+  
+      nuovaScheda.setGiorni(scheda.giorni);
+  
+      scheda.esercizi.forEach(e => {
+        const newEs = new EsercizioScheda(
+          e.idUnivoco,
+          e.idEsercizio?.idEsercizio || e.idEsercizio,
+          e.giorno,
+          e.ripetizioni,
+          e.serie,
+          e.tempoRecupero,
+          e.carico,
+          e.completato
+        );
+  
+        nuovaScheda.addEsercizio(newEs);
+      });
+
+      nuovaScheda.resetAllCompletatoEs();
+
+      await saveScheda(nuovaScheda);
+    }
+}
+
 // 🔹 Elimina una scheda
 export async function deleteScheda(id) {
   const db = await openDB();

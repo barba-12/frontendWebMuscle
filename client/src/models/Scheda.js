@@ -134,6 +134,12 @@ export class Scheda {
     this.controllaGiorniVuoti();
   }
 
+  resetAllCompletatoEs() {
+    this.esercizi.forEach(es => {
+        es.setCompletato(false);
+    })
+  }
+
   // 🔹 Getter e Setter per id
   getGiorni(){
     return this.giorni;

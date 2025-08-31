@@ -1,17 +1,17 @@
-aggiunta di esericizi in exercise.js
 aggiugnere filtri di ricerca in esercizi:
    - cercare in exercise.js tutti i tipi di muscoli e inserirli come filtri + se richiedono o meno attrezzatura
-aggiungere timer in base a tempoRecupero
-pagAmm : bottone per resettare stato a tutti gli esercizi
+
+pensare modo per tenere dati anche se eliminato l'es (salvare su indexedDB tutti i dati e quando l'utente li elimina da UI li rimangono tipo DB utente (schede, esercizi))
+
+aggiunta di esericizi in exercise.js
+
+visualizzazione prima di es di riscaldamento/streching e poi gli eltri nella scheda
 
 PAGINA utente:
  * mettere tutti i dati relativi all'utente, scheda e esercizi fatti con tutti i dati relativi
  * pensare a quancosa per area utente.
 
  / quando aggiungo esercizi in aggiungiScheda possibilita di rimuovere esercizioSpecifico
- / salvare su indexedDB tutti i dati e quando l'utente li elimina da UI li rimangono tipo DB utente (schede, esercizi)
-
-
 
  fatto:
 
@@ -44,6 +44,9 @@ PAGINA utente:
     - compatibilita safari
     - lettura file JSON con il fetch in public
     - quando clicco add mi si sposta la pagina sull'input
+    - pagAmm : bottone per resettare stato a tutti gli esercizi
+    - aggiungere timer in base a tempoRecupero
+    - aggiunta password amministratore pure per eliminare es o schede
 
  CLASSE EsercizioScheda:
     - creazione classe esercizio (creo id univoco tramite date.Now()) - aggiungiScheda.jsx 

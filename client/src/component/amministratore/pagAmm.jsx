@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Container, Button, Modal, Table, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getAllSchedeDB, clearDB, getAllSchede, openDB } from "../../db/indexedDB"; // Assumo sia implementata
+import { getAllSchedeDB, clearDB, getAllSchede, openDB, resetAllStatusEs } from "../../db/indexedDB"; // Assumo sia implementata
 
 function PagAmm() {
   const [sessionData, setSessionData] = useState([]);
   const [localData, setLocalData] = useState([]);
   const [indexedDBData, setIndexedDBData] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showModalReset, setShowModalReset] = useState(false);
   const [modalContent, setModalContent] = useState({ title: "", data: [] });
   const [showModalJSON, setShowModalJSON] = useState(false);
   const [pass, setPass] = useState("");
@@ -86,6 +87,15 @@ function PagAmm() {
       setShowMessage(false);
     } else setShowMessage(true);
   };
+
+  const resettaEs = async () => {
+    if(pass == "Amministratore12"){
+      await resetAllStatusEs();
+      setShowModalReset(false);
+      setPass("");
+      setShowMessage(false);
+    } else setShowMessage(true);
+  }
 
   const handleClear = async (type) => {
     if(pass == "Amministratore12"){
@@ -216,6 +226,10 @@ const renderIndexedDBTable = (data) => (
           <Button variant="danger" className="m-2" onClick={() => { setShowModalJSON(true); }}>
             Scarica JSON
           </Button>
+
+          <Button variant="warning" className="m-2" onClick={() => { setShowModalReset(true); }}>
+            Resetta stato esercizi
+          </Button>
         </div>
 
         {/* Modal per visualizzare contenuti */}
@@ -281,6 +295,31 @@ const renderIndexedDBTable = (data) => (
           </Modal.Body>
           <Modal.Footer className="modal-header-glass">
             <Button variant="success" onClick={scaricaJSON}>
+              Conferma
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={showModalReset} onHide={() => setShowModalReset(false)} centered>
+          <Modal.Header closeButton className="modal-header-glass">
+            <Modal.Title>Reset stato esercizi</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="modal-header-glass">
+            <Form>
+                <Form.Label>Immetendo la password amministratore, resetterai lo stato degli esercizi</Form.Label>
+                {/* PASSWORD AMM */}
+                <Form.Label>Password Amministratore</Form.Label>
+                <Form.Control type="password" placeholder="Password" value={pass} onChange={(e) => setPass(e.target.value)} className="form-control input-custom"/>
+
+                {showMessage && (
+                  <div className="alert alert-warning alert-warning-login" role="alert">
+                    Password Errata
+                  </div>
+                )}
+            </Form>
+          </Modal.Body>
+          <Modal.Footer className="modal-header-glass">
+            <Button variant="success" onClick={resettaEs}>
               Conferma
             </Button>
           </Modal.Footer>

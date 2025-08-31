@@ -11,6 +11,8 @@ function Giorni() {
   const [scheda, setScheda] = useState(null);
   const [schedaClass, setSchedaClass] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [pass, setPass] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
     async function fetchScheda() {
@@ -50,8 +52,10 @@ function Giorni() {
   };
 
   const eliminaScheda = () => {
-    deleteScheda(Number(schedaId));
-    navigate("/schede");
+    if(pass == "Amministratore12"){
+      deleteScheda(Number(schedaId));
+      navigate("/schede");
+    } else setShowMessage(true);
   }
 
   const pagAddEs = () => {
@@ -93,6 +97,13 @@ function Giorni() {
           </Modal.Header>
           <Modal.Body className="modal-header-glass">
           <Form.Label>Sei sicuro di voler eliminare la scheda: {scheda.tipologia}</Form.Label>
+          <Form.Control type="password" placeholder="Password Amministratore" value={pass} onChange={(e) => setPass(e.target.value)} className="form-control input-custom"/>
+
+          {showMessage && (
+            <div className="alert alert-warning alert-warning-login" role="alert">
+              Password Errata
+            </div>
+          )}
           </Modal.Body>
           <Modal.Footer className="modal-header-glass">
             <Button variant="primary" onClick={eliminaScheda}>

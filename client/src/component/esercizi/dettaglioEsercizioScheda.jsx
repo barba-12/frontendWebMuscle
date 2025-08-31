@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import { Button, Card, Modal, Form  } from "react-bootstrap";
+import { Button, Card, Modal, Form, InputGroup  } from "react-bootstrap";
 import VideoPlayer from "../videoPlayer";
 import { Scheda } from "../../models/Scheda";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
@@ -25,6 +25,10 @@ function dettaglioEsercizioScheda() {
   const [showMessage, setShowMessage] = useState(false);
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(null); // tempo rimanente
+  const [isRunning, setIsRunning] = useState(false);
+  const [pass, setPass] = useState("");
+  const [showMessageModal, setShowMessageModal] = useState(false);
 
   useEffect(() => {
     async function fetchScheda() {
@@ -136,6 +140,25 @@ function dettaglioEsercizioScheda() {
     });
   }, [esercizio]);
 
+  // Effetto che gestisce il timer
+  useEffect(() => {
+    let interval = null;
+    if (isRunning && timeLeft > 0) {
+      interval = setInterval(() => {
+        setTimeLeft((prev) => prev - 1);
+      }, 1000);
+    } else if (timeLeft === 0) {
+      setIsRunning(false);
+    }
+    return () => clearInterval(interval);
+  }, [isRunning, timeLeft]);
+
+  // Avvia timer
+  const startTimer = (seconds) => {
+    setTimeLeft(seconds);
+    setIsRunning(true);
+  };
+
   //quando una rep è 0 e non "" rimuovo allo stesso indice anche carico e tempo
   function checkVuoti() {
     const newRip = [];
@@ -202,10 +225,20 @@ function dettaglioEsercizioScheda() {
   }
 
   const elimina = () => {
-    scheda.eliminaEsercizio(esercizio.idUnivoco);
-    saveScheda(scheda);
-    if(scheda.getNumEsXGiorno(esercizio.giorno) == 0) navigate(`/giorni/${schedaId}`);
-    else navigate(`/eserciziXGiorno/${schedaId}/${esercizio.giorno}`);
+    if(pass == "Amministratore12"){
+      scheda.eliminaEsercizio(esercizio.idUnivoco);
+      saveScheda(scheda);
+      if(scheda.getNumEsXGiorno(esercizio.giorno) == 0) navigate(`/giorni/${schedaId}`);
+      else navigate(`/eserciziXGiorno/${schedaId}/${esercizio.giorno}`);
+    } else setShowMessageModal(true);
+  }
+
+  const impostaRecupero = () => {
+    let tempoRecupero = []
+    console.log(tempoRecupero);
+    for(let i=0; i<esercizio.serie; i++) tempoRecupero[i] = (datiEs[2]);
+    setTempoRecupero(tempoRecupero);
+    console.log(tempoRecupero);
   }
 
   if (loading || !esercizioRaw) {
@@ -220,30 +253,35 @@ function dettaglioEsercizioScheda() {
     <>
     <Card className="project-card-view">
       <Button variant="primary" onClick={() => navigate(`/eserciziXGiorno/${schedaId}/${esercizio.giorno}`)}>back</Button>
-      <Card.Body>
-        {esercizioRaw.immaginiVideo && esercizioRaw.immaginiVideo.length > 0 && (
-          <VideoPlayer
-            videos={esercizioRaw.immaginiVideo}
-            esercizioRawId={esercizioRaw.id}
-            activeVideoId={activeVideoId}
-            setActiveVideoId={setActiveVideoId}
-          />
-        )}
+        <Card.Body>
+          {esercizioRaw.immaginiVideo && esercizioRaw.immaginiVideo.length > 0 && (
+            <VideoPlayer
+              videos={esercizioRaw.immaginiVideo}
+              esercizioRawId={esercizioRaw.id}
+              activeVideoId={activeVideoId}
+              setActiveVideoId={setActiveVideoId}
+            />
+          )}
 
-        <h1>{esercizioRaw.nome}</h1>
+          <h1>{esercizioRaw.nome}</h1>
 
-        <div style={{textAlign:"left"}}>
-          <h5>Dati esercizio:</h5>
-          <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-            <p style={{ margin: 0}}>Ripetizioni: {datiEs[0]}</p>
-            <p style={{ margin: 0, textAlign: "center", flex: 1 }}>Carico: {datiEs[1]}</p>
-            <p style={{ margin: 0, textAlign: "right" }}>Recupero: {datiEs[2]}</p>
+          <div style={{textAlign:"left"}}>
+            <h5>Dati esercizio:</h5>
+            <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+              <p style={{ margin: 0}}>Ripetizioni: {datiEs[0]}</p>
+              <p style={{ margin: 0, textAlign: "center", flex: 1 }}>Carico: {datiEs[1]}</p>
+              <p style={{ margin: 0, textAlign: "right" }}>Recupero: {datiEs[2]}s</p>
+            </div>
+            <h5 style={{marginTop:"15px"}}>Riepilogo Scorso Allenamento:</h5>
+            <p style={{margin:"5px"}}>Ripetizioni: {esercizio.getLastRep().join(" - ")}</p>
+            <p style={{margin:"5px"}}>Carico: {esercizio.getLastCarico().join(" - ")}</p>
+            <p style={{margin:"5px"}}>Tempo Di Recupero: {esercizio.getLastTempoRecupero().join(" - ")}</p>
           </div>
-          <h5 style={{marginTop:"15px"}}>Riepilogo Scorso Allenamento:</h5>
-          <p style={{margin:"5px"}}>Ripetizioni: {esercizio.getLastRep().join(" - ")}</p>
-          <p style={{margin:"5px"}}>Carico: {esercizio.getLastCarico().join(" - ")}</p>
-          <p style={{margin:"5px"}}>Tempo Di Recupero: {esercizio.getLastTempoRecupero().join(" - ")}</p>
-        </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "15px", alignItems: "center" }}>
+          <Button style={{marginTop:"20px"}} variant="primary" onClick={() => startTimer(Number(datiEs[2]))} disabled={isRunning}>{isRunning ? `${timeLeft}s` : `Avvia timer: ${datiEs[2]}s`}</Button>
+          <Button onClick={() => impostaRecupero()}>imposta <strong>{datiEs[2]}s</strong> su tutte le serie</Button>
+          </div>
 
           <>
             <Form>
@@ -277,21 +315,24 @@ function dettaglioEsercizioScheda() {
                     />
 
                     {/* Tempo di Recupero */}
-                    <Form.Control
-                      type="number"
-                      placeholder="Tempo di Recupero"
-                      className="input-viola"
-                      value={tempoRecupero[i] || ""}
-                      onChange={(e) => {
-                        const newTempoRecupero = [...tempoRecupero];
-                        newTempoRecupero[i] = e.target.value || "";
-                        setTempoRecupero(newTempoRecupero);
-                      }}
-                    />
+                    <InputGroup>
+                      <Form.Control
+                        type="number"
+                        placeholder="Tempo di Recupero"
+                        className="input-viola"
+                        value={tempoRecupero[i] || ""}
+                        onChange={(e) => {
+                          const newTempoRecupero = [...tempoRecupero];
+                          newTempoRecupero[i] = e.target.value || "";
+                          setTempoRecupero(newTempoRecupero);
+                        }}
+                      />
+                      <InputGroup.Text style={{background:"transparent", color:"#d8b3ff", border:"2px solid #5B1C86"}}>s</InputGroup.Text>
+                    </InputGroup>
                   </div>
                 ))}
 
-                {showMessage && <h1>{message}</h1>}
+                {showMessage && <div className="alert alert-warning alert-warning-login" role="alert">{message}</div>}
 
                 <Button type="submit" onClick={cambiaStatoEs}>Completa Esercizio</Button>
               </Form.Group>
@@ -320,8 +361,15 @@ function dettaglioEsercizioScheda() {
           <Modal.Title>conferma eliminazione</Modal.Title>
         </Modal.Header>
         <Modal.Body className="modal-header-glass">
-        <Form.Label>Sei sicuro di voler eliminare l'esercizio: {esercizioRaw.nome}</Form.Label>
-        <Form.Label>dalla scheda: {scheda.tipologia}</Form.Label>
+          <Form.Label>Sei sicuro di voler eliminare l'esercizio: {esercizioRaw.nome}</Form.Label>
+          <Form.Label>dalla scheda: {scheda.tipologia}</Form.Label>
+          <Form.Control type="password" placeholder="Password Amministratore" value={pass} onChange={(e) => setPass(e.target.value)} className="form-control input-custom"/>
+
+          {showMessageModal && (
+            <div className="alert alert-warning alert-warning-login" role="alert">
+              Password Errata
+            </div>
+          )}
         </Modal.Body>
         <Modal.Footer className="modal-header-glass">
           <Button variant="primary" onClick={elimina}>
