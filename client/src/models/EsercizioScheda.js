@@ -2,15 +2,15 @@ import context from "react-bootstrap/esm/AccordionContext";
 
 export class EsercizioScheda {
   constructor(idUnivoco, idEsercizio, giorno, ripetizioni = [], serie = [], tempoRecupero = [], carico = [], completato = false, activated = true) {
-    this.idUnivoco = idUnivoco;
+    this.idUnivoco = idUnivoco;  //da togliere
     this.idEsercizio = idEsercizio;
-    this.giorno = giorno;
+    this.giorno = giorno;   //da togliere
     this.ripetizioni = Array.isArray(ripetizioni) ? [...ripetizioni] : [ripetizioni];
     this.serie = Array.isArray(serie) ? [...serie] : [serie];
     this.tempoRecupero = Array.isArray(tempoRecupero) ? [...tempoRecupero] : [tempoRecupero];
     this.carico = Array.isArray(carico) ? [...carico] : [carico];
-    this.completato = completato;
-    this.activated = activated;
+    this.completato = completato;  //da togliere
+    this.activated = activated;  //da togliere
   }
   
   /*

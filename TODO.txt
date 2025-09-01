@@ -2,6 +2,38 @@
 
 soluzione spiegata:https://chatgpt.com/c/68b5b687-0f98-8321-ad19-43ac0f6e2c7f
 
+
+
+creare secondo db
+
+creare una scheda
+creo una copia in entrambi i db
+il primo con i dati
+il secondo in base a quanti ne ho aggiunti dello stesso esercizio
+
+completare esrcizio e resettare
+da modificare completato nel secondo db con idUnivoco
+e salvare i dati nel primo
+
+eliminare esercizio
+elimino la classe esercizioClone nel secondo db in base all'idUnivoco
+
+aggiugnere esercizio a scheda esistente 
+creo una istanza della classe esecizioClone e la salvo sul secondo DB
+
+modificare un esercizio
+modifico i dati relativi all'esercizio idEsercizio nel primo DB
+
+
+
+
+
+
+soluzione definitiva:
+craere classe esercizioClonato
+e avere due db diversi uno per i dati e l'altro per gli esClonati
+
+
 prima soluzione:
 aggiungere classe esercizioDuplicato dovo ho solo activated, completato, giorno, idEsercizio, idUnivoco
 quando salvo i dati li salvo sul primo esercizio con quel idEsercizio

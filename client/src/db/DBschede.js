@@ -1,12 +1,9 @@
-import { Scheda } from "../models/Scheda";
-import { EsercizioScheda } from "../models/EsercizioScheda";
-
 // src/db/indexedDB.js
-const DB_NAME = "AllenamentiDB";
+const DB_NAME = "eserciziSchede";
 const STORE_NAME = "schede";
 const DB_VERSION = 1;
 
-// 🔹 Funzione per aprire/creare il DB
+// Funzione per aprire/creare il DB
 export function openDB() {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
@@ -23,7 +20,7 @@ export function openDB() {
   });
 }
 
-// 🔹 Cancella completamente tutte le schede dal DB
+// Cancella completamente tutte le schede dal DB
 export async function clearDB() {
   const db = await openDB();
   return new Promise((resolve, reject) => {
@@ -43,7 +40,7 @@ export async function clearDB() {
   });
 }
 
-// 🔹 Salva o aggiorna una scheda
+// Salva o aggiorna una scheda
 export async function saveScheda(scheda) {
   const db = await openDB();
   const tx = db.transaction(STORE_NAME, "readwrite");
@@ -51,17 +48,15 @@ export async function saveScheda(scheda) {
   return tx.complete;
 }
 
-// 🔹 Recupera una scheda
-export async function getScheda(id) {
+// Elimina una scheda
+export async function deleteScheda(id) {
   const db = await openDB();
-  return new Promise((resolve) => {
-    const req = db.transaction(STORE_NAME, "readonly")
-      .objectStore(STORE_NAME)
-      .get(id);
-    req.onsuccess = () => resolve(req.result);
-  });
+  const tx = db.transaction(STORE_NAME, "readwrite");
+  tx.objectStore(STORE_NAME).delete(id);
+  return tx.complete;
 }
 
+//tutte le schede presenti nel db
 export async function getAllSchedeDB() {
   const db = await openDB();
 
@@ -76,6 +71,82 @@ export async function getAllSchedeDB() {
   return schedeDB;
 }
 
+//resettare tutti gli esercizi in non completati
+export async function resetAllStatusEs() {
+    const schede = await getAllSchedeDB();
+
+    for (const scheda of schede) {
+      const nuovaScheda = new Scheda({
+        id: scheda.id,
+        tipologia: scheda.tipologia,
+        giorniAllenamento: scheda.giorni.length,
+      });
+  
+      nuovaScheda.setGiorni(scheda.giorni);
+  
+      scheda.esercizi.forEach(e => {
+        const newEs = new EsercizioScheda(
+          e.idUnivoco,
+          e.idEsercizio?.idEsercizio || e.idEsercizio,
+          e.giorno,
+          e.ripetizioni,
+          e.serie,
+          e.tempoRecupero,
+          e.carico,
+          e.completato,
+          e.activated
+        );
+  
+        nuovaScheda.addEsercizio(newEs);
+      });
+
+      nuovaScheda.resetAllCompletatoEs();
+
+      await saveScheda(nuovaScheda);
+    }
+}
+
+//controllo se ho degli esercizi da resettare a non completati
+export async function checkStatusExercise(){
+  const schede = await getAllSchedeDB();
+  const oggi = new Date().toISOString().split('T')[0]; // formato YYYY-MM-DD
+  const lastRun = localStorage.getItem('lastExerciseCheck');
+
+  //refreshare gli esercizi del giorno di oggi (salvare risultato su localStorage per ricordare se si è gia fatto l'accesso oggi o meno)
+    for (const scheda of schede) {
+      const nuovaScheda = new Scheda({
+        id: scheda.id,
+        tipologia: scheda.tipologia,
+        giorniAllenamento: scheda.giorni.length,
+      });
+  
+      nuovaScheda.setGiorni(scheda.giorni);
+  
+      scheda.esercizi.forEach(e => {
+        const newEs = new EsercizioScheda(
+          e.idUnivoco,
+          e.idEsercizio?.idEsercizio || e.idEsercizio,
+          e.giorno,
+          e.ripetizioni,
+          e.serie,
+          e.tempoRecupero,
+          e.carico,
+          e.completato,
+          e.activated
+        );
+  
+        nuovaScheda.addEsercizio(newEs);
+      });
+
+      if (!(lastRun === oggi)) nuovaScheda.resetCompletatoEs();
+
+      await saveScheda(nuovaScheda);
+    }
+
+    localStorage.setItem('lastExerciseCheck', oggi);
+}
+
+//JSON:
 export async function getAllSchede() {
   let schedeFile = [];
 
@@ -129,85 +200,4 @@ export async function getAllSchede() {
 
   console.log(schedeFinali);
   return schedeFinali;
-}
-
-export async function resetAllStatusEs() {
-    const schede = await getAllSchedeDB();
-
-    for (const scheda of schede) {
-      const nuovaScheda = new Scheda({
-        id: scheda.id,
-        tipologia: scheda.tipologia,
-        giorniAllenamento: scheda.giorni.length,
-      });
-  
-      nuovaScheda.setGiorni(scheda.giorni);
-  
-      scheda.esercizi.forEach(e => {
-        const newEs = new EsercizioScheda(
-          e.idUnivoco,
-          e.idEsercizio?.idEsercizio || e.idEsercizio,
-          e.giorno,
-          e.ripetizioni,
-          e.serie,
-          e.tempoRecupero,
-          e.carico,
-          e.completato,
-          e.activated
-        );
-  
-        nuovaScheda.addEsercizio(newEs);
-      });
-
-      nuovaScheda.resetAllCompletatoEs();
-
-      await saveScheda(nuovaScheda);
-    }
-}
-
-// 🔹 Elimina una scheda
-export async function deleteScheda(id) {
-  const db = await openDB();
-  const tx = db.transaction(STORE_NAME, "readwrite");
-  tx.objectStore(STORE_NAME).delete(id);
-  return tx.complete;
-}
-
-export async function checkStatusExercise(){
-  const schede = await getAllSchedeDB();
-  const oggi = new Date().toISOString().split('T')[0]; // formato YYYY-MM-DD
-  const lastRun = localStorage.getItem('lastExerciseCheck');
-
-  //refreshare gli esercizi del giorno di oggi (salvare risultato su localStorage per ricordare se si è gia fatto l'accesso oggi o meno)
-    for (const scheda of schede) {
-      const nuovaScheda = new Scheda({
-        id: scheda.id,
-        tipologia: scheda.tipologia,
-        giorniAllenamento: scheda.giorni.length,
-      });
-  
-      nuovaScheda.setGiorni(scheda.giorni);
-  
-      scheda.esercizi.forEach(e => {
-        const newEs = new EsercizioScheda(
-          e.idUnivoco,
-          e.idEsercizio?.idEsercizio || e.idEsercizio,
-          e.giorno,
-          e.ripetizioni,
-          e.serie,
-          e.tempoRecupero,
-          e.carico,
-          e.completato,
-          e.activated
-        );
-  
-        nuovaScheda.addEsercizio(newEs);
-      });
-
-      if (!(lastRun === oggi)) nuovaScheda.resetCompletatoEs();
-
-      await saveScheda(nuovaScheda);
-    }
-
-    localStorage.setItem('lastExerciseCheck', oggi);
 }
