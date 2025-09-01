@@ -15,6 +15,7 @@ function dettaglioEsercizioScheda() {
   const { esercizioId, schedaId } = useParams();
   const [esercizioRaw, setEsercizioRaw] = useState();
   const [esercizio, setEsercizio] = useState();
+  const [esercizioDB, setEsercizioDB] = useState();
   const [datiEs, setDatiEs] = useState();
   const [ripetizioni, setRipetizioni] = useState([]);
   const [carico, setCarico] = useState([]);
@@ -27,8 +28,6 @@ function dettaglioEsercizioScheda() {
   const [showModal, setShowModal] = useState(false);
   const [timeLeft, setTimeLeft] = useState(null); // tempo rimanente
   const [isRunning, setIsRunning] = useState(false);
-  const [pass, setPass] = useState("");
-  const [showMessageModal, setShowMessageModal] = useState(false);
 
   useEffect(() => {
     async function fetchScheda() {
@@ -52,7 +51,8 @@ function dettaglioEsercizioScheda() {
             e.serie,
             e.tempoRecupero,
             e.carico,
-            e.completato
+            e.completato,
+            e.activated
           ));
         });
 
@@ -97,7 +97,8 @@ function dettaglioEsercizioScheda() {
             e.serie,
             e.tempoRecupero,
             e.carico,
-            e.completato
+            e.completato,
+            e.activated
           ));
         });
 
@@ -105,6 +106,7 @@ function dettaglioEsercizioScheda() {
         setSchedaDB(nuovaScheda);
 
         const esercizioTrovato = nuovaScheda.getEsByIdUnivoco(esercizioId);
+        setEsercizioDB(esercizioTrovato);
         let lista = [];
         lista.push(esercizioTrovato.ripetizioni[0]);
         lista.push(esercizioTrovato.carico[0]);
@@ -225,12 +227,10 @@ function dettaglioEsercizioScheda() {
   }
 
   const elimina = () => {
-    if(pass == "Amministratore12"){
-      scheda.eliminaEsercizio(esercizio.idUnivoco);
-      saveScheda(scheda);
-      if(scheda.getNumEsXGiorno(esercizio.giorno) == 0) navigate(`/giorni/${schedaId}`);
-      else navigate(`/eserciziXGiorno/${schedaId}/${esercizio.giorno}`);
-    } else setShowMessageModal(true);
+    schedaDB.deactivateEsercizio(esercizioDB.idUnivoco);
+    saveScheda(schedaDB);
+    if(schedaDB.getNumEsXGiorno(esercizioDB.giorno) == 0) navigate(`/giorni/${schedaId}`);
+    else navigate(`/eserciziXGiorno/${schedaId}/${esercizio.giorno}`);
   }
 
   const impostaRecupero = () => {
@@ -363,13 +363,6 @@ function dettaglioEsercizioScheda() {
         <Modal.Body className="modal-header-glass">
           <Form.Label>Sei sicuro di voler eliminare l'esercizio: {esercizioRaw.nome}</Form.Label>
           <Form.Label>dalla scheda: {scheda.tipologia}</Form.Label>
-          <Form.Control type="password" placeholder="Password Amministratore" value={pass} onChange={(e) => setPass(e.target.value)} className="form-control input-custom"/>
-
-          {showMessageModal && (
-            <div className="alert alert-warning alert-warning-login" role="alert">
-              Password Errata
-            </div>
-          )}
         </Modal.Body>
         <Modal.Footer className="modal-header-glass">
           <Button variant="primary" onClick={elimina}>

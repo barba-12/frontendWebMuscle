@@ -57,50 +57,56 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
             nuovaScheda.setGiorni(schedaRaw.giorni);
         
             schedaRaw.esercizi.forEach(e => {
-            const idUnivoco = e.idUnivoco;
-            const idEsercizio = e.idEsercizio?.idEsercizio || e.idEsercizio;
-            const ripetizioni = e.ripetizioni;
-            const serie = e.serie;
-            const tempoRecupero = e.tempoRecupero;
-            const carico = e.carico;
-            const giorno = e.giorno;
-            const completato = e.completato;
-        
             const newEs = new EsercizioScheda(
-                idUnivoco,
-                idEsercizio,
-                giorno,
-                ripetizioni,
-                serie,
-                tempoRecupero,
-                carico,
-                completato
+                e.idUnivoco,
+                e.idEsercizio,
+                e.giorno,
+                e.ripetizioni,
+                e.serie,
+                e.tempoRecupero,
+                e.carico,
+                e.completato,
+                e.activated
             );
 
             nuovaScheda.addEsercizio(newEs);
             });
 
             setScheda(nuovaScheda);
-
     }, [schedaRaw]);
 
     const salvaEsercizio = async (e) => {
       e.preventDefault();
       const result = checkError();
       if (result.ok){
-        const id = await getIncrementalId();
-        const newEs = new EsercizioScheda(
-            id,
-            esercizio.id,
-            giorno,
-            Number(ripetizioni),
-            Number(serie),
-            Number(tempoRecupero),
-            Number(carico),
-            false
-        );
 
-        scheda.addEsercizio(newEs);
+        //se l'esercizio è gia presente nella scheda lo riattivo altrimenti lo creo
+        /*if(scheda.getListaID().includes(esercizio.id)) {
+          let esercizioScheda = scheda.serchById(esercizio.id);
+          scheda.activateEsercizio(esercizio.idUnivoco); 
+          esercizioScheda.setGiorno(giorno);
+          esercizioScheda.setRipetizioni(ripetizioni);
+          esercizioScheda.setSerie(serie);
+          esercizioScheda.setTempoRecupero(tempoRecupero);
+          esercizioScheda.setCarico(carico);
+          esercizioScheda.setCompletato(false);
+        }
+        else {*/
+          const id = await getIncrementalId();
+          const newEs = new EsercizioScheda(
+              id,
+              esercizio.id,
+              giorno,
+              Number(ripetizioni),
+              Number(serie),
+              Number(tempoRecupero),
+              Number(carico),
+              false,
+              true
+          );
+
+          scheda.addEsercizio(newEs);
+        //}
 
         saveScheda(scheda);
 
@@ -132,10 +138,6 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
       if(Number(tempoRecupero) < 0) return {ok : false, message: "Inserire un tempo di recupero positivo"};
       // Se tutti i controlli passano
       return { ok: true, message: "Dati validi" };
-    }
-
-    const chiudiForm = () => {
-        setShowForm(false);
     }
 
    //AGGIUNGERE CONTROLLI NON HTML5

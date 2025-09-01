@@ -39,24 +39,16 @@ function PaginaEserciziScheda() {
       nuovaScheda.setGiorni(scheda.giorni);
   
       scheda.esercizi.forEach(e => {
-        const idUnivoco = e.idUnivoco;
-        const idEsercizio = e.idEsercizio?.idEsercizio || e.idEsercizio;
-        const ripetizioni = e.ripetizioni;
-        const serie = e.serie;
-        const tempoRecupero = e.tempoRecupero;
-        const carico = e.carico;
-        const giorno = e.giorno;
-        const completato = e.completato;
-  
         const newEs = new EsercizioScheda(
-          idUnivoco,
-          idEsercizio,
-          giorno,
-          ripetizioni,
-          serie,
-          tempoRecupero,
-          carico,
-          completato
+          e.idUnivoco,
+          e.idEsercizio,
+          e.giorno,
+          e.ripetizioni,
+          e.serie,
+          e.tempoRecupero,
+          e.carico,
+          e.completato,
+          e.activated
         );
 
         nuovaScheda.addEsercizio(newEs);
@@ -77,7 +69,7 @@ function PaginaEserciziScheda() {
         <h1 className="project-heading">Exercise</h1>
 
         <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
-          {es.map((ex, i) => {
+          {es.filter(ex => ex.activated).map((ex, i) => {
             return (
               <Col md={4} className="project-card desktop-margin-right" key={i}>
                 <CardEsercizioScheda

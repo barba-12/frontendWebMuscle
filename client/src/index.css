@@ -404,7 +404,6 @@ form {
   border-color: #9b30ff !important;
 }
 
-
 .btn-viola {
   color: #5B1C86 !important; /* testo iniziale */
   border: 2px solid #5B1C86 !important; /* bordo viola */
@@ -414,6 +413,18 @@ form {
 
 .btn-check:checked + .btn-viola {
   background-color: #5B1C86 !important; /* sfondo viola quando selezionato */
+  color: white !important; /* testo bianco quando selezionato */
+}
+
+.btnOnSelect {
+  color: white !important; /* testo iniziale */
+  border: 2px solid #5B1C86 !important; /* bordo viola */
+  background-color: transparent !important; /* sfondo trasparente */
+}
+
+.btnSelected {
+  background-color: #5B1C86 !important; /* sfondo viola quando selezionato */
+  border: 2px solid #2b0d3a !important;
   color: white !important; /* testo bianco quando selezionato */
 }
 

@@ -84,18 +84,36 @@ export class Scheda {
     return lista;
   }
 
+  serchById(idEsercizio) {
+    return this.esercizi.find(es => es.idEsercizio === idEsercizio);
+  }
+
   getNumEsXGiorno(giorno){
     let numero = 0;
     this.esercizi.forEach(es => {
-      if(es.giorno == giorno) numero++;
+      if(es.giorno == giorno && es.activated) numero++;
     });
     return numero;
+  }
+  
+  deactivateEsercizio (idUnivoco) {
+    let es = this.getEsByIdUnivoco(idUnivoco);
+    es.setActivated(false);
+  }
+
+  activateEsercizio (idUnivoco) {
+    let es = this.getEsByIdUnivoco(idUnivoco);
+    console.log(idUnivoco);
+    console.log(es);
+    es.setActivated(true);
+    this.controllaGiorniVuoti();
+    this.ordinaGiorni();
   }
 
   getNumEsXGiornoAttivi (giorno) {
     let numero = 0;
     this.esercizi.forEach(es => {
-      if(es.giorno == giorno && !es.completato) numero++;
+      if(es.giorno == giorno && !es.completato  && es.activated) numero++;
     });
     return numero;
   }
@@ -103,7 +121,7 @@ export class Scheda {
   getNumEsXGiornoDaCompletare (giorno) {
     let numero = 0;
     this.esercizi.forEach(es => {
-      if(es.giorno == giorno && !es.completato) numero++;
+      if(es.giorno == giorno && !es.completato  && es.activated) numero++;
     });
     return numero;
   }
@@ -111,7 +129,7 @@ export class Scheda {
   getEsXGiornoENonCompletato(giorno) {
     let listaEs = [];
     this.esercizi.forEach(es => {
-      if(es.giorno == giorno && !es.completato) listaEs.push(es);
+      if(es.giorno == giorno && !es.completato  && es.activated) listaEs.push(es);
     });
     return listaEs;
   }

@@ -152,7 +152,8 @@ export async function resetAllStatusEs() {
           e.serie,
           e.tempoRecupero,
           e.carico,
-          e.completato
+          e.completato,
+          e.activated
         );
   
         nuovaScheda.addEsercizio(newEs);
@@ -196,7 +197,8 @@ export async function checkStatusExercise(){
           e.serie,
           e.tempoRecupero,
           e.carico,
-          e.completato
+          e.completato,
+          e.activated
         );
   
         nuovaScheda.addEsercizio(newEs);

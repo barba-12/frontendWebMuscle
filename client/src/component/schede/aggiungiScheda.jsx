@@ -109,7 +109,8 @@ function AggiungiScheda() {
             e[1] || 0,   // serie
             e[4] || 0,   // tempo recupero
             e[3] || 0,   // carico
-            false
+            false,
+            true
           ));
         }
       }

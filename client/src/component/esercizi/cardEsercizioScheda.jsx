@@ -75,7 +75,8 @@ function cardEsercizioScheda({ schedaId, esercizioId, activeVideoId, setActiveVi
           e.serie,
           e.tempoRecupero,
           e.carico,
-          e.completato
+          e.completato,
+          e.activated
         );
 
         nuovaScheda.addEsercizio(newEs);
