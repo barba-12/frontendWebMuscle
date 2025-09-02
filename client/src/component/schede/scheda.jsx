@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { getAllSchede } from "../../db/DBschede";
+import { getAllSchedeDB } from "../../db/DBschede";
 
 function Scheda({ schedaId }) {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ function Scheda({ schedaId }) {
   useEffect(() => {
     async function fetchScheda() {
       try {
-        const tutteLeSchede = await getAllSchede(); // recupera tutte le schede
+        const tutteLeSchede = await getAllSchedeDB(); // recupera tutte le schede
         const schedaTrovata = tutteLeSchede.find(s => s.id === schedaId);
         setScheda(schedaTrovata || null); // salva la scheda trovata o null
       } catch (error) {

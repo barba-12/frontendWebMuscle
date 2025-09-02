@@ -1,5 +1,6 @@
 import { Scheda } from "../models/Scheda";
 import { EsercizioScheda } from "../models/EsercizioScheda";
+import { EsercizioDoppione } from "../models/EsercizioDoppione";
 
 // src/db/indexedDB.js
 const DB_NAME = "eserciziSchede";
@@ -88,16 +89,11 @@ export async function resetAllStatusEs() {
       nuovaScheda.setGiorni(scheda.giorni);
   
       scheda.esercizi.forEach(e => {
-        const newEs = new EsercizioScheda(
+        const newEs = new EsercizioDoppione(
           e.idUnivoco,
-          e.idEsercizio?.idEsercizio || e.idEsercizio,
+          e.idEsercizio,
           e.giorno,
-          e.ripetizioni,
-          e.serie,
-          e.tempoRecupero,
-          e.carico,
           e.completato,
-          e.activated
         );
   
         nuovaScheda.addEsercizio(newEs);
@@ -126,16 +122,11 @@ export async function checkStatusExercise(){
       nuovaScheda.setGiorni(scheda.giorni);
   
       scheda.esercizi.forEach(e => {
-        const newEs = new EsercizioScheda(
+        const newEs = new EsercizioDoppione(
           e.idUnivoco,
-          e.idEsercizio?.idEsercizio || e.idEsercizio,
+          e.idEsercizio,
           e.giorno,
-          e.ripetizioni,
-          e.serie,
-          e.tempoRecupero,
-          e.carico,
           e.completato,
-          e.activated
         );
   
         nuovaScheda.addEsercizio(newEs);
@@ -147,60 +138,4 @@ export async function checkStatusExercise(){
     }
 
     localStorage.setItem('lastExerciseCheck', oggi);
-}
-
-//JSON:
-export async function getAllSchede() {
-  let schedeFile = [];
-
-  try {
-    const basePath = import.meta.env.BASE_URL || "/";
-    const response = await fetch(`${basePath}schede.json`);
-    if (response.ok) {
-      schedeFile = await response.json();
-    } else {
-      console.error("Errore nel caricamento di schede.json:", response.status);
-    }
-  } catch (err) {
-    console.error("Errore nel fetch di schede.json:", err);
-  }
-
-  const schedeDB = await getAllSchedeDB();
-
-  const schedeFinali = schedeDB.map((schedaDB) => {
-    // cerchiamo scheda JSON corrispondente
-    const schedaFile = schedeFile.find((s) => s.id === schedaDB.id);
-
-    // Mappiamo sempre gli esercizi per tagliare il primo elemento
-    const eserciziFinali = schedaDB.esercizi.map((exDB) => {
-      if (!schedaFile) {
-        // Non c’è corrispondenza nel JSON → tagliamo il primo elemento
-        return {
-          ...exDB,
-          ripetizioni: exDB.ripetizioni?.slice(1) || [],
-          carico: exDB.carico?.slice(1) || [],
-          tempoRecupero: exDB.tempoRecupero?.slice(1) || [],
-        };
-      }
-
-      const exFile = schedaFile.esercizi.find((e) => e.idUnivoco === exDB.idUnivoco);
-
-      const mergeArray = (jsonArr = [], dbArr = []) => [...jsonArr, ...dbArr.slice(1)];
-
-      return {
-        ...exDB,
-        ripetizioni: mergeArray(exFile?.ripetizioni, exDB.ripetizioni),
-        carico: mergeArray(exFile?.carico, exDB.carico),
-        tempoRecupero: mergeArray(exFile?.tempoRecupero, exDB.tempoRecupero),
-      };
-    });
-
-    return {
-      ...schedaDB,
-      esercizi: eserciziFinali,
-    };
-  });
-
-  console.log(schedeFinali);
-  return schedeFinali;
 }

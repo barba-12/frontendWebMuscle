@@ -5,8 +5,10 @@ import VideoPlayer from "../videoPlayer";
 import { Scheda } from "../../models/Scheda";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
 import exerciseData from "../../data/exercise";
-import { getAllSchedeDB, getAllSchede, saveScheda } from "../../db/DBschede";
+import { getAllSchedeDB, saveScheda } from "../../db/DBschede";
+import { getEsercizioBase, getEsercizioBaseOmettendoPrimi, saveEsercizioBase } from "../../db/DBdatiEsercizi";
 import Grafico from "../grafico/grafico";
+import { EsercizioDoppione } from "../../models/EsercizioDoppione";
 
 function dettaglioEsercizioScheda() {
   const navigate = useNavigate();
@@ -15,7 +17,7 @@ function dettaglioEsercizioScheda() {
   const [esercizioRaw, setEsercizioRaw] = useState();
   const [esercizio, setEsercizio] = useState();
   const [esercizioDB, setEsercizioDB] = useState();
-  const [datiEs, setDatiEs] = useState();
+  const [datiEs, setDatiEs] = useState([0, 0, 0]);
   const [ripetizioni, setRipetizioni] = useState([]);
   const [carico, setCarico] = useState([]);
   const [tempoRecupero, setTempoRecupero] = useState([]);
@@ -28,7 +30,11 @@ function dettaglioEsercizioScheda() {
   const [timeLeft, setTimeLeft] = useState(null); // tempo rimanente
   const [isRunning, setIsRunning] = useState(false);
 
-  useEffect(() => {
+  //esercizio = datiEsercizio
+  //scheda contiene tutti gli es senza dati
+  //raw = raw
+
+  /*useEffect(() => {
     async function fetchScheda() {
       try {
         const tutteLeSchede = await getAllSchede();
@@ -42,28 +48,29 @@ function dettaglioEsercizioScheda() {
         nuovaScheda.setGiorni(schedaTrovata.giorni);
 
         schedaTrovata.esercizi.forEach(e => {
-          nuovaScheda.addEsercizio(new EsercizioScheda(
+          nuovaScheda.addEsercizio(new EsercizioDoppione(
             e.idUnivoco,
-            e.idEsercizio?.idEsercizio || e.idEsercizio,
+            e.idEsercizio,
             e.giorno,
-            e.ripetizioni,
-            e.serie,
-            e.tempoRecupero,
-            e.carico,
             e.completato,
             e.activated
           ));
         });
 
-        // 🔹 qui la scheda è pronta
+        // la scheda
         setScheda(nuovaScheda);
 
         const esercizioTrovato = nuovaScheda.getEsByIdUnivoco(esercizioId);
-        setEsercizio(esercizioTrovato);
-        setEsercizioRaw(
-          exerciseData.find(es => es.id == esercizioTrovato.idEsercizio)
-        );
+        const esercizioDatiDB = await getEsercizioBase(esercizioTrovato.idEsercizio);
+        setEsercizio(new EsercizioScheda(
+          esercizioTrovato.idEsercizio,
+          esercizioDatiDB.ripetizioni,
+          esercizioDatiDB.serie,
+          esercizioDatiDB.tempoRecupero,
+          esercizioDatiDB.carico
+        ));
 
+        setEsercizioRaw(exerciseData.find(es => es.id == esercizioTrovato.idEsercizio));
       } catch (error) {
         console.error("Errore nel recupero delle schede:", error);
       } finally {
@@ -72,7 +79,7 @@ function dettaglioEsercizioScheda() {
     }
 
     fetchScheda();
-  }, [schedaId, esercizioId]);
+  }, [schedaId, esercizioId]);*/
 
   useEffect(() => {
     async function fetchScheda() {
@@ -88,29 +95,45 @@ function dettaglioEsercizioScheda() {
         nuovaScheda.setGiorni(schedaTrovata.giorni);
 
         schedaTrovata.esercizi.forEach(e => {
-          nuovaScheda.addEsercizio(new EsercizioScheda(
+          nuovaScheda.addEsercizio(new EsercizioDoppione(
             e.idUnivoco,
-            e.idEsercizio?.idEsercizio || e.idEsercizio,
+            e.idEsercizio,
             e.giorno,
-            e.ripetizioni,
-            e.serie,
-            e.tempoRecupero,
-            e.carico,
             e.completato,
-            e.activated
           ));
         });
 
-        // 🔹 qui la scheda è pronta
-        setSchedaDB(nuovaScheda);
+        // qui la scheda è pronta
+        //setSchedaDB(nuovaScheda);
+        setScheda(nuovaScheda);
 
         const esercizioTrovato = nuovaScheda.getEsByIdUnivoco(esercizioId);
-        setEsercizioDB(esercizioTrovato);
-        let lista = [];
-        lista.push(esercizioTrovato.ripetizioni[0]);
-        lista.push(esercizioTrovato.carico[0]);
-        lista.push(esercizioTrovato.tempoRecupero[0]);
-        setDatiEs(lista);
+
+        const esercizioDatiDB = await getEsercizioBase(esercizioTrovato.idEsercizio);
+        const esercizioDati = await getEsercizioBaseOmettendoPrimi(esercizioTrovato.idEsercizio);
+
+        console.log(esercizioDati);
+
+        //tutti i dati
+        setEsercizioDB(new EsercizioScheda(
+          esercizioTrovato.idEsercizio,
+          esercizioDati.ripetizioni,
+          esercizioDati.serie,
+          esercizioDati.tempoRecupero,
+          esercizioDati.carico
+        ));
+
+        //esclusi il primo elemnto di ogni lista
+        setEsercizio(new EsercizioScheda(
+          esercizioTrovato.idEsercizio,
+          esercizioDatiDB.ripetizioni,
+          esercizioDatiDB.serie,
+          esercizioDatiDB.tempoRecupero,
+          esercizioDatiDB.carico
+        ));
+
+        setDatiEs([esercizioDatiDB.ripetizioni[0], esercizioDatiDB.carico[0], esercizioDatiDB.tempoRecupero[0]]);
+        setEsercizioRaw(exerciseData.find(es => es.id == esercizioTrovato.idEsercizio));
       } catch (error) {
         console.error("Errore nel recupero delle schede:", error);
       } finally {
@@ -185,19 +208,23 @@ function dettaglioEsercizioScheda() {
     e.preventDefault();
     const result = checkError();
     if (result.ok){
-       const { newRip, newCarico, newTempo } = checkVuoti();
-      schedaDB.esercizi.forEach(es => {
-        if (es.getIdUnivoco() === esercizio.idUnivoco) {
-          es.addRipetizione(newRip.map(Number));
-          es.addTempoRecupero(newTempo.map(Number));
-          es.addCarico(newCarico.map(Number));
-          es.setCompletato(true);
-        }
-      });
+      const { newRip, newCarico, newTempo } = checkVuoti();
 
-      saveScheda(schedaDB);
-      if(schedaDB.getNumEsXGiornoAttivi(esercizio.giorno) == 0) navigate(`/giorni/${schedaId}`);
-      else navigate(`/eserciziXGiorno/${schedaId}/${esercizio.giorno}`);
+      //scheda modifico attributo completato nell'esercizio
+      const esercizioTrovato = scheda.getEsByIdUnivoco(esercizioId);
+      esercizioTrovato.setCompletato(true);
+      saveScheda(scheda);
+
+      //aggingo i valori nell'esercizio con stesso idEsercizio nel secondo DB
+
+      esercizio.addRipetizione(newRip.map(Number));
+      esercizio.addTempoRecupero(newTempo.map(Number));
+      esercizio.addCarico(newCarico.map(Number));
+
+      saveEsercizioBase(esercizio);
+
+      if(scheda.getNumEsXGiornoAttivi(scheda.getEsByIdUnivoco(esercizioId).giorno) == 0) navigate(`/giorni/${schedaId}`);
+      else navigate(`/eserciziXGiorno/${schedaId}/${scheda.getEsByIdUnivoco(esercizioId).giorno}`);
     }
     else {
       setShowMessage(true);
@@ -226,10 +253,12 @@ function dettaglioEsercizioScheda() {
   }
 
   const elimina = () => {
-    schedaDB.deactivateEsercizio(esercizioDB.idUnivoco);
-    saveScheda(schedaDB);
-    if(schedaDB.getNumEsXGiorno(esercizioDB.giorno) == 0) navigate(`/giorni/${schedaId}`);
-    else navigate(`/eserciziXGiorno/${schedaId}/${esercizio.giorno}`);
+    const giornoEs = scheda.getEsByIdUnivoco(esercizioId).giorno;
+    scheda.eliminaEsercizio(esercizioId);
+    saveScheda(scheda);
+
+    if(scheda.getNumEsXGiorno(giornoEs) == 0) navigate(`/giorni/${schedaId}`);
+    else navigate(`/eserciziXGiorno/${schedaId}/${giornoEs}`);
   }
 
   const impostaRecupero = () => {
@@ -251,7 +280,7 @@ function dettaglioEsercizioScheda() {
   return (
     <>
     <Card className="project-card-view">
-      <Button variant="primary" onClick={() => navigate(`/eserciziXGiorno/${schedaId}/${esercizio.giorno}`)}>back</Button>
+      <Button variant="primary" onClick={() => navigate(`/eserciziXGiorno/${schedaId}/${scheda.getEsByIdUnivoco(esercizioId).giorno}`)}>back</Button>
         <Card.Body>
           {esercizioRaw.immaginiVideo && esercizioRaw.immaginiVideo.length > 0 && (
             <VideoPlayer
@@ -271,10 +300,14 @@ function dettaglioEsercizioScheda() {
               <p style={{ margin: 0, textAlign: "center", flex: 1 }}>Carico: {datiEs[1]}</p>
               <p style={{ margin: 0, textAlign: "right" }}>Recupero: {datiEs[2]}s</p>
             </div>
-            <h5 style={{marginTop:"15px"}}>Riepilogo Scorso Allenamento:</h5>
-            <p style={{margin:"5px"}}>Ripetizioni: {esercizio.getLastRep().join(" - ")}</p>
-            <p style={{margin:"5px"}}>Carico: {esercizio.getLastCarico().join(" - ")}</p>
-            <p style={{margin:"5px"}}>Tempo Di Recupero: {esercizio.getLastTempoRecupero().join(" - ")}</p>
+            {esercizioDB.getLastRep().length > 0 && 
+              <>
+                <h5 style={{marginTop:"15px"}}>Riepilogo Scorso Allenamento:</h5>
+                <p style={{margin:"5px"}}>Ripetizioni: {esercizioDB.getLastRep().join(" - ")}</p>
+                <p style={{margin:"5px"}}>Carico: {esercizioDB.getLastCarico().join(" - ")}</p>
+                <p style={{margin:"5px"}}>Tempo Di Recupero: {esercizioDB.getLastTempoRecupero().join(" - ")}</p>
+              </>
+            }
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "15px", alignItems: "center" }}>
@@ -337,7 +370,7 @@ function dettaglioEsercizioScheda() {
               </Form.Group>
             </Form>
             
-            <Grafico esercizio={esercizio}></Grafico>
+            <Grafico esercizio={esercizioDB}></Grafico>
           </>
 
         {esercizioRaw.descrizione.split('|').map((sezione, i) => (

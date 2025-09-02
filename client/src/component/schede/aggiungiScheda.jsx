@@ -6,9 +6,9 @@ import { Scheda } from "../../models/Scheda";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
 import { getIncrementalId } from "../generatoreID/generatoreID";
 
-//import { EsercizioDoppione } from "../../models/EsercizioDoppione";
+import { EsercizioDoppione } from "../../models/EsercizioDoppione";
 import { saveScheda } from "../../db/DBschede";   //salvare tutti gli esercizi con instanza esercizioClone
-import { addEsercizioBase } from "../../db/DBdatiEsercizi";   //salvare gli esercizi solo una volta con i dati
+import { saveEsercizioBase } from "../../db/DBdatiEsercizi";   //salvare gli esercizi solo una volta con i dati
 
 function AggiungiScheda() {
   const navigate = useNavigate();
@@ -104,16 +104,23 @@ function AggiungiScheda() {
       for (const [nomeGiorno, esercizi] of eserciziSelezionati) {
         for (const e of esercizi) {
           const id = await getIncrementalId(); // attendo l'id incrementale
-          nuovaScheda.addEsercizio(new EsercizioScheda(
+          nuovaScheda.addEsercizio(new EsercizioDoppione(
             id,
             e[0],        // id esercizio
             nomeGiorno,
+            //e[2] || 0,   // ripetizioni
+            //e[1] || 0,   // serie
+            //e[4] || 0,   // tempo recupero
+            //e[3] || 0,   // carico
+            false,
+          ));
+
+          saveEsercizioBase(new EsercizioScheda(
+            e[0],        // id esercizio
             e[2] || 0,   // ripetizioni
             e[1] || 0,   // serie
             e[4] || 0,   // tempo recupero
             e[3] || 0,   // carico
-            false,
-            true
           ));
         }
       }
@@ -191,7 +198,11 @@ function AggiungiScheda() {
                 </div>
               )}
               
-              {showMessage && <h1>{message}</h1>}
+                {showMessage && (
+                  <div className="alert alert-warning alert-warning-login" role="alert">
+                    {message}
+                  </div>
+                )}
 
               <Button variant="primary" onClick={() => navigate("/addEsScheda")} style={{marginRight:"30px"}}>Scegli esercizi</Button>
               <Button type="submit">Invia</Button>

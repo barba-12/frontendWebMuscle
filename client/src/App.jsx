@@ -12,6 +12,7 @@ import DettaglioEsGenerico from "./component/esercizi/dettaglioEsGenerico";
 import AddEsSchedaEsistente from "./component/esercizi/addEsSchedaEsistente";
 import PagAmm from "./component/amministratore/pagAmm";
 import AddEsScheda from "./component/esercizi/addEsScheda";
+import DettEsGenAdd from "./component/esercizi/dettEsGenAdd";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -93,6 +94,11 @@ function App() {
         <Route path="/aggiungiScheda" element={
           <PrivateRoute>
             <AggiungiScheda />
+          </PrivateRoute>
+        } />
+        <Route path="/dettEsGenAdd/:schedaId/:esercizioId" element={
+          <PrivateRoute>
+            <DettEsGenAdd />
           </PrivateRoute>
         } />
 

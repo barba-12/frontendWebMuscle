@@ -1,16 +1,12 @@
 import context from "react-bootstrap/esm/AccordionContext";
 
 export class EsercizioScheda {
-  constructor(idUnivoco, idEsercizio, giorno, ripetizioni = [], serie = [], tempoRecupero = [], carico = [], completato = false, activated = true) {
-    this.idUnivoco = idUnivoco;  //da togliere
+  constructor(idEsercizio, ripetizioni = [], serie = [], tempoRecupero = [], carico = []) {
     this.idEsercizio = idEsercizio;
-    this.giorno = giorno;   //da togliere
     this.ripetizioni = Array.isArray(ripetizioni) ? [...ripetizioni] : [ripetizioni];
     this.serie = Array.isArray(serie) ? [...serie] : [serie];
     this.tempoRecupero = Array.isArray(tempoRecupero) ? [...tempoRecupero] : [tempoRecupero];
     this.carico = Array.isArray(carico) ? [...carico] : [carico];
-    this.completato = completato;  //da togliere
-    this.activated = activated;  //da togliere
   }
   
   /*
@@ -87,55 +83,16 @@ export class EsercizioScheda {
     return lista;
   }
 
-  modifica (serie, ripetizione, carico, tempoRecupero, giorno) {
+  modifica (serie, ripetizione, carico, tempoRecupero) {
     this.serie[0] = serie;
     this.ripetizioni[0] = ripetizione;
     this.carico[0] = carico;
     this.tempoRecupero[0] = tempoRecupero;
-    this.giorno = giorno; 
-  }
-
-  getGiornoNum () {
-    let listaGiorni = ["Domenica", "Lunedi", "Martedi", "Mercoledi", "Giovedi", "Venerdi", "Sabato"];
-    for(let i=0; i<listaGiorni.length; i++){
-      if(this.giorno == listaGiorni[i]) return i;
-    }
   }
 
   /*
     getter e setter
   */
-  isActivated() {
-    return this.activated;
-  }
-
-  setActivated(activated){
-    this.activated = activated;
-  }
-
-  setIdUnivoco(idUnivoco) {
-    this.idUnivoco = idUnivoco;
-  }
-
-  getIdUnivoco(){
-    return this.idUnivoco;
-  }
-
-  isCompletato() {
-    return this.completato;
-  }
-
-  setCompletato(completato) {
-    this.completato = completato;
-  }
-
-  setGiorno(giorno) {
-    this.giorno = giorno;
-  }
-
-  getGiorno() {
-    return this.giorno;
-  }
 
   getIdEsercizio() {
     return this.idEsercizio;
@@ -177,15 +134,5 @@ export class EsercizioScheda {
   setCarico(value) {
     if (value < 0) throw new Error("Il carico non può essere negativo");
     this.carico = value;
-  }
-
-  toJSON() {
-    return {
-      idEsercizio: this.idEsercizio,
-      ripetizioni: this.ripetizioni,
-      serie: this.serie,
-      tempoRecupero: this.tempoRecupero,
-      carico: this.carico,
-    };
   }
 }

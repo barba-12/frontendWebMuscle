@@ -5,7 +5,9 @@ import VideoPlayer from "../videoPlayer";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
 import { Scheda } from "../../models/Scheda";
 import { saveScheda, getAllSchedeDB } from "../../db/DBschede";
+import { saveEsercizioBase, getEsercizioBase } from "../../db/DBdatiEsercizi";
 import { getIncrementalId } from "../generatoreID/generatoreID";
+import { EsercizioDoppione } from "../../models/EsercizioDoppione";
 
 function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) {
   const [showForm, setShowForm] = useState(false);
@@ -48,7 +50,7 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
 
     useEffect(() => {
         if (!schedaRaw) return;
-            const nuovaScheda = new Scheda({
+          const nuovaScheda = new Scheda({
             id: schedaRaw.id,
             tipologia: schedaRaw.tipologia,
             giorniAllenamento: schedaRaw.giorni.length,
@@ -57,22 +59,17 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
             nuovaScheda.setGiorni(schedaRaw.giorni);
         
             schedaRaw.esercizi.forEach(e => {
-            const newEs = new EsercizioScheda(
+            const newEs = new EsercizioDoppione(
                 e.idUnivoco,
                 e.idEsercizio,
                 e.giorno,
-                e.ripetizioni,
-                e.serie,
-                e.tempoRecupero,
-                e.carico,
-                e.completato,
-                e.activated
+                e.completato
             );
 
             nuovaScheda.addEsercizio(newEs);
-            });
+          });
 
-            setScheda(nuovaScheda);
+          setScheda(nuovaScheda);
     }, [schedaRaw]);
 
     const salvaEsercizio = async (e) => {
@@ -80,33 +77,40 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
       const result = checkError();
       if (result.ok){
 
-        //se l'esercizio è gia presente nella scheda lo riattivo altrimenti lo creo
-        /*if(scheda.getListaID().includes(esercizio.id)) {
-          let esercizioScheda = scheda.serchById(esercizio.id);
-          scheda.activateEsercizio(esercizio.idUnivoco); 
-          esercizioScheda.setGiorno(giorno);
-          esercizioScheda.setRipetizioni(ripetizioni);
-          esercizioScheda.setSerie(serie);
-          esercizioScheda.setTempoRecupero(tempoRecupero);
-          esercizioScheda.setCarico(carico);
-          esercizioScheda.setCompletato(false);
-        }
-        else {*/
-          const id = await getIncrementalId();
-          const newEs = new EsercizioScheda(
-              id,
-              esercizio.id,
-              giorno,
-              Number(ripetizioni),
-              Number(serie),
-              Number(tempoRecupero),
-              Number(carico),
-              false,
-              true
+        //salvo esercizio EsercizioScheda nel db dei dati
+        //se ce lo sovrascrive altrimenti lo aggiuge
+        let es = await getEsercizioBase(esercizio.id);
+        console.log(es);
+        if(es != null){
+          let esercizioClass = new EsercizioScheda(
+            esercizio.id,
+            es.ripetizioni,
+            es.serie ,
+            es.tempoRecupero,
+            es.carico
           );
+          esercizioClass.modifica(Number(serie), Number(ripetizioni), Number(carico), Number(tempoRecupero));
+          saveEsercizioBase(esercizioClass);
+        } else {
+          let esercizioClass = new EsercizioScheda(
+            esercizio.id,
+            Number(ripetizioni),
+            Number(serie),
+            Number(tempoRecupero),
+            Number(carico)
+          );
+          saveEsercizioBase(esercizioClass);
+        }
 
-          scheda.addEsercizio(newEs);
-        //}
+        //aggiungo esercizi nella scheda tramite l'altro db
+        //scheda gia con classe
+        const id = await getIncrementalId();
+        scheda.addEsercizio(new EsercizioDoppione(
+          id,
+          esercizio.id,
+          giorno,
+          false,
+        ));
 
         saveScheda(scheda);
 
@@ -140,6 +144,8 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
       return { ok: true, message: "Dati validi" };
     }
 
+    {if(!schedaRaw) return <h1>caricamento</h1>} 
+      
    //AGGIUNGERE CONTROLLI NON HTML5
   return (
     <Card className="project-card-view">
@@ -173,7 +179,7 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
           gap: "8px",             // distanza uniforme tra pulsanti
           justifyContent: "center"  // allinea i pulsanti a sinistra, puoi cambiare in "center"
         }}>
-        <Link to={`/dettaglioEsGenerico/${esercizio.id}`}>
+        <Link to={`/dettEsGenAdd/${schedaRaw.id}/${esercizio.id}`}>
           <Button variant="primary">
             visualizza dettagli
           </Button>

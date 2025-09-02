@@ -1,12 +1,11 @@
 import context from "react-bootstrap/esm/AccordionContext";
 
 export class EsercizioDoppione {
-  constructor(idUnivoco, idEsercizio, giorno, completato = false, activated = true) {
+  constructor(idUnivoco, idEsercizio, giorno, completato = false) {
     this.idUnivoco = idUnivoco;
     this.idEsercizio = idEsercizio;
     this.giorno = giorno;
     this.completato = completato;
-    this.activated = activated;
   }
 
   getGiornoNum () {
@@ -19,13 +18,6 @@ export class EsercizioDoppione {
   /*
     getter e setter
   */
-  isActivated() {
-    return this.activated;
-  }
-
-  setActivated(activated){
-    this.activated = activated;
-  }
 
   setIdUnivoco(idUnivoco) {
     this.idUnivoco = idUnivoco;

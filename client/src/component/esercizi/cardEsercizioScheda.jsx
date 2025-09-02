@@ -5,7 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
 import exerciseData from "../../data/exercise";
 import { getAllSchedeDB, saveScheda } from "../../db/DBschede";
+import { getEsercizioBase, saveEsercizioBase } from "../../db/DBdatiEsercizi";
 import { Scheda } from "../../models/Scheda";
+import { EsercizioDoppione } from "../../models/EsercizioDoppione";
 
 function cardEsercizioScheda({ schedaId, esercizioId, activeVideoId, setActiveVideoId }) {
   const [esercizioRaw, setEsercizioRaw] = useState(null);
@@ -18,6 +20,7 @@ function cardEsercizioScheda({ schedaId, esercizioId, activeVideoId, setActiveVi
   const [scheda, setScheda] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
+  const [esercizioDati, setEsercizioDati] = useState(null);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const giorni = ["Lunedi", "Martedi", "Mercoledi", "Giovedi", "Venerdi", "Sabato", "Domenica"];
@@ -37,53 +40,71 @@ function cardEsercizioScheda({ schedaId, esercizioId, activeVideoId, setActiveVi
     fetchScheda();
   }, [schedaId]);
 
-  // Quando scheda e esercizio sono disponibili, inizializza gli stati
   useEffect(() => {
     if (scheda) {
-      const ex = scheda.esercizi.find(e => e.idUnivoco === esercizioId); // esercizioId dev’essere passato
-      setEsercizio(ex || null);
-      if (ex) {
-        setSerie(ex.serie?.[0]?.toString() || "");
-        setRipetizioni(ex.ripetizioni?.[0]?.toString() || "");
-        setCarico(ex.carico?.[0]?.toString() || "");
-        setTempoRecupero(ex.tempoRecupero?.[0]?.toString() || "");
+      const ex = scheda.esercizi.find(e => e.idUnivoco === esercizioId);
+
+      if (!ex) return;
+
+      const fetchEsercizio = async () => {
+        const exDati = await getEsercizioBase(ex.idEsercizio);
+
+        setEsercizio(ex || null);
+
+        const es = new EsercizioScheda(
+          ex.idEsercizio,
+          exDati.ripetizioni,
+          exDati.serie,
+          exDati.tempoRecupero,
+          exDati.carico
+        );
+
+        setEsercizioDati(es);
+
+        if (exDati) {
+          setSerie(exDati.serie?.[0]?.toString() || "");
+          setRipetizioni(exDati.ripetizioni?.[0]?.toString() || "");
+          setCarico(exDati.carico?.[0]?.toString() || "");
+          setTempoRecupero(exDati.tempoRecupero?.[0]?.toString() || "");
+        }
+
         setGiorno(ex.giorno || "");
         setEsercizioRaw(exerciseData.find(es => es.id === ex.idEsercizio) || null);
-      }
+      };
+
+      fetchEsercizio();
     }
   }, [scheda, esercizioId]);
 
-  //cercare esercizio in exercisedata da idEsercizio cosi da trovare l'es row
+  //cercare esercizio in exercisedata da idEsercizio cosi da trovare l'es raw
   const handleSave = (e) => {
     e.preventDefault();
     const result = checkError();
     if (result.ok){
+
+      //modificare giorno anche per esercizio singolo
       const nuovaScheda = new Scheda({
         id: scheda.id,
         tipologia: scheda.tipologia,
         giorniAllenamento: scheda.giorni.length,
       });
-
       nuovaScheda.setGiorni(scheda.giorni);
 
       scheda.esercizi.forEach(e => {
-        const newEs = new EsercizioScheda(
+        nuovaScheda.addEsercizio(new EsercizioDoppione(
           e.idUnivoco,
           e.idEsercizio,
           e.giorno,
-          e.ripetizioni,
-          e.serie,
-          e.tempoRecupero,
-          e.carico,
           e.completato,
-          e.activated
-        );
-
-        nuovaScheda.addEsercizio(newEs);
+        ));
       });
 
-      nuovaScheda.modificaEsercizio(esercizio.idUnivoco, Number(serie), Number(ripetizioni), Number(carico), Number(tempoRecupero), giorno);
+      nuovaScheda.changeGiorno(esercizio.idUnivoco, giorno);
       saveScheda(nuovaScheda);
+
+      esercizioDati.modifica(Number(serie), Number(ripetizioni), Number(carico), Number(tempoRecupero));
+
+      saveEsercizioBase(esercizioDati);
       navigate(`/giorni/${schedaId}`);
     } else {
       setShowMessage(true);

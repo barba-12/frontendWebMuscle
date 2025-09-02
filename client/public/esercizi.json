@@ -1,0 +1,35 @@
+[
+  {
+    "idEsercizio": 1,
+    "ripetizioni": [],
+    "serie": [
+      1
+    ],
+    "tempoRecupero": [],
+    "carico": []
+  },
+  {
+    "idEsercizio": 2,
+    "ripetizioni": [
+      3,
+      3,
+      3,
+      3
+    ],
+    "serie": [
+      2
+    ],
+    "tempoRecupero": [
+      3,
+      3,
+      3,
+      3
+    ],
+    "carico": [
+      3,
+      3,
+      3,
+      3
+    ]
+  }
+]

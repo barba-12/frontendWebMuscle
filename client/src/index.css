@@ -257,6 +257,13 @@ body {
   font-weight: 500 !important;
 }
 
+.project-text {
+  margin: 20px 0px;
+  color: white !important;
+  font-size: 1em !important;
+  font-weight: 50 !important;
+}
+
 /* --------- */
 /* Video Player */
 /* --------- */

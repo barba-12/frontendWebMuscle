@@ -22,32 +22,10 @@ export class Scheda {
 
 
   addEsercizio(esercizio) {
-    //controllo se l'esercizio è gia presente all'interno della cheda se si allora verifico il giorno se è lo stesso giono do errore
-    //altrimenti aggiungo il giono delle'esercizi passato come parametro a questo metodo all'esercizio trovato uguale
-
     this.esercizi.push(esercizio);
     if(!this.giorni.includes(esercizio.getGiorno())) this.giorni.push(esercizio.getGiorno());
-
-    console.log(this.giorni);
     this.controllaGiorniVuoti();
     this.ordinaGiorni();
-    /*if(this.getListaID().includes(esercizio.getIdEsercizio())){
-      for (let i=0; i<this.esercizi.length; i++){
-        let giorni = this.esercizi[i].getGiorni();
-        let id = this.esercizi[i].getIdEsercizio();
-
-        if(id == esercizio.getIdEsercizio()){
-         if(!giorni.includes(esercizio.getGiorni()[0])) {
-            if(!this.giorni.includes(esercizio.getGiorni()[0])) this.giorni.push(esercizio.getGiorni()[0]);
-            this.esercizi[i].addGiorno(esercizio.getGiorni()[0]);
-         }
-        }
-      }
-    }
-    else {
-      this.esercizi.push(esercizio);
-      if(!this.giorni.includes(esercizio.getGiorni()[0])) this.giorni.push(esercizio.getGiorni()[0]);
-    }*/
   }
 
   modificaEsercizio (idUnivoco, serie, ripetizioni, carico, tempoRecupero, giorno) {
@@ -91,29 +69,15 @@ export class Scheda {
   getNumEsXGiorno(giorno){
     let numero = 0;
     this.esercizi.forEach(es => {
-      if(es.giorno == giorno && es.activated) numero++;
+      if(es.giorno == giorno) numero++;
     });
     return numero;
-  }
-  
-  deactivateEsercizio (idUnivoco) {
-    let es = this.getEsByIdUnivoco(idUnivoco);
-    es.setActivated(false);
-  }
-
-  activateEsercizio (idUnivoco) {
-    let es = this.getEsByIdUnivoco(idUnivoco);
-    console.log(idUnivoco);
-    console.log(es);
-    es.setActivated(true);
-    this.controllaGiorniVuoti();
-    this.ordinaGiorni();
   }
 
   getNumEsXGiornoAttivi (giorno) {
     let numero = 0;
     this.esercizi.forEach(es => {
-      if(es.giorno == giorno && !es.completato  && es.activated) numero++;
+      if(es.giorno == giorno && !es.completato ) numero++;
     });
     return numero;
   }
@@ -121,7 +85,7 @@ export class Scheda {
   getNumEsXGiornoDaCompletare (giorno) {
     let numero = 0;
     this.esercizi.forEach(es => {
-      if(es.giorno == giorno && !es.completato  && es.activated) numero++;
+      if(es.giorno == giorno && !es.completato ) numero++;
     });
     return numero;
   }
@@ -129,7 +93,7 @@ export class Scheda {
   getEsXGiornoENonCompletato(giorno) {
     let listaEs = [];
     this.esercizi.forEach(es => {
-      if(es.giorno == giorno && !es.completato  && es.activated) listaEs.push(es);
+      if(es.giorno == giorno && !es.completato ) listaEs.push(es);
     });
     return listaEs;
   }
@@ -156,6 +120,14 @@ export class Scheda {
     this.esercizi.forEach(es => {
         es.setCompletato(false);
     })
+  }
+
+  changeGiorno (id, giorno){
+    let es = this.getEsByIdUnivoco(id);
+    es.setGiorno(giorno);
+    if(!this.giorni.includes(giorno)) this.giorni.push(giorno);
+    this.controllaGiorniVuoti();
+    this.ordinaGiorni();
   }
 
   // 🔹 Getter e Setter per id

@@ -28,6 +28,7 @@ const exerciseData = [
     ["Bilanciere", "Rack"],
     "Media",
     [squatBilancereFront, squatBilancereSide, squatBilancereActivationMuscle],
+    false,
     false
   ),
   new Esercizio(
@@ -38,6 +39,7 @@ const exerciseData = [
     ["Panca", "Bilanciere"],
     "Media",
     [pancaPianaFront, pancaPianaSide, pancaPianaActivationMuscle],
+    false,
     false
   ),
   new Esercizio(
@@ -48,6 +50,7 @@ const exerciseData = [
     ["Sbarra per trazioni"],
     "Difficile",
     [trazioneSbarraFront, trazioneSbarraSide, trazioneSbarraActivationMuscle],
+    false,
     false
   ),
   new Esercizio(
@@ -55,9 +58,10 @@ const exerciseData = [
     "Affondi",
     "Fai un passo in avanti con una gamba§Abbassa il corpo fino a quando il ginocchio posteriore sfiora quasi il suolo§Assicurati di rimanere in posizione eretta e che il ginocchio anteriore rimanga sopra il piede anteriore§Spingi dal pavimento con il piede anteriore fino a tornare alla posizione iniziale. Cambia gamba| Come Fare la Camminata in Avanti con Affondo Preparazione Inizia con i piedi alla larghezza delle spalle e le dita dei piedi rivolte in avanti. Utilizza l'indicazione torace superman durante l'intero set. Cioè, immagina di avere il logo di Superman sul tuo petto e mostra quel logo per tutta la durata del set. Questo ti aiuterà a mantenere l'alto il petto e le scapole retratte. Inoltre, questa indicazione ti aiuterà a mantenere il busto verticale. Esecuzione Inizia la prima ripetizione facendo un passo avanti. Dovresti regolare la lunghezza del tuo passo a seconda del muscolo che vuoi lavorare di più. Usa un passo più corto se vuoi coinvolgere maggiormente i quadricipiti. La lunghezza del passo più corta aumenterà l'escursione del movimento delle tue ginocchia. Se vuoi lavorare un po' più glutei, fai un passo più lungo. Un passo più lungo aumenterà l'escursione del movimento dei fianchi. Puoi lasciare le braccia ai lati del corpo, mettere le mani sui fianchi (come puoi vedere nel nostro video dimostrativo) o puoi mettere le mani a preghiera. Lascia che il ginocchio dietro tocchi leggermente il pavimento. Spingi in maniera esplosiva con il tallone davanti per tornare alla posizione di partenza. Puoi fare tutte le ripetizioni da un singolo lato o alternarle. Man mano che ti stanchi, fai attenzione a non lasciare che il tuo petto cominci a cadere in avanti, o che la tua colonna lombare si incurvi. Se l'affondo in avanti è troppo difficile, prova l'affondo indietro. È una variante più semplice.",
     ["Quadricipiti", "Glutei", "Femorali"],
-    ["Manubri (opzionale)"],
+    ["Nessuna attrezzatura richiesta", "Manubri (opzionale)"],
     "Facile",
     [affondiFront, affondiSide, affondiActivationMuscle],
+    false,
     false
   ),
   new Esercizio(
@@ -68,6 +72,7 @@ const exerciseData = [
     ["Nessuna attrezzatura richiesta"],
     "Facile",
     [plankSide, plankActivationMuscle],
+    true,
     true
   )
 ];

@@ -11,7 +11,7 @@ export class Esercizio {
    * @param {string[]} immaginiVideo - Lista di URL di immagini o video dimostrativi
    * @param {boolean} repOrTime - indicare se l'esercizio si basa sulle ripetizioni o sulla durata
    */
-  constructor(id, nome, descrizione, muscoliAllenati, attrezzatura, difficoltà, immaginiVideo, repOrTime) {
+  constructor(id, nome, descrizione, muscoliAllenati, attrezzatura, difficoltà, immaginiVideo, repOrTime, isStreching) {
     this.id = id;
     this.nome = nome;
     this.descrizione = descrizione;
@@ -20,5 +20,6 @@ export class Esercizio {
     this.difficoltà = difficoltà;
     this.immaginiVideo = immaginiVideo;
     this.repOrTime = repOrTime;
+    this.isStreching = isStreching;
   }
 }

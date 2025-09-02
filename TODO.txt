@@ -1,89 +1,4 @@
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-soluzione spiegata:https://chatgpt.com/c/68b5b687-0f98-8321-ad19-43ac0f6e2c7f
-
-
-
-creare secondo db
-
-creare una scheda
-creo una copia in entrambi i db
-il primo con i dati
-il secondo in base a quanti ne ho aggiunti dello stesso esercizio
-
-completare esrcizio e resettare
-da modificare completato nel secondo db con idUnivoco
-e salvare i dati nel primo
-
-eliminare esercizio
-elimino la classe esercizioClone nel secondo db in base all'idUnivoco
-
-aggiugnere esercizio a scheda esistente 
-creo una istanza della classe esecizioClone e la salvo sul secondo DB
-
-modificare un esercizio
-modifico i dati relativi all'esercizio idEsercizio nel primo DB
-
-
-
-
-
-
-soluzione definitiva:
-craere classe esercizioClonato
-e avere due db diversi uno per i dati e l'altro per gli esClonati
-
-
-prima soluzione:
-aggiungere classe esercizioDuplicato dovo ho solo activated, completato, giorno, idEsercizio, idUnivoco
-quando salvo i dati li salvo sul primo esercizio con quel idEsercizio
-quando li visualizzop li vado a prendere solo dal primo esercizio con quel idEsercizio
-invece se devo attivare, disattivare, completare li faccio in base all'idUnivoco
-per la modifica modifico il primo
-fare lista eserciziScheda con solo quelli con i dati i restanti non
-cosi li prendo direttamente da li, se disattiva il primo non controllo se sia disabilitato e prendo i dati lo stesso se vengono richiesti
-
-PIU VELOCE ma spreca piu memoria: altrimenti prendo tutti gli esercizi con gli stessi idEsercizio e modifico i dati a tutti in comntemporanea   
-
-funzione con instanceOf per verificare tra tutti gli es con idEsercizio uguale a quello che si vuole modificare, aggiungere ... per modificarne i dati
-
-quando l'esercizio che voglio eliminare è instanceOf di esercizioClonato elimino la classe direttamemte
-se invece è esercizioScheda ovvero con i dati all'interno lo disabilito e basta
-
-qunado aggiungo un esercizio presente in scheda se l'esercizioScheda contenente i dati  ma disattivato 
-
-seconda soluzione:
-[
-   es: 1,
-   dati
-
-   es:2,
-   dati
-]
-
-elimino o aggiungo completamente
-[
-   es: 1,
-   esId: 0,
-
-   es: 1,
-   esId: 0,
-]
-
-file JSON:
-unica modifica è sul idUnivoco che non esistera piu
-
-creare db a parte contenente gli eserciziClonati gestisco i dati sul primo database senza copie dello stesso esercizio
-quando elimino o aggiungo lo faccio dal secondo DB 
-invece quando modifico, aggiungo dati lo faccio sul primo
-
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 aggiunta di esericizi in exercise.js
-
-salvare filtri in sessioStorage per mantenerli attraverso le pagine
-
-visualizzazione prima di es di riscaldamento/streching e poi gli eltri nella scheda
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -129,6 +44,11 @@ PAGINA utente:
     - aggiunta password amministratore pure per eliminare es o schede
     - aggiugnere filtri di ricerca in esercizi:
     - cercare in exercise.js tutti i tipi di muscoli e inserirli come filtri + se richiedono o meno attrezzatura
+    - sistemata logica DB
+    - salvare filtri in sessioStorage per mantenerli attraverso le pagine
+    - sistemare pagina amministratore
+    - sistemare scaricaggio e lettura JSON
+    - aggiungere piu filtri
 
  CLASSE EsercizioScheda:
     - creazione classe esercizio (creo id univoco tramite date.Now()) - aggiungiScheda.jsx 

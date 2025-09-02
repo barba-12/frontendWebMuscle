@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Container, Button, Modal, Table, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getAllSchedeDB, clearDB, getAllSchede, openDB, resetAllStatusEs } from "../../db/DBschede"; // Assumo sia implementata
+import { getAllSchedeDB, clearDB, resetAllStatusEs } from "../../db/DBschede"; // Assumo sia implementata
+import { getAllEserciziBase, clearDB as clearDBDati, getAllEsercizi, resetEserciziKeepFirst} from "../../db/DBdatiEsercizi";
 
 function PagAmm() {
   const [sessionData, setSessionData] = useState([]);
   const [localData, setLocalData] = useState([]);
   const [indexedDBData, setIndexedDBData] = useState([]);
+  const [indexedDBDati, setIndexedDBDati] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showModalReset, setShowModalReset] = useState(false);
   const [modalContent, setModalContent] = useState({ title: "", data: [] });
@@ -27,65 +29,39 @@ function PagAmm() {
     const sessionEntries = Object.entries(sessionStorage).filter(([key]) => key !== "bis_data");
     const localEntries = Object.entries(localStorage);
     const indexedDBEntries = await getAllSchedeDB(); // Deve restituire un array
+    const indexedDBDatiEntries = await getAllEserciziBase();
 
     setSessionData(sessionEntries);
     setLocalData(localEntries);
     setIndexedDBData(indexedDBEntries);
+    setIndexedDBDati(indexedDBDatiEntries);
   };
 
-  const scaricaJSON = async () => {
-    if(pass == "Amministratore12"){
+  //da eliminare dati su DB
+  const scaricaJSONEsercizi = async () => {
+    if (pass !== "Amministratore12") {
+      setShowMessage(true);
+      return;
+    }
 
-      //nel JSON ometto il primo elemneto del DB
+    const eserciziFinali = await getAllEsercizi(); // già merge DB + JSON
+    const jsonExport = JSON.stringify(eserciziFinali, null, 2);
 
-      // 🔹 Ottieni le schede già merge-ate (DB + JSON)
-      const schedeDB = await getAllSchede();
-      const schedeDBTot = await getAllSchedeDB();
+    const blob = new Blob([jsonExport], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "esercizi.json";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
 
-      // 🔹 Preparo solo i dati numerici da esportare
-      const schedeExport = schedeDB.map((scheda) => ({
-        id: scheda.id,
-        esercizi: scheda.esercizi.map((ex) => ({
-          idUnivoco: ex.idUnivoco,
-          ripetizioni: ex.ripetizioni || [],
-          carico: ex.carico || [],
-          tempoRecupero: ex.tempoRecupero || [],
-        })),
-      }));
+    resetEserciziKeepFirst();
 
-      // 🔹 Download JSON
-      const jsonString = JSON.stringify(schedeExport, null, 2);
-      const blob = new Blob([jsonString], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "schede.json";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-
-      // 🔹 Resetto i campi numerici in IndexedDB
-      const db = await openDB();
-      const tx = db.transaction(STORE_NAME, "readwrite");
-      const store = tx.objectStore(STORE_NAME);
-
-      for (const scheda of schedeDBTot) {
-        scheda.esercizi = scheda.esercizi.map((ex) => ({
-          ...ex,
-          ripetizioni: [ex.ripetizioni[0]],
-          carico: [ex.carico[0]],
-          tempoRecupero: [ex.tempoRecupero[0]],
-        }));
-        store.put(scheda);
-      }
-
-      await tx.done;
-
-      setShowModalJSON(false);
-      setPass("");
-      setShowMessage(false);
-    } else setShowMessage(true);
+    setShowModalJSON(false);
+    setPass("");
+    setShowMessage(false);
   };
 
   const resettaEs = async () => {
@@ -105,9 +81,12 @@ function PagAmm() {
       } else if (type === "local") {
         localStorage.clear();
         setLocalData([]);
-      } else if (type === "indexedDB") {
+      } else if (type === "indexedDBSchede") {
         await clearDB();
         setIndexedDBData([]);
+      } else if (type === "indexedDBDati") {
+        await clearDBDati();
+        setIndexedDBDati([]);
       }
       setShowConfirm(false); // chiudi modale conferma
       setPass("");
@@ -121,7 +100,8 @@ function PagAmm() {
     const titles = {
       session: "Session Storage",
       local: "Local Storage",
-      indexedDB: "IndexedDB",
+      indexedDBSchede: "IndexedDB Schede",   // aggiunta
+      indexedDBDati: "IndexedDB Dati Esercizi", // già la usi
     };
     setModalContent({ title: titles[type], data });
     setShowModal(true);
@@ -144,50 +124,49 @@ function PagAmm() {
     return result;
   };
 
-const renderSimpleTable = (data) => (
-  <div className="table-responsive">
-    <Table striped bordered hover>
-      <thead>
-        <tr>
-          <th className="table-custom">Chiave</th>
-          <th className="table-custom">Valore</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map(([key, value], index) => (
-          <tr key={index}>
-            <td className="table-custom">{key}</td>
-            <td className="table-custom">{typeof value === "object" ? JSON.stringify(value) : value}</td>
+  const renderSimpleTable = (data) => (
+    <div className="table-responsive">
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th className="table-custom">Chiave</th>
+            <th className="table-custom">Valore</th>
           </tr>
-        ))}
-      </tbody>
-    </Table>
-  </div>
-);
-
-const renderIndexedDBTable = (data) => (
-  <div className="table-responsive" >
-    <Table striped bordered hover>
-      <thead>
-        <tr>
-          <th className="table-custom">Chiave</th>
-          <th className="table-custom">Valore</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.flatMap(([key, value], index) =>
-          flattenRecord(value, `${key}.`).map(([k, v], subIndex) => (
-            <tr key={`${index}-${subIndex}`}>
-              <td className="table-custom">{k}</td>
-              <td className="table-custom">{v !== null && typeof v === "object" ? JSON.stringify(v) : v.toString()}</td>
+        </thead>
+        <tbody>
+          {data.map(([key, value], index) => (
+            <tr key={index}>
+              <td className="table-custom">{key}</td>
+              <td className="table-custom">{typeof value === "object" ? JSON.stringify(value) : value}</td>
             </tr>
-          ))
-        )}
-      </tbody>
-    </Table>
-  </div>
-);
+          ))}
+        </tbody>
+      </Table>
+    </div>
+  );
 
+  const renderIndexedDBTable = (data) => (
+    <div className="table-responsive" >
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th className="table-custom">Chiave</th>
+            <th className="table-custom">Valore</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.flatMap(([key, value], index) =>
+            flattenRecord(value, `${key}.`).map(([k, v], subIndex) => (
+              <tr key={`${index}-${subIndex}`}>
+                <td className="table-custom">{k}</td>
+                <td className="table-custom">{v !== null && typeof v === "object" ? JSON.stringify(v) : v.toString()}</td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </Table>
+    </div>
+  );
 
   return (
     <Container fluid className="project-section">
@@ -207,8 +186,11 @@ const renderIndexedDBTable = (data) => (
           <Button variant="primary" className="m-2" onClick={() => handleShowModal("local", localData)}>
             Visualizza LocalStorage
           </Button>
-          <Button variant="primary" className="m-2" onClick={() => handleShowModal("indexedDB", indexedDBData.map((entry, idx) => [`Record ${idx + 1}`, entry]))} >
-            Visualizza IndexedDB
+          <Button variant="primary" className="m-2" onClick={() => handleShowModal("indexedDBSchede", indexedDBData.map((entry, idx) => [`Record ${idx + 1}`, entry]))} >
+            Visualizza IndexedDB schede
+          </Button>
+          <Button variant="primary" className="m-2" onClick={() => handleShowModal("indexedDBDati", indexedDBDati.map((entry, idx) => [`Record ${idx + 1}`, entry]))} >
+            Visualizza IndexedDB dati esercizi
           </Button>
 
           <hr style={{border:"2px solid #752eb8"}}/>
@@ -219,8 +201,11 @@ const renderIndexedDBTable = (data) => (
           <Button variant="danger" className="m-2" onClick={() => { setDeleteTarget("local"); setShowConfirm(true); }}>
             Svuota LocalStorage
           </Button>
-          <Button variant="danger" className="m-2" onClick={() => { setDeleteTarget("indexedDB"); setShowConfirm(true); }}>
-            Svuota IndexedDB
+          <Button variant="danger" className="m-2" onClick={() => { setDeleteTarget("indexedDBSchede"); setShowConfirm(true); }}>
+            Svuota IndexedDB schede
+          </Button>
+          <Button variant="danger" className="m-2" onClick={() => { setDeleteTarget("indexedDBDati"); setShowConfirm(true); }}>
+            Svuota IndexedDB dati esercizi
           </Button>
 
           <Button variant="danger" className="m-2" onClick={() => { setShowModalJSON(true); }}>
@@ -240,7 +225,7 @@ const renderIndexedDBTable = (data) => (
           <Modal.Body className="modal-header-glass">
             {modalContent.data.length === 0 ? (
               <p>Nessun dato presente.</p>
-            ) : modalContent.title === "IndexedDB" ? (
+            ) : (modalContent.title === "IndexedDB Dati Esercizi" || modalContent.title ===  "IndexedDB Schede") ? (
               renderIndexedDBTable(modalContent.data)
             ) : (
               renderSimpleTable(modalContent.data)
@@ -294,7 +279,7 @@ const renderIndexedDBTable = (data) => (
             </Form>
           </Modal.Body>
           <Modal.Footer className="modal-header-glass">
-            <Button variant="success" onClick={scaricaJSON}>
+            <Button variant="success" onClick={scaricaJSONEsercizi}>
               Conferma
             </Button>
           </Modal.Footer>

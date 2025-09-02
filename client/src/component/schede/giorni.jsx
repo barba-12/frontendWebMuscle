@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Card, Modal, Form } from "react-bootstrap";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Scheda as SchedaClasse } from "../../models/Scheda";
-import { getAllSchede, deleteScheda } from "../../db/DBschede";
+import { getAllSchedeDB, deleteScheda } from "../../db/DBschede";
 
 function Giorni() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ function Giorni() {
   useEffect(() => {
     async function fetchScheda() {
       try {
-      const tutteLeSchede = await getAllSchede();
+      const tutteLeSchede = await getAllSchedeDB();
       const schedaTrovata = tutteLeSchede.find(s => s.id.toString() === schedaId);
 
       if (!schedaTrovata) {
