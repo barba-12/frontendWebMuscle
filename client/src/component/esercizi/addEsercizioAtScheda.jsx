@@ -4,7 +4,7 @@ import { Button, Card, Form, InputGroup } from "react-bootstrap";
 import VideoPlayer from "../videoPlayer";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
 import { Scheda } from "../../models/Scheda";
-import { saveScheda, getAllSchedeDB } from "../../db/indexedDB";
+import { saveScheda, getAllSchedeDB } from "../../db/DBschede";
 import { getIncrementalId } from "../generatoreID/generatoreID";
 
 function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) {

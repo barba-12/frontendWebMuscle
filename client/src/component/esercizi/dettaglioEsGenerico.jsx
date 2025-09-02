@@ -22,7 +22,8 @@ function esercizioScheda() {
             setActiveVideoId={setActiveVideoId}
           />
         )}
-
+        
+        {/*nome esercizio*/}
         <h1>{esercizioRaw.nome}</h1>
 
         {esercizioRaw.descrizione.split('|').map((sezione, i) => (

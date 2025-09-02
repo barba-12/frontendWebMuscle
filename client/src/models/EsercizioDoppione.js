@@ -1,6 +1,6 @@
 import context from "react-bootstrap/esm/AccordionContext";
 
-export class EsercizioScheda {
+export class EsercizioDoppione {
   constructor(idUnivoco, idEsercizio, giorno, completato = false, activated = true) {
     this.idUnivoco = idUnivoco;
     this.idEsercizio = idEsercizio;

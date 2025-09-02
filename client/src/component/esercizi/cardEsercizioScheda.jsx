@@ -4,7 +4,7 @@ import VideoPlayer from "../videoPlayer";
 import { Link, useNavigate } from "react-router-dom";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
 import exerciseData from "../../data/exercise";
-import { getAllSchedeDB, saveScheda } from "../../db/indexedDB";
+import { getAllSchedeDB, saveScheda } from "../../db/DBschede";
 import { Scheda } from "../../models/Scheda";
 
 function cardEsercizioScheda({ schedaId, esercizioId, activeVideoId, setActiveVideoId }) {

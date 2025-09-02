@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Card, Modal, Form } from "react-bootstrap";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Scheda as SchedaClasse } from "../../models/Scheda";
-import { getAllSchede, deleteScheda } from "../../db/indexedDB";
+import { getAllSchede, deleteScheda } from "../../db/DBschede";
 
 function Giorni() {
   const navigate = useNavigate();

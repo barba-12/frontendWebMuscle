@@ -1,6 +1,3 @@
-import { Scheda } from "../models/Scheda";
-import { EsercizioScheda } from "../models/EsercizioScheda";
-
 // src/db/indexedDB.js
 const DB_NAME = "AllenamentiDB";
 const STORE_NAME = "datiEsercizi";
@@ -23,7 +20,7 @@ export function openDB() {
   });
 }
 
-// 🔹 Cancella completamente tutte le schede dal DB
+// Cancella completamente tutte le schede dal DB
 export async function clearDB() {
   const db = await openDB();
   return new Promise((resolve, reject) => {
@@ -43,7 +40,7 @@ export async function clearDB() {
   });
 }
 
-// 🔹 Aggiungi un nuovo esercizio base
+// Aggiungi un nuovo esercizio base
 export async function addEsercizioBase(esercizio) {
   const db = await openDB();
   return new Promise((resolve, reject) => {

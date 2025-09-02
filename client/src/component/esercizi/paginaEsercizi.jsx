@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Modal, Form, InputGroup } from "react-bootstrap";
 import Esercizio from "./esercizio";
 import { Link } from "react-router-dom";
-import { getAllSchede, openDB } from "../../db/indexedDB";
-import { getAllMuscle } from "../../db/functionExercise"
+import { getAllMuscle } from "../../db/functionExercise";
 
 function PaginaEsercizi({ esercizi }) {
   const [es, setEs] = useState(esercizi);

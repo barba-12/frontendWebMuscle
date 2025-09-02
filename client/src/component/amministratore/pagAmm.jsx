@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Button, Modal, Table, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getAllSchedeDB, clearDB, getAllSchede, openDB, resetAllStatusEs } from "../../db/indexedDB"; // Assumo sia implementata
+import { getAllSchedeDB, clearDB, getAllSchede, openDB, resetAllStatusEs } from "../../db/DBschede"; // Assumo sia implementata
 
 function PagAmm() {
   const [sessionData, setSessionData] = useState([]);

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Button, CardBody } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
-import Scheda from "./Scheda"; // Assumo sia il componente che mostra una singola scheda
-import { getAllSchede } from "../../db/indexedDB"; // Funzione dal servizio IndexedDB
+import { Container, Row, Col, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import Scheda from "./Scheda";
+import { getAllSchede } from "../../db/DBschede"; // Funzione dal servizio IndexedDB
 import Card from "react-bootstrap/Card";
 
 function PaginaSchede() {

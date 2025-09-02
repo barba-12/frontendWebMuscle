@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Row, Col, Button, Card, Form } from "react-bootstrap";
 import eserciziData from "../../data/exercise";
-import { saveScheda } from "../../db/indexedDB";
 import { Scheda } from "../../models/Scheda";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
 import { getIncrementalId } from "../generatoreID/generatoreID";
+
+//import { EsercizioDoppione } from "../../models/EsercizioDoppione";
+import { saveScheda } from "../../db/DBschede";   //salvare tutti gli esercizi con instanza esercizioClone
+import { addEsercizioBase } from "../../db/DBdatiEsercizi";   //salvare gli esercizi solo una volta con i dati
 
 function AggiungiScheda() {
   const navigate = useNavigate();

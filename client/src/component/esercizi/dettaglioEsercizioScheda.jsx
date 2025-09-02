@@ -4,9 +4,8 @@ import { Button, Card, Modal, Form, InputGroup  } from "react-bootstrap";
 import VideoPlayer from "../videoPlayer";
 import { Scheda } from "../../models/Scheda";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
-import { saveScheda } from "../../db/indexedDB";
 import exerciseData from "../../data/exercise";
-import { getAllSchedeDB, getAllSchede } from "../../db/indexedDB";
+import { getAllSchedeDB, getAllSchede, saveScheda } from "../../db/DBschede";
 import Grafico from "../grafico/grafico";
 
 function dettaglioEsercizioScheda() {

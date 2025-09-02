@@ -1,3 +1,6 @@
+import { Scheda } from "../models/Scheda";
+import { EsercizioScheda } from "../models/EsercizioScheda";
+
 // src/db/indexedDB.js
 const DB_NAME = "eserciziSchede";
 const STORE_NAME = "schede";

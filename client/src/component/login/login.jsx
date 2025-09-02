@@ -1,7 +1,7 @@
 import { use, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Card } from "react-bootstrap";
-import { checkStatusExercise } from "../../db/indexedDB";
+import { checkStatusExercise } from "../../db/DBschede";
 
 export default function Login({ onLoginSuccess }) {
   const [username, setUsername] = useState("");

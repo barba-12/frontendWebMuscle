@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { getAllSchede } from "../../db/indexedDB";
+import { getAllSchede } from "../../db/DBschede";
 
 function Scheda({ schedaId }) {
   const navigate = useNavigate();

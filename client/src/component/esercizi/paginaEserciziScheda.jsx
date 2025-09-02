@@ -3,7 +3,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Scheda } from "../../models/Scheda";
 import { EsercizioScheda } from "../../models/EsercizioScheda";
-import { getAllSchede } from "../../db/indexedDB";
+import { getAllSchede } from "../../db/DBschede";
 import CardEsercizioScheda from "./cardEsercizioScheda"; 
 
 function PaginaEserciziScheda() {
