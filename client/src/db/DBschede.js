@@ -5,7 +5,7 @@ import { EsercizioDoppione } from "../models/EsercizioDoppione";
 // src/db/indexedDB.js
 const DB_NAME = "eserciziSchede";
 const STORE_NAME = "schede";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 // Funzione per aprire/creare il DB
 export function openDB() {

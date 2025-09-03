@@ -3,6 +3,7 @@ import { Container, Button, Modal, Table, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getAllSchedeDB, clearDB, resetAllStatusEs } from "../../db/DBschede"; // Assumo sia implementata
 import { getAllEserciziBase, clearDB as clearDBDati, getAllEsercizi, resetEserciziKeepFirst} from "../../db/DBdatiEsercizi";
+import { clearAllIndexedDB } from "../../db/clearAllDB";
 
 function PagAmm() {
   const [sessionData, setSessionData] = useState([]);
@@ -88,6 +89,8 @@ function PagAmm() {
       } else if (type === "indexedDBDati") {
         await clearDBDati();
         setIndexedDBDati([]);
+      } else if (type === "indexedDB") {
+        await clearAllIndexedDB();
       }
       setShowConfirm(false); // chiudi modale conferma
       setPass("");
@@ -207,6 +210,9 @@ function PagAmm() {
           </Button>
           <Button variant="danger" className="m-2" onClick={() => { setDeleteTarget("indexedDBDati"); setShowConfirm(true); }}>
             Svuota IndexedDB dati esercizi
+          </Button>
+          <Button variant="danger" className="m-2" onClick={() => { setDeleteTarget("indexedDB"); setShowConfirm(true); }}>
+            Svuota tutti gli IndexedDB
           </Button>
 
           <Button variant="danger" className="m-2" onClick={() => { setShowModalJSON(true); }}>

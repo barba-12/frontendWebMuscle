@@ -1,7 +1,7 @@
 // src/db/DBdatiEsercizi.js
 const DB_NAME = "AllenamentiDB";
 const STORE_NAME = "datiEsercizi";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 // Funzione per aprire/creare il DB
 export function openDB() {

@@ -127,7 +127,9 @@ function cardEsercizioScheda({ schedaId, esercizioId, activeVideoId, setActiveVi
     return { ok: true, message: "Dati validi" };
   }
 
-  {if(!esercizioRaw) return <h1>caricamento</h1>}
+  if (!esercizioRaw) {
+    return <h1>Caricamento...</h1>;
+  }
     
   return (
     <>

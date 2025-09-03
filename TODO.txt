@@ -1,3 +1,9 @@
+mettere bottone visualizza spigazione dettagliata anche nelle altre pagine
+
+se l'esercizio richiede una durata di tempo inserire timer pure per quella
+
+se l'esercizio è gia stato agginto prima visualizzare i dati precedenti gia inseriti
+
 aggiunta di esericizi in exercise.js:
 - Stacchi rumeni con bilanciere
 - Pressa
