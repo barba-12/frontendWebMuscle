@@ -48,7 +48,7 @@ function Giorni() {
   }, []);
 
   const handleClick = (giorno) => {
-    navigate(`/eserciziXGiorno/${schedaId}/${giorno}`);
+    if(schedaClass.getNumEsXGiornoDaCompletare(giorno) != 0) navigate(`/eserciziXGiorno/${schedaId}/${giorno}`);
   };
 
   const eliminaScheda = () => {

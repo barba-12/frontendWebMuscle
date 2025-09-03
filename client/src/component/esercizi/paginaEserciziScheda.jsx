@@ -15,6 +15,7 @@ function PaginaEserciziScheda() {
   const [activeVideoId, setActiveVideoId] = useState(null);
   const [scheda, setScheda] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [nome, setNome] = useState("");
 
   const [allMuscle, setAllMuscle] = useState(getAllMuscle());
   const [muscleSelected, setMuscleSelected] = useState(() => {
@@ -29,7 +30,7 @@ function PaginaEserciziScheda() {
 
   const navigate = useNavigate();
 
-  // 🔹 Recupero scheda dal DB
+  // Recupero scheda dal DB
   useEffect(() => {
     async function fetchScheda() {
       try {
@@ -44,7 +45,7 @@ function PaginaEserciziScheda() {
     fetchScheda();
   }, [schedaId]);
 
-  // 🔹 Costruisco esercizi con dettagli di exerciseData
+  // Costruisco esercizi con dettagli di exerciseData
   useEffect(() => {
     if (!scheda) return;
 
@@ -68,7 +69,7 @@ function PaginaEserciziScheda() {
 
     const eserciziScheda = nuovaScheda.getEsXGiornoENonCompletato(giorno);
 
-    // 🔹 Arricchisco con dettagli da exerciseData
+    // Arricchisco con dettagli da exerciseData
     const eserciziConDettagli = eserciziScheda.map((es) => {
       const dettagli = exerciseData.find((d) => d.id === es.idEsercizio);
       return {
@@ -80,13 +81,13 @@ function PaginaEserciziScheda() {
     setEs(eserciziConDettagli);
   }, [scheda, location, giorno]);
 
-  // 🔹 Salvataggio filtri in sessionStorage
+  // Salvataggio filtri in sessionStorage
   useEffect(() => {
     sessionStorage.setItem("filtriSchedaMuscoli", JSON.stringify(muscleSelected));
     sessionStorage.setItem("filtriSchedaTipo", JSON.stringify(typeSelected));
   }, [muscleSelected, typeSelected]);
 
-  // 🔹 Gestione filtri
+  // Gestione filtri
   const toggleFiltroMuscolo = (filtro) => {
     setMuscleSelected((prev) =>
       prev.includes(filtro) ? prev.filter((f) => f !== filtro) : [...prev, filtro]
@@ -102,13 +103,14 @@ function PaginaEserciziScheda() {
   const resetFiltri = () => {
     setMuscleSelected([]);
     setTypeSelected([]);
+    setNome("");
   };
 
   const applicaFiltri = () => {
     setShowModal(false);
   };
 
-  // 🔹 Applico filtri a `es`
+  // Applico filtri a `es`
   let eserciziFiltrati = [...es];
 
   if (muscleSelected.length > 0) {
@@ -127,6 +129,12 @@ function PaginaEserciziScheda() {
         (typeSelected.includes("Allungamento") && ex.isStreching)
       );
     });
+  }
+
+  if(nome != ""){
+    eserciziFiltrati = eserciziFiltrati.filter((es) => 
+      es.nome.toLowerCase().includes(nome.toLowerCase())
+    );
   }
 
   function handleClick() {
@@ -172,6 +180,19 @@ function PaginaEserciziScheda() {
           <Modal.Title>Filtri di ricerca</Modal.Title>
         </Modal.Header>
         <Modal.Body className="modal-header-glass">
+          <div className="mb-3">
+            <input
+              type="text"
+              className="form-control input-custom"
+              aria-describedby="emailHelp"
+              placeholder="Nome"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+            />
+          </div>
+
+          <hr />
+
           <Form.Label style={{ margin: "0px" }}>Muscoli</Form.Label>
           <div className="d-flex flex-wrap gap-2 mt-3">
             {allMuscle.map((filtro, idx) => (

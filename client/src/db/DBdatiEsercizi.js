@@ -104,11 +104,12 @@ export async function getEsercizioBaseOmettendoPrimi(id) {
 
   if (!esDB) return null;
 
-  // 🔹 Recupera esercizi dal JSON
+  // Recupera esercizi dal JSON
   let eserciziFile = [];
   try {
     const basePath = import.meta.env.BASE_URL || "/";
-    const response = await fetch(`${basePath}esercizi.json`);
+    const username = localStorage.getItem("username");
+    const response = await fetch(`${basePath}esercizi_${username}.json`);
     if (response.ok) {
       eserciziFile = await response.json();
     }
@@ -179,7 +180,8 @@ export async function getAllEsercizi() {
   let eserciziFile = [];
   try {
     const basePath = import.meta.env.BASE_URL || "/";
-    const response = await fetch(`${basePath}esercizi.json`); // JSON in public
+    const username = localStorage.getItem("username");
+    const response = await fetch(`${basePath}esercizi_${username}.json`); // JSON in public
     if (response.ok) {
       eserciziFile = await response.json();
     }

@@ -1,4 +1,27 @@
-aggiunta di esericizi in exercise.js
+aggiunta di esericizi in exercise.js:
+- Stacchi rumeni con bilanciere
+- Pressa
+- Affondi bulgari con panca e manubri
+* Hyperextension glutei
+- Slanci posteriori al cavo
+- Lat machine
+- Pulley
+- Lat machine presa stretta inversa
+- Low row macchinario
+- Row macchinario
+- Tricipiti al cavo
+* Hyperextension schiena
+- Squat
+- Pressa monopodalica
+- Leg curl
+- Abduzioni al cavo
+- French press
+- Pec fly
+- Lento avanti
+- Alzate laterali
+- Alzate frontali
+- Curl
+- Bicipiti martello
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -49,6 +72,9 @@ PAGINA utente:
     - sistemare pagina amministratore
     - sistemare scaricaggio e lettura JSON
     - aggiungere piu filtri
+    - aggingere logica utente per lettura json
+    - quando un giorno non ha piu esercizi da completare lo si disattiva
+    - filtro ricerca per nome esercizio
 
  CLASSE EsercizioScheda:
     - creazione classe esercizio (creo id univoco tramite date.Now()) - aggiungiScheda.jsx 

@@ -8,18 +8,27 @@ export default function Login({ onLoginSuccess }) {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [checked, setChecked] = useState(false);
+
+  const utenti = ["riki", "erika"];
+
   const navigate = useNavigate();
 
   function handleLogin(e) {
     e.preventDefault(); // 🔹 impedisce il refresh della pagina
-    if(username === "amm" && password === "123"){
+    if(utenti.includes(username) && password === "Amministratore12"){
+      localStorage.setItem("username", username);
       checkStatusExercise();
       onLoginSuccess(checked);
       navigate("/pagAmm"); // pagina amministratore
     } else if (username !== "" && password !== "") {
-      checkStatusExercise();
-      onLoginSuccess(checked);
-      navigate("/");
+      if(utenti.includes(username)){
+        localStorage.setItem("username", username);
+        checkStatusExercise();
+        onLoginSuccess(checked);
+        navigate("/");
+      } else {
+        setMessage("Username non valido");
+      }
     } else {
       setMessage("Inserisci username e password");
     }
@@ -52,6 +61,12 @@ export default function Login({ onLoginSuccess }) {
               />
             </div>
 
+            {message && (
+              <div className="alert alert-warning alert-warning-login" role="alert">
+                {message}
+              </div>
+            )}
+
             <div className="mb-3 form-check form-check-custom">
               <input
                 type="checkbox"
@@ -68,11 +83,6 @@ export default function Login({ onLoginSuccess }) {
             <button type="submit" className="btn login-button">
               Submit
             </button>
-              {message && (
-                <div className="alert alert-warning alert-warning-login" role="alert">
-                  {message}
-                </div>
-              )}
           </form>
          </Card>
       </Container>

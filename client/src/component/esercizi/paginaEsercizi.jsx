@@ -9,6 +9,7 @@ function PaginaEsercizi({ esercizi }) {
   const [activeVideoId, setActiveVideoId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [allMuscle, setAllMuscle] = useState(getAllMuscle());
+  const [nome, setNome] = useState("");
 
   // recupero filtri da sessionStorage
   const [muscleSelected, setMuscleSelected] = useState(() => {
@@ -36,6 +37,7 @@ function PaginaEsercizi({ esercizi }) {
   const resetFiltri = () => {
     setMuscleSelected([]);
     setTypeSelected([]);
+    setNome("");
   };
 
   const cercaFiltri = () => {
@@ -69,8 +71,14 @@ function PaginaEsercizi({ esercizi }) {
       });
     }
 
+    if(nome != ""){
+      listaEs = listaEs.filter((es) => 
+        es.nome.toLowerCase().includes(nome.toLowerCase())
+      );
+    }
+
     setEs(listaEs);
-  }, [muscleSelected, typeSelected, esercizi]);
+  }, [muscleSelected, typeSelected, esercizi, nome]);
 
   // salvo i filtri
   useEffect(() => {
@@ -123,14 +131,30 @@ function PaginaEsercizi({ esercizi }) {
         <Modal.Header closeButton className="modal-header-glass">
           <Modal.Title>Filtri di ricerca</Modal.Title>
         </Modal.Header>
+
         <Modal.Body className="modal-header-glass">
-          <Form.Label style={{ margin: "0px" }}>Seleziona i parametri di ricerca</Form.Label>
+          {/* 🔹 Filtro per nome */}
+          <div className="mb-3">
+            <input
+              type="text"
+              className="form-control input-custom"
+              aria-describedby="emailHelp"
+              placeholder="Nome"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+            />
+          </div>
+
+          <hr />
+
+          {/* 🔹 Filtro muscoli */}
+          <Form.Label style={{ margin: "0px" }}>Muscoli</Form.Label>
           <div className="d-flex flex-wrap gap-2 mt-3">
             {allMuscle.map((filtro, idx) => (
               <Button
                 key={idx}
                 className={muscleSelected.includes(filtro) ? "btnSelected" : "btnOnSelect"}
-                onClick={() => toggleMuscleFiltro(filtro)}
+                onClick={() => toggleMuscleFiltro(filtro)} // ✅ corretto
               >
                 {filtro}
               </Button>
@@ -139,22 +163,35 @@ function PaginaEsercizi({ esercizi }) {
 
           <hr />
 
+          {/* 🔹 Filtro tipologia */}
+          <Form.Label style={{ margin: "0px" }}>Tipologia</Form.Label>
           <div className="d-flex flex-wrap gap-2 mt-3">
-            {["Corpo Libero", "Attrezzatura", "Allungamento"].map((filtro, idx) => (
-              <Button
-                key={idx}
-                className={typeSelected.includes(filtro) ? "btnSelected" : "btnOnSelect"}
-                onClick={() => toggleTypeFiltro(filtro)}
-              >
-                {filtro}
-              </Button>
-            ))}
+            <Button
+              className={typeSelected.includes("Corpo Libero") ? "btnSelected" : "btnOnSelect"}
+              onClick={() => toggleTypeFiltro("Corpo Libero")} // ✅ corretto
+            >
+              Corpo Libero
+            </Button>
+            <Button
+              className={typeSelected.includes("Attrezzatura") ? "btnSelected" : "btnOnSelect"}
+              onClick={() => toggleTypeFiltro("Attrezzatura")} // ✅ corretto
+            >
+              Attrezzatura
+            </Button>
+            <Button
+              className={typeSelected.includes("Allungamento") ? "btnSelected" : "btnOnSelect"}
+              onClick={() => toggleTypeFiltro("Allungamento")} // ✅ corretto
+            >
+              Allungamento
+            </Button>
           </div>
 
+          {/* 🔹 Conteggio risultati */}
           <Form.Label style={{ marginTop: "20px" }}>
             Sono stati trovati {es.length} esercizi
           </Form.Label>
         </Modal.Body>
+
         <Modal.Footer className="modal-header-glass">
           <Button variant="primary" onClick={resetFiltri}>
             Reset
@@ -164,6 +201,7 @@ function PaginaEsercizi({ esercizi }) {
           </Button>
         </Modal.Footer>
       </Modal>
+
     </>
   );
 }

@@ -50,8 +50,9 @@ function PagAmm() {
     const blob = new Blob([jsonExport], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
+    const username = localStorage.getItem("username"); 
     link.href = url;
-    link.download = "esercizi.json";
+    link.download = `esercizi_${username}.json`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
