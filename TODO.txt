@@ -23,6 +23,32 @@ aggiunta di esericizi in exercise.js:
 - Curl
 - Bicipiti martello
 
+
+corpo libero:
+allungamento:
+6
+- https://musclewiki.com/it-it/exercise/shoulders-stretch-variation-four
+- https://musclewiki.com/it-it/exercise/quads-stretch-variation-one
+- https://musclewiki.com/it-it/exercise/chest-stretch-variation-four
+- https://musclewiki.com/it-it/exercise/triceps-stretch-variation-three
+- https://musclewiki.com/it-it/exercise/biceps-stretch-variation-five
+- https://musclewiki.com/it-it/exercise/abdominals-stretch-variation-two
+
+esercizi:  (bicipiti, tricipiti, petto, spalle, addominali, quadricipiti, femorali)
+12
+- https://musclewiki.com/it-it/exercise/bodyweight-pike-press
+- https://musclewiki.com/it-it/exercise/elevated-pike-press
+- https://musclewiki.com/it-it/exercise/decline-push-up
+- https://musclewiki.com/it-it/exercise/push-up
+- https://musclewiki.com/it-it/exercise/bodyweight-knee-tricep-extension
+- https://musclewiki.com/it-it/exercise/diamond-push-ups
+- https://musclewiki.com/it-it/exercise/bodyweight-staggered-waiters-bow
+- https://musclewiki.com/it-it/exercise/chin-ups
+- https://musclewiki.com/it-it/exercise/hanging-knee-raises
+- https://musclewiki.com/it-it/exercise/long-lever-plank
+- https://musclewiki.com/it-it/exercise/forearm-plank
+- https://musclewiki.com/it-it/exercise/bodyweight-single-leg-squat
+
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 PAGINA utente:

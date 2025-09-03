@@ -2,92 +2,156 @@ import { Esercizio } from "../models/Esercizio"; // cambia percorso in base alla
 
 //C:\Users\riki\Desktop\programmazione\progettoPalestra\frontendWebMuscle\client\src\assets\videoEsercizi
 
-import staccoRumenoFront from "../assets/videoEsercizi/staccoRumeno/male-Barbell-barbell-romanian-deadlift-front.mp4";
-import staccoRumenoSide from "../assets/videoEsercizi/staccoRumeno/male-Barbell-barbell-romanian-deadlift-side_dnNh5UH.mp4";
-import staccoRumenoActivationMuscle from "../assets/videoEsercizi/staccoRumeno/staccoRumenoMuscoliAttivati.png";
+import staccoRumenoFront from "../assets/videoEsercizi/esercizi/staccoRumeno/male-Barbell-barbell-romanian-deadlift-front.mp4";
+import staccoRumenoSide from "../assets/videoEsercizi/esercizi/staccoRumeno/male-Barbell-barbell-romanian-deadlift-side_dnNh5UH.mp4";
+import staccoRumenoActivationMuscle from "../assets/videoEsercizi/esercizi/staccoRumeno/staccoRumenoMuscoliAttivati.png";
 
-import legPressFront from "../assets/videoEsercizi/legPress/male-machine-leg-press-front.mp4";
-import legPressSide from "../assets/videoEsercizi/legPress/male-machine-leg-press-side.mp4";
-import legPressActivationMuscle from "../assets/videoEsercizi/legPress/legPressMuscoliAttivati.png";
+import legPressFront from "../assets/videoEsercizi/esercizi/legPress/male-machine-leg-press-front.mp4";
+import legPressSide from "../assets/videoEsercizi/esercizi/legPress/male-machine-leg-press-side.mp4";
+import legPressActivationMuscle from "../assets/videoEsercizi/esercizi/legPress/legPressMuscoliAttivati.png";
 
-import affondiBulgariFront from "../assets/videoEsercizi/affondiBulgari/male-Dumbbells-dumbbell-bulgarian-split-squat-front.mp4";
-import affondiBulgariSide from "../assets/videoEsercizi/affondiBulgari/male-Dumbbells-dumbbell-bulgarian-split-squat-side.mp4";
-import affondiBulgariActivationMuscle from "../assets/videoEsercizi/affondiBulgari/affondoBulgaroManubriMuscoliAttivati.png";
+import affondiBulgariFront from "../assets/videoEsercizi/esercizi/affondiBulgari/male-Dumbbells-dumbbell-bulgarian-split-squat-front.mp4";
+import affondiBulgariSide from "../assets/videoEsercizi/esercizi/affondiBulgari/male-Dumbbells-dumbbell-bulgarian-split-squat-side.mp4";
+import affondiBulgariActivationMuscle from "../assets/videoEsercizi/esercizi/affondiBulgari/affondoBulgaroManubriMuscoliAttivati.png";
 
-import slancioCavoPostFront from "../assets/videoEsercizi/slanciPostCavo/male-Cables-cable-glute-kickback-front.mp4";
-import slancioCavoPostSide from "../assets/videoEsercizi/slanciPostCavo/male-Cables-cable-glute-kickback-side.mp4";
-import slancioCavoPostActivationMuscle from "../assets/videoEsercizi/slanciPostCavo/slancioCavoPostMuscoliAttivati.png";
+import slancioCavoPostFront from "../assets/videoEsercizi/esercizi/slanciPostCavo/male-Cables-cable-glute-kickback-front.mp4";
+import slancioCavoPostSide from "../assets/videoEsercizi/esercizi/slanciPostCavo/male-Cables-cable-glute-kickback-side.mp4";
+import slancioCavoPostActivationMuscle from "../assets/videoEsercizi/esercizi/slanciPostCavo/slancioCavoPostMuscoliAttivati.png";
 
-import latMachineFront from "../assets/videoEsercizi/latMachine/male-machine-pulldown-front.mp4";
-import latMachineSide from "../assets/videoEsercizi/latMachine/male-machine-pulldown-side.mp4";
-import latMachineActivationMuscle from "../assets/videoEsercizi/latMachine/latMachineMuscoliAttivati.png";
+import latMachineFront from "../assets/videoEsercizi/esercizi/latMachine/male-machine-pulldown-front.mp4";
+import latMachineSide from "../assets/videoEsercizi/esercizi/latMachine/male-machine-pulldown-side.mp4";
+import latMachineActivationMuscle from "../assets/videoEsercizi/esercizi/latMachine/latMachineMuscoliAttivati.png";
 
-import latMachineStrettaFront from "../assets/videoEsercizi/latMachineStrettaInversa/male-Machine-narrow-pulldown-front.mp4";
-import latMachineStrettaSide from "../assets/videoEsercizi/latMachineStrettaInversa/male-Machine-narrow-pulldown-side.mp4";
-import latMachineStrettaActivationMuscle from "../assets/videoEsercizi/latMachineStrettaInversa/latMachinePresaStrettaMuscoliAttivati.png";
+import latMachineStrettaFront from "../assets/videoEsercizi/esercizi/latMachineStrettaInversa/male-Machine-narrow-pulldown-front.mp4";
+import latMachineStrettaSide from "../assets/videoEsercizi/esercizi/latMachineStrettaInversa/male-Machine-narrow-pulldown-side.mp4";
+import latMachineStrettaActivationMuscle from "../assets/videoEsercizi/esercizi/latMachineStrettaInversa/latMachinePresaStrettaMuscoliAttivati.png";
 
-import pulleyFront from "../assets/videoEsercizi/pulley/male-machine-seated-cable-row-front.mp4";
-import pulleySide from "../assets/videoEsercizi/pulley/male-machine-seated-cable-row-side.mp4";
-import pulleyActivationMuscle from "../assets/videoEsercizi/pulley/pulleyMuscoliAttivati.png";
+import pulleyFront from "../assets/videoEsercizi/esercizi/pulley/male-machine-seated-cable-row-front.mp4";
+import pulleySide from "../assets/videoEsercizi/esercizi/pulley/male-machine-seated-cable-row-side.mp4";
+import pulleyActivationMuscle from "../assets/videoEsercizi/esercizi/pulley/pulleyMuscoliAttivati.png";
 
-import lowRowFront from "../assets/videoEsercizi/lowRowMach/male-Machine-machine-plate-loaded-low-row-front.mp4";
-import lowRowSide from "../assets/videoEsercizi/lowRowMach/male-Machine-machine-plate-loaded-low-row-side.mp4";
-import lowRowActivationMuscle from "../assets/videoEsercizi/lowRowMach/lowRowMuscoliAttivati.png";
+import lowRowFront from "../assets/videoEsercizi/esercizi/lowRowMach/male-Machine-machine-plate-loaded-low-row-front.mp4";
+import lowRowSide from "../assets/videoEsercizi/esercizi/lowRowMach/male-Machine-machine-plate-loaded-low-row-side.mp4";
+import lowRowActivationMuscle from "../assets/videoEsercizi/esercizi/lowRowMach/lowRowMuscoliAttivati.png";
 
-import rowFront from "../assets/videoEsercizi/rowMach/male-Machine-machine-neutral-row-front.mp4";
-import rowSide from "../assets/videoEsercizi/rowMach/male-Machine-machine-neutral-row-side.mp4";
-import rowActivationMuscle from "../assets/videoEsercizi/rowMach/rowMuscoliAttivati.png";
+import rowFront from "../assets/videoEsercizi/esercizi/rowMach/male-Machine-machine-neutral-row-front.mp4";
+import rowSide from "../assets/videoEsercizi/esercizi/rowMach/male-Machine-machine-neutral-row-side.mp4";
+import rowActivationMuscle from "../assets/videoEsercizi/esercizi/rowMach/rowMuscoliAttivati.png";
 
-import tricipitiCavoFront from "../assets/videoEsercizi/tricipitiCavo/male-Cables-cable-push-down-front.mp4";
-import tricipitiCavoSide from "../assets/videoEsercizi/tricipitiCavo/male-Cables-cable-push-down-side.mp4";
-import tricipitiCavoActivationMuscle from "../assets/videoEsercizi/tricipitiCavo/tricipitiCavoMuscoliAttivati.png";
+import tricipitiCavoFront from "../assets/videoEsercizi/esercizi/tricipitiCavo/male-Cables-cable-push-down-front.mp4";
+import tricipitiCavoSide from "../assets/videoEsercizi/esercizi/tricipitiCavo/male-Cables-cable-push-down-side.mp4";
+import tricipitiCavoActivationMuscle from "../assets/videoEsercizi/esercizi/tricipitiCavo/tricipitiCavoMuscoliAttivati.png";
 
-import squatFront from "../assets/videoEsercizi/squat/male-Barbell-barbell-squat-front.mp4";
-import squatSide from "../assets/videoEsercizi/squat/male-Barbell-barbell-squat-side.mp4";
-import squatActivationMuscle from "../assets/videoEsercizi/squat/squatMuscoliAttivati.png";
+import squatFront from "../assets/videoEsercizi/esercizi/squat/male-Barbell-barbell-squat-front.mp4";
+import squatSide from "../assets/videoEsercizi/esercizi/squat/male-Barbell-barbell-squat-side.mp4";
+import squatActivationMuscle from "../assets/videoEsercizi/esercizi/squat/squatMuscoliAttivati.png";
 
-import pressaMonopodalicaFront from "../assets/videoEsercizi/pressaMonopodalica/male-Machine-machine-single-leg-leg-press-front.mp4";
-import pressaMonopodalicaSide from "../assets/videoEsercizi/pressaMonopodalica/male-Machine-machine-single-leg-leg-press-side.mp4";
-import pressaMonopodalicaActivationMuscle from "../assets/videoEsercizi/pressaMonopodalica/pressaMonopodalicaMuscoliAttivati.png";
+import pressaMonopodalicaFront from "../assets/videoEsercizi/esercizi/pressaMonopodalica/male-Machine-machine-single-leg-leg-press-front.mp4";
+import pressaMonopodalicaSide from "../assets/videoEsercizi/esercizi/pressaMonopodalica/male-Machine-machine-single-leg-leg-press-side.mp4";
+import pressaMonopodalicaActivationMuscle from "../assets/videoEsercizi/esercizi/pressaMonopodalica/pressaMonopodalicaMuscoliAttivati.png";
 
-import legCurlFront from "../assets/videoEsercizi/legCurl/male-Machine-machine-seated-leg-curl-front.mp4";
-import legCurlSide from "../assets/videoEsercizi/legCurl/male-Machine-machine-seated-leg-curl-side.mp4";
-import legCurlActivationMuscle from "../assets/videoEsercizi/legCurl/legCurlMuscoliAttivati.png";
+import legCurlFront from "../assets/videoEsercizi/esercizi/legCurl/male-Machine-machine-seated-leg-curl-front.mp4";
+import legCurlSide from "../assets/videoEsercizi/esercizi/legCurl/male-Machine-machine-seated-leg-curl-side.mp4";
+import legCurlActivationMuscle from "../assets/videoEsercizi/esercizi/legCurl/legCurlMuscoliAttivati.png";
 
-import abduzioniCavoFront from "../assets/videoEsercizi/abduzioniCavo/male-Cables-cable-hip-abduction-front.mp4";
-import abduzioniCavoSide from "../assets/videoEsercizi/abduzioniCavo/male-Cables-cable-hip-abduction-side.mp4";
-import abduzioniCavoActivationMuscle from "../assets/videoEsercizi/abduzioniCavo/abduzioniCavoMuscoliAttivati.png";
+import abduzioniCavoFront from "../assets/videoEsercizi/esercizi/abduzioniCavo/male-Cables-cable-hip-abduction-front.mp4";
+import abduzioniCavoSide from "../assets/videoEsercizi/esercizi/abduzioniCavo/male-Cables-cable-hip-abduction-side.mp4";
+import abduzioniCavoActivationMuscle from "../assets/videoEsercizi/esercizi/abduzioniCavo/abduzioniCavoMuscoliAttivati.png";
 
-import frenchPressActivationMuscle from "../assets/videoEsercizi/frenchPressB/frenchPressMuscoliAllenati.png";
+import frenchPressActivationMuscle from "../assets/videoEsercizi/esercizi/frenchPressB/frenchPressMuscoliAllenati.png";
 
-import frenchPressMFront from "../assets/videoEsercizi/frenchPressM/male-dumbbell-skullcrusher-front_hgKANkM.mp4";
-import frenchPressMSide from "../assets/videoEsercizi/frenchPressM/male-dumbbell-skullcrusher-side_bgn7Uzz.mp4";
+import frenchPressMFront from "../assets/videoEsercizi/esercizi/frenchPressM/male-dumbbell-skullcrusher-front_hgKANkM.mp4";
+import frenchPressMSide from "../assets/videoEsercizi/esercizi/frenchPressM/male-dumbbell-skullcrusher-side_bgn7Uzz.mp4";
 
-import frenchPressBFront from "../assets/videoEsercizi/frenchPressB/male-barbell-laying-tricep-extensions-front.mp4";
-import frenchPressBSide from "../assets/videoEsercizi/frenchPressB/male-barbell-laying-tricep-extensions-side.mp4";
+import frenchPressBFront from "../assets/videoEsercizi/esercizi/frenchPressB/male-barbell-laying-tricep-extensions-front.mp4";
+import frenchPressBSide from "../assets/videoEsercizi/esercizi/frenchPressB/male-barbell-laying-tricep-extensions-side.mp4";
 
-import pecFlyFront from "../assets/videoEsercizi/pecFly/male-Machine-machine-bent-arm-pec-fly-front.mp4";
-import pecFlySide from "../assets/videoEsercizi/pecFly/male-Machine-machine-bent-arm-pec-fly-side.mp4";
-import pecFlyActivationMuscle from "../assets/videoEsercizi/pecFly/pecFlyMuscoliAttivati.png";
+import pecFlyFront from "../assets/videoEsercizi/esercizi/pecFly/male-Machine-machine-bent-arm-pec-fly-front.mp4";
+import pecFlySide from "../assets/videoEsercizi/esercizi/pecFly/male-Machine-machine-bent-arm-pec-fly-side.mp4";
+import pecFlyActivationMuscle from "../assets/videoEsercizi/esercizi/pecFly/pecFlyMuscoliAttivati.png";
 
-import lentoAvantiFront from "../assets/videoEsercizi/lentoAvanti/male-dumbbell-seated-overhead-press-front.mp4";
-import lentoAvantiSide from "../assets/videoEsercizi/lentoAvanti/male-dumbbell-seated-overhead-press-side.mp4";
-import lentoAvantiActivationMuscle from "../assets/videoEsercizi/lentoAvanti/lentoAvantiMuscoliAttivati.png";
+import lentoAvantiFront from "../assets/videoEsercizi/esercizi/lentoAvanti/male-dumbbell-seated-overhead-press-front.mp4";
+import lentoAvantiSide from "../assets/videoEsercizi/esercizi/lentoAvanti/male-dumbbell-seated-overhead-press-side.mp4";
+import lentoAvantiActivationMuscle from "../assets/videoEsercizi/esercizi/lentoAvanti/lentoAvantiMuscoliAttivati.png";
 
-import alzateLateraliFront from "../assets/videoEsercizi/alzateLaterali/male-Dumbbells-dumbbell-lateral-raise-front.mp4";
-import alzateLateraliSide from "../assets/videoEsercizi/alzateLaterali/male-Dumbbells-dumbbell-lateral-raise-side.mp4";
-import alzateLateraliActivationMuscle from "../assets/videoEsercizi/alzateLaterali/alzateLateraliMuscoliAttivati.png";
+import alzateLateraliFront from "../assets/videoEsercizi/esercizi/alzateLaterali/male-Dumbbells-dumbbell-lateral-raise-front.mp4";
+import alzateLateraliSide from "../assets/videoEsercizi/esercizi/alzateLaterali/male-Dumbbells-dumbbell-lateral-raise-side.mp4";
+import alzateLateraliActivationMuscle from "../assets/videoEsercizi/esercizi/alzateLaterali/alzateLateraliMuscoliAttivati.png";
 
-import alzateFrontaliFront from "../assets/videoEsercizi/alzateFrontali/male-Dumbbells-dumbbell-front-raise-front.mp4";
-import alzateFrontaliSide from "../assets/videoEsercizi/alzateFrontali/male-Dumbbells-dumbbell-front-raise-side.mp4";
+import alzateFrontaliFront from "../assets/videoEsercizi/esercizi/alzateFrontali/male-Dumbbells-dumbbell-front-raise-front.mp4";
+import alzateFrontaliSide from "../assets/videoEsercizi/esercizi/alzateFrontali/male-Dumbbells-dumbbell-front-raise-side.mp4";
 
-import curlFront from "../assets/videoEsercizi/curl/male-Dumbbells-dumbbell-curl-front.mp4";
-import curlSide from "../assets/videoEsercizi/curl/male-Dumbbells-dumbbell-curl-side.mp4";
-import curlActivationMuscle from "../assets/videoEsercizi/curl/curlMuscoliAttivati.png";
+import curlFront from "../assets/videoEsercizi/esercizi/curl/male-Dumbbells-dumbbell-curl-front.mp4";
+import curlSide from "../assets/videoEsercizi/esercizi/curl/male-Dumbbells-dumbbell-curl-side.mp4";
+import curlActivationMuscle from "../assets/videoEsercizi/esercizi/curl/curlMuscoliAttivati.png";
 
-import hammerCurlFront from "../assets/videoEsercizi/bicipitiMartello/male-Dumbbells-dumbbell-hammer-curl-front.mp4";
-import hammerCurlSide from "../assets/videoEsercizi/bicipitiMartello/male-Dumbbells-dumbbell-hammer-curl-side.mp4";
-import hammerCurlActivationMuscle from "../assets/videoEsercizi/bicipitiMartello/hammerCurlMuscoliAttivati.png";
+import hammerCurlFront from "../assets/videoEsercizi/esercizi/bicipitiMartello/male-Dumbbells-dumbbell-hammer-curl-front.mp4";
+import hammerCurlSide from "../assets/videoEsercizi/esercizi/bicipitiMartello/male-Dumbbells-dumbbell-hammer-curl-side.mp4";
+import hammerCurlActivationMuscle from "../assets/videoEsercizi/esercizi/bicipitiMartello/hammerCurlMuscoliAttivati.png";
+
+import allungamentoSpalleFront from "../assets/videoEsercizi/allungamenti/spalle/female-shoulders-stretch-variation-4-front.mp4";
+import allungamentoSpalleSide from "../assets/videoEsercizi/allungamenti/spalle/female-shoulders-stretch-variation-4-side.mp4";
+import allungamentoSpalleActivationMuscle from "../assets/videoEsercizi/allungamenti/spalle/spalleMuscoliAttivi.png";
+
+import allungamentoQuadricipitiFront from "../assets/videoEsercizi/allungamenti/quadricipiti/female-quads-stretch-variation-1-front.mp4";
+import allungamentoQuadricipitiSide from "../assets/videoEsercizi/allungamenti/quadricipiti/female-quads-stretch-variation-1-side.mp4";
+import allungamentoQuadricipitiActivationMuscle from "../assets/videoEsercizi/allungamenti/quadricipiti/quadricipitiAttivazioneMuscolo.png";
+
+import allungamentoPettoFront from "../assets/videoEsercizi/allungamenti/petto/female-chest-stretch-variation-4-front.mp4";
+import allungamentoPettoSide from "../assets/videoEsercizi/allungamenti/petto/female-chest-stretch-variation-4-side.mp4";
+import allungamentoPettoActivationMuscle from "../assets/videoEsercizi/allungamenti/petto/pettoAttivazioneMuscolo.png";
+
+import allungamentoTricipitiFront from "../assets/videoEsercizi/allungamenti/tricipiti/female-triceps-stretch-variation-3-front.mp4";
+import allungamentoTricipitiSide from "../assets/videoEsercizi/allungamenti/tricipiti/female-triceps-stretch-variation-3-side.mp4";
+import allungamentoTricipitiActivationMuscle from "../assets/videoEsercizi/allungamenti/tricipiti/tricipitiAttivazioneMuscolo.png";
+
+import allungamentoBicipitiFront from "../assets/videoEsercizi/allungamenti/bicipiti/female-biceps-stretch-variation-5-front.mp4";
+import allungamentoBicipitiSide from "../assets/videoEsercizi/allungamenti/bicipiti/female-biceps-stretch-variation-5-side.mp4";
+import allungamentoBicipitiActivationMuscle from "../assets/videoEsercizi/allungamenti/bicipiti/bicipitiAttivazioneMuscolo.png";
+
+import allungamentoAddominaliFront from "../assets/videoEsercizi/allungamenti/addominali/female-abdominals-stretch-variation-2-front.mp4";
+import allungamentoAddominaliSide from "../assets/videoEsercizi/allungamenti/addominali/female-abdominals-stretch-variation-2-side.mp4";
+import allungamentoAddominaliActivationMuscle from "../assets/videoEsercizi/allungamenti/addominali/addominaliAttivazioneMuscolo.png";
+
+import flessioniPikeFront from "../assets/videoEsercizi/esercizi/flessioniPike/male-Bodyweight-bodyweight-pike-press-front.mp4";
+import flessioniPikeSide from "../assets/videoEsercizi/esercizi/flessioniPike/male-Bodyweight-bodyweight-pike-press-side.mp4";
+
+import pikePressFront from "../assets/videoEsercizi/esercizi/pikePress/male-Bodyweight-elevated-pike-press-front.mp4";
+import pikePressSide from "../assets/videoEsercizi/esercizi/pikePress/male-Bodyweight-elevated-pike-press-side.mp4";
+
+import flessioniDeclinateFront from "../assets/videoEsercizi/esercizi/flessioniDeclinate/male-Bodyweight-decline-push-up-front.mp4";
+import flessioniDeclinateSide from "../assets/videoEsercizi/esercizi/flessioniDeclinate/male-Bodyweight-decline-push-up-side.mp4";
+import flessioniDeclinateActivationMuscle from "../assets/videoEsercizi/esercizi/flessioniDeclinate/flessioniDeclinateMuscoliAttivati.png";
+
+import flessioniFront from "../assets/videoEsercizi/esercizi/flessioni/male-Bodyweight-push-up-front.mp4";
+import flessioniSide from "../assets/videoEsercizi/esercizi/flessioni/male-Bodyweight-push-up-side.mp4";
+
+import estensioneTricipitiGinocchiaFront from "../assets/videoEsercizi/esercizi/estensioneTricipitiGinocchia/male-Bodyweight-bodyweight-knee-tricep-extension-front.mp4";
+import estensioneTricipitiGinocchiaSide from "../assets/videoEsercizi/esercizi/estensioneTricipitiGinocchia/male-Bodyweight-bodyweight-knee-tricep-extension-side.mp4";
+
+import flessioneDiamanteFront from "../assets/videoEsercizi/esercizi/flessioneDiamante/male-Bodyweight-diamond-push-ups-front.mp4";
+import flessioneDiamanteSide from "../assets/videoEsercizi/esercizi/flessioneDiamante/male-Bodyweight-diamond-push-ups-side.mp4";
+
+import flessioniFemoraliFront from "../assets/videoEsercizi/esercizi/flessioniFemorali/male-Bodyweight-bodyweight-staggered-waiters-bow-front.mp4";
+import flessioniFemoraliSide from "../assets/videoEsercizi/esercizi/flessioniFemorali/male-Bodyweight-bodyweight-staggered-waiters-bow-side.mp4";
+import flessioniFemoraliActivationMuscle from "../assets/videoEsercizi/esercizi/flessioniFemorali/femoraliAttivazioneMuscoli.png";
+
+import trazioniSbarraFront from "../assets/videoEsercizi/esercizi/trazioniSbarra/male-bodyweight-chinup-front.mp4";
+import trazioniSbarraSide from "../assets/videoEsercizi/esercizi/trazioniSbarra/male-bodyweight-chinup-side.mp4";
+import trazioniSbarraActivationMuscle from "../assets/videoEsercizi/esercizi/trazioniSbarra/trazioneSbarraMuscoliAttivati.png";
+
+import alzateGinocchiaAppeseFront from "../assets/videoEsercizi/esercizi/alzateGinocchiaAppese/male-bodyweight-hanging-knee-raises-front.mp4";
+import alzateGinocchiaAppeseSide from "../assets/videoEsercizi/esercizi/alzateGinocchiaAppese/male-bodyweight-hanging-knee-raises-side.mp4";
+import alzateGinocchiaAppeseActivationMuscle from "../assets/videoEsercizi/esercizi/alzateGinocchiaAppese/absMuscoloAttivato.png";
+
+import plankLevaLungaFront from "../assets/videoEsercizi/esercizi/plankLevaLunga/male-bodyweight-long-lever-plank-front.mp4";
+import plankLevaLungaSide from "../assets/videoEsercizi/esercizi/plankLevaLunga/male-bodyweight-long-lever-plank-side.mp4";
+
+import plank from "../assets/videoEsercizi/esercizi/plank/male-bodyweight-forearm-plank-side.mp4";
+
+import pistolSquatFront from "../assets/videoEsercizi/esercizi/pistolSquat/male-Bodyweight-bodyweight-single-leg-squat-front.mp4";
+import pistolSquatSide from "../assets/videoEsercizi/esercizi/pistolSquat/male-Bodyweight-bodyweight-single-leg-squat-side.mp4";
+import pistolSquatActivationMuscle from "../assets/videoEsercizi/esercizi/pistolSquat/pistolSquatMuscoliAttivati.png";
 
 const exerciseData = [
   new Esercizio(
@@ -462,6 +526,229 @@ const exerciseData = [
     ["Manubri"],
     "Facile",
     [hammerCurlFront, hammerCurlSide, hammerCurlActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    23,
+    "Allungamento Spalle",
+    "1. In piedi, con i piedi alla larghezza delle spalle. Porta un braccio davanti al petto all'altezza della spalla; con l'altro braccio premi l'avambraccio appena sopra il gomito, afferrando il braccio che stai allungando con la mano.§" +
+    "2. Spingi il braccio finché non è completamente esteso e ruota la parte superiore del tronco per approfondire l'allungamento.§" +
+    "3. Ripeti con l'altro braccio.",
+    ["Spalle"],
+    ["Nessuna attrezzatura richiesta"],
+    "Facile",
+    [allungamentoSpalleFront, allungamentoSpalleSide, allungamentoSpalleActivationMuscle],
+    true,
+    true
+  ), new Esercizio(
+    24,
+    "Allungamento Quadricipiti",
+    "1. In piedi, con il corpo perpendicolare a un muro, appoggia un braccio al muro per mantenere l'equilibrio. Con l'altro braccio afferra il dorso del piede.§" +
+    "2. Solleva la gamba verso l'alto e indietro per attivare i quadricipiti, fermandoti nel punto di massima tensione per qualche secondo.§" +
+    "3. Torna alla posizione di partenza e ripeti con l'altra gamba.",
+    ["Quadricipiti"],
+    ["Nessuna attrezzatura richiesta"],
+    "Facile",
+    [allungamentoQuadricipitiFront, allungamentoQuadricipitiSide, allungamentoQuadricipitiActivationMuscle],
+    true,
+    true
+  ), new Esercizio(
+    25,
+    "Allungamento Petto",
+    "1. Porta le braccia all'altezza delle spalle, completamente distese davanti a te.§" +
+    "2. Porta lentamente le braccia dietro la schiena, mantenendole all'altezza delle spalle.§" +
+    "3. Fermati per qualche secondo, poi torna alla posizione di partenza.",
+    ["Petto"],
+    ["Nessuna attrezzatura richiesta"],
+    "Facile",
+    [allungamentoPettoFront, allungamentoPettoSide, allungamentoPettoActivationMuscle],
+    false,
+    true
+  ), new Esercizio(
+    26,
+    "Allungamento Tricipiti",
+    "1. Piega il braccio sinistro portando la mano sulla spalla e afferra il gomito con la mano opposta.§" +
+    "2. Premi delicatamente sul gomito in modo che sia sollevato accanto alla testa.§" +
+    "3. Mantieni l'allungamento per qualche secondo, poi ripeti con l'altro braccio.",
+    ["Tricipiti"],
+    ["Nessuna attrezzatura richiesta"],
+    "Facile",
+    [allungamentoTricipitiFront, allungamentoTricipitiSide, allungamentoTricipitiActivationMuscle],
+    true,
+    true
+  ), new Esercizio(
+    27,
+    "Allungamento Bicipiti",
+    "1. In piedi, con i piedi alla larghezza delle spalle.§" +
+    "2. Solleva le braccia lateralmente fino all'altezza delle spalle.§" +
+    "3. Ruota i palmi in modo che siano rivolti verso il soffitto.§" +
+    "4. Poi cambia direzione e ruota le braccia il più possibile.",
+    ["Bicipiti"],
+    ["Nessuna attrezzatura richiesta"],
+    "Facile",
+    [allungamentoBicipitiFront, allungamentoBicipitiSide, allungamentoBicipitiActivationMuscle],
+    false,
+    true
+  ), new Esercizio(
+    28,
+    "Allungamento addominali",
+    "1. Stai dritto.§" +
+    "2. Allunga entrambe le braccia verso l'alto fino a poter intrecciare le dita.§" +
+    "3. Con le mani sopra la testa, inclina il busto indietro fino a sentire un allungamento degli addominali.",
+    ["Addominali"],
+    ["Nessuna attrezzatura richiesta"],
+    "Facile",
+    [allungamentoAddominaliFront, allungamentoAddominaliSide, allungamentoAddominaliActivationMuscle],
+    true,
+    true
+  ), new Esercizio(
+    29,
+    "Flessioni Pike",
+    "1. Inizia in posizione plank. Solleva il bacino verso il soffitto.§" +
+    "2. Abbassa la testa verso il pavimento piegando i gomiti§" +
+    "3. Spingi con le mani e torna alla posizione iniziale a pike.§" +
+    "4. Ripeti",
+    ["Tricipiti", "Spalle"],
+    ["Nessuna attrezzatura richiesta"],
+    "Medio",
+    [flessioniPikeSide, flessioniPikeFront, lentoAvantiActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    30,
+    "Pike Press",
+    "1. Usa una panca o un oggetto per sollevare i piedi.§" +
+    "2. Abbassa la testa verso il pavimento piegando i gomiti§" +
+    "3. Spingi con le mani e torna alla posizione a V di partenza.§" +
+    "4. Ripeti",
+    ["Tricipiti", "Spalle"],
+    ["Nessuna attrezzatura richiesta"],
+    "Medio",
+    [pikePressSide, pikePressFront, lentoAvantiActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    31,
+    "Flessioni Declinate",
+    "1. Appoggia i piedi su una panca.§" +
+    "2. Posiziona le mani leggermente più larghe delle spalle.§" +
+    "3. Abbassa lentamente il corpo finché il petto non sfiora quasi il pavimento§" +
+    "4. Solleva il corpo fino a quasi bloccare i gomiti.",
+    ["Tricipiti", "Petto"],
+    ["Nessuna attrezzatura richiesta"],
+    "Facile",
+    [flessioniDeclinateSide, flessioniDeclinateFront, flessioniDeclinateActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    32,
+    "Flessioni",
+    "1. Posiziona le mani saldamente a terra, direttamente sotto le spalle.§" +
+    "2. Appiattisci la schiena in modo che tutto il corpo sia dritto e abbassalo lentamente.§" +
+    "3. Riporta le scapole indietro e verso il basso, con i gomiti stretti al corpo.§" +
+    "4. Espira mentre torni alla posizione di partenza.",
+    ["Tricipiti", "Petto"],
+    ["Nessuna attrezzatura richiesta"],
+    "Facile",
+    [flessioniSide, flessioniFront, flessioniDeclinateActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    33,
+    "Estensione Tricipiti Con Ginocchia",
+    "1. Parti in posizione inginocchiata. Mani alla larghezza delle spalle. Piega i gomiti lasciando che tocchino il pavimento.§" +
+    "2. Estendi i gomiti fino a tornare nella posizione iniziale.",
+    ["Tricipiti"],
+    ["Nessuna attrezzatura richiesta"],
+    "Facile",
+    [estensioneTricipitiGinocchiaSide, estensioneTricipitiGinocchiaFront, allungamentoTricipitiActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    34,
+    "Flessioni a Diamante",
+    "1. Posiziona indici e pollici in modo che si tocchino, formando un rombo.§" +
+    "2. Usa la posizione standard per le flessioni§" + 
+    "3. Abbassa il petto verso le mani, tieni i gomiti vicino al corpo§" + 
+    "4. Fermati poco prima che il petto tocchi il pavimento, poi spingi verso l'alto fino alla posizione di partenza.", 
+    ["Tricipiti"],
+    ["Nessuna attrezzatura richiesta"],
+    "Facile",
+    [flessioneDiamanteSide, flessioneDiamanteFront, allungamentoTricipitiActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    35,
+    "Flessioni Femorali",
+    "1. Posiziona la barra a metà coscia. Appoggia la gamba di lavoro contro la barra.§" +
+    "2. Posiziona un piede dietro. Devi appoggiare solo le punte del piede posteriore. Il piede anteriore deve rimanere piatto a terra per tutta la durata.§" + 
+    "3. Piega il ginocchio posteriore e spingi i fianchi indietro. Dovresti sentire un allungamento nel femorale della gamba davanti.§" + 
+    "4. Quando senti l'allungamento, spingi i fianchi in avanti fino a tornare in piedi.", 
+    ["Femorali", "Glutei"],
+    ["Nessuna attrezzatura richiesta"],
+    "Medio",
+    [flessioniFemoraliSide, flessioniFemoraliFront, flessioniFemoraliActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    36,
+    "Trazioni Alla Sbarra",
+    "1. Afferra la barra alla larghezza delle spalle con una presa supinata (palmi rivolti verso di te)§" +
+    "2. Con il corpo appeso e le braccia completamente distese, tirati su finché il mento supera la barra.§" + 
+    "3. Torna lentamente alla posizione di partenza. Ripeti.",
+    ["Avambracci", "Bicipiti", "Dorsale"],
+    ["Sbarra"],
+    "Medio",
+    [trazioniSbarraSide, trazioniSbarraFront, trazioniSbarraActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    37,
+    "Alzate Delle Ginocchia Appese",
+    "1. Afferra la barra e resta appeso, corpo fermo e gambe dritte.§" +
+    "2. Porta lentamente le ginocchia al petto.§" + 
+    "3. Una volta che hai sollevato le ginocchia il più in alto possibile, abbassa le gambe e ripeti. Esegui il movimento lentamente per non sfruttare lo slancio, così da ottenere il massimo dall'esercizio.§" +
+    "4. Esegui questi movimenti lentamente; evita di usare lo slancio per ottenere il massimo dall'esercizio.",
+    ["Addominali"],
+    ["Sbarra"],
+    "Facile",
+    [alzateGinocchiaAppeseSide, alzateGinocchiaAppeseFront, alzateGinocchiaAppeseActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    38,
+    "Plank a Leva Lunga",
+    "1. Inizia in posizione di plank sulle mani e porta le mani in avanti finché le orecchie sono tra i bicipiti.§" +
+    "2. Mantieni questa posizione per il tempo assegnato.§" + 
+    "3. Mantieni la schiena neutra per tutta la serie.",
+    ["Addominali"],
+    ["Nessuna attrezzatura richiesta"],
+    "Difficile",
+    [plankLevaLungaFront, plankLevaLungaSide, alzateGinocchiaAppeseActivationMuscle],
+    true,
+    false
+  ), new Esercizio(
+    39,
+    "Plank Sugli Avambracci",
+    "1. Appoggia gli avambracci a terra con i gomiti piegati a 90° e allineati sotto le spalle, con le braccia parallele alla larghezza delle spalle.§" +
+    "2. Tieni i piedi uniti, appoggiando a terra solo le punte.§" + 
+    "3. Solleva l'addome da terra, allinea il corpo dai talloni alla sommità della testa e mantieni la posizione.",
+    ["Addominali"],
+    ["Nessuna attrezzatura richiesta"],
+    "Facile",
+    [plank, alzateGinocchiaAppeseActivationMuscle],
+    true,
+    false
+  ), new Esercizio(
+    40,
+    "Pistol Squat",
+    "1. Stai su una gamba, estendi l'altra in avanti per mantenere l'equilibrio.§" +
+    "2. Scendi in uno squat, mantenendo il petto alto e gli addominali contratti.§" + 
+    "3. Spingi con il tallone per tornare in piedi, ripeti.",
+    ["Quadricipiti", "Glutei"],
+    ["Nessuna attrezzatura richiesta"],
+    "Difficile",
+    [pistolSquatFront, pistolSquatSide, pistolSquatActivationMuscle],
     false,
     false
   ),
