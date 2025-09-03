@@ -16,16 +16,36 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
   // Giorni selezionati dall'utente nella scheda
   const giorniDisponibili = JSON.parse(sessionStorage.getItem("scheda"))?.giorniAllenamento || [];
 
-    const scrollToTarget = () => {
-      const element = document.getElementById("target");
-      element?.scrollIntoView({ behavior: "smooth", block: "center" });
-    };
+  const scrollToTarget = () => {
+    const element = document.getElementById("target");
+    element?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
 
-    useEffect(() => {
-      if (showForm) {
-        scrollToTarget();
+  useEffect(() => {
+    if (showForm) {
+      scrollToTarget();
+    }
+  }, [showForm]);
+
+  useEffect(() => {
+    if (!showForm) return;
+
+    const eserciziSelezionati = JSON.parse(sessionStorage.getItem("eserciziSelezionati")) || [];
+    
+    // Ciclo tutti i giorni e tutti gli esercizi per cercare quello con idEsercizio
+    for (const [giornoKey, esercizi] of eserciziSelezionati) {
+      const esTrovato = esercizi.find(e => e[0] === Number(esercizio.id));
+      if (esTrovato) {
+        // esTrovato = [idEsercizio, serie, ripetizioni, carico, tempoRecupero]
+        setGiorno(giornoKey);
+        setSerie(esTrovato[1].toString());
+        setRipetizioni(esTrovato[2].toString());
+        setCarico(esTrovato[3].toString());
+        setTempoRecupero(esTrovato[4].toString());
+        break;
       }
-    }, [showForm]);
+    }
+  }, [showForm, esercizio.id]);
 
   const salvaEsercizio = (e) => {
     e.preventDefault();

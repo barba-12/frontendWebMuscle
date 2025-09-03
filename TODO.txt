@@ -1,8 +1,5 @@
-mettere bottone visualizza spigazione dettagliata anche nelle altre pagine
 
-se l'esercizio richiede una durata di tempo inserire timer pure per quella
-
-se l'esercizio è gia stato agginto prima visualizzare i dati precedenti gia inseriti
+OTTIMIZZAZIONE GENERALE
 
 aggiunta di esericizi in exercise.js:
 - Stacchi rumeni con bilanciere
@@ -107,6 +104,9 @@ PAGINA utente:
     - aggingere logica utente per lettura json
     - quando un giorno non ha piu esercizi da completare lo si disattiva
     - filtro ricerca per nome esercizio
+    - mettere bottone visualizza spigazione dettagliata anche nelle altre pagine
+    - se l'esercizio richiede una durata di tempo inserire timer pure per quella
+    - se l'esercizio è gia stato agginto prima visualizzare i dati precedenti gia inseriti
 
  CLASSE EsercizioScheda:
     - creazione classe esercizio (creo id univoco tramite date.Now()) - aggiungiScheda.jsx 

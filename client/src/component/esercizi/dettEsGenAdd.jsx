@@ -9,6 +9,16 @@ function esercizioScheda() {
   const [activeVideoId, setActiveVideoId] = useState(null);
   const { schedaId, esercizioId } = useParams();
   const [esercizioRaw, setEsercizioRaw] = useState(exerciseData.find(es => es.id == esercizioId));
+  const [showDettagli, setShowDettagli] = useState(false); // stato per dettagli
+
+  // separa la descrizione in breve e dettagliata
+  const [breve, dettagliata] = esercizioRaw.descrizione.split("|");
+  
+  // righe della spiegazione breve
+  const righeBreve = breve.split("§").map(r => r.trim());
+  
+  // righe della spiegazione dettagliata (se esiste)
+  const righeDettagliate = dettagliata ? dettagliata.split("§").map(r => r.trim()) : [];
 
   return (
     <Card className="project-card-view">
@@ -26,11 +36,35 @@ function esercizioScheda() {
         {/*nome esercizio*/}
         <h1>{esercizioRaw.nome}</h1>
 
-        {esercizioRaw.descrizione.split('|').map((sezione, i) => (
-          sezione.split("§").map((sezione, i) => (
-            <p key={i} style={{textAlign:"left"}}>{sezione.trim()}</p>
-          ))
-        ))}
+        {/* Spiegazione breve */}
+        <div style={{ marginBottom: "1rem" }}>
+          {righeBreve.map((riga, i) => (
+            <p key={i} style={{ textAlign: "left", margin: "0.25rem 0" }}>
+              {riga.trim()}
+            </p>
+          ))}
+        </div>
+
+        {righeDettagliate.length > 0 && (
+          <button
+            className="btn login-button"
+            style={{marginBottom:"20px"}}
+            onClick={() => setShowDettagli(!showDettagli)}
+          >
+            {showDettagli ? "Nascondi spiegazione dettagliata" : "Visualizza spiegazione dettagliata"}
+          </button>
+        )}
+
+        {/* Spiegazione dettagliata */}
+        {showDettagli && (
+          <div style={{ marginBottom: "1.5rem" }}>
+            {righeDettagliate.map((riga, i) => (
+              <p key={i} style={{ textAlign: "left", margin: "0.25rem 0" }}>
+                {riga.trim()}
+              </p>
+            ))}
+          </div>
+        )}
 
         <img 
           src={esercizioRaw.immaginiVideo[esercizioRaw.immaginiVideo.length - 1]} 

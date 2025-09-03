@@ -157,19 +157,19 @@ function addEsScheda() {
           <div className="d-flex flex-wrap gap-2 mt-3">
             <Button
               className={typeSelected.includes("Corpo Libero") ? "btnSelected" : "btnOnSelect"}
-              onClick={() => toggleTypeFiltro("Corpo Libero")} // ✅ corretto
+              onClick={() => toggleTypeFiltro("Corpo Libero")} // corretto
             >
               Corpo Libero
             </Button>
             <Button
               className={typeSelected.includes("Attrezzatura") ? "btnSelected" : "btnOnSelect"}
-              onClick={() => toggleTypeFiltro("Attrezzatura")} // ✅ corretto
+              onClick={() => toggleTypeFiltro("Attrezzatura")} // corretto
             >
               Attrezzatura
             </Button>
             <Button
               className={typeSelected.includes("Allungamento") ? "btnSelected" : "btnOnSelect"}
-              onClick={() => toggleTypeFiltro("Allungamento")} // ✅ corretto
+              onClick={() => toggleTypeFiltro("Allungamento")} // corretto
             >
               Allungamento
             </Button>

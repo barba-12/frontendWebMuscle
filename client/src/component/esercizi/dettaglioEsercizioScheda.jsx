@@ -29,6 +29,7 @@ function dettaglioEsercizioScheda() {
   const [showModal, setShowModal] = useState(false);
   const [timeLeft, setTimeLeft] = useState(null); // tempo rimanente
   const [isRunning, setIsRunning] = useState(false);
+  const [showDettagli, setShowDettagli] = useState(false); // stato per dettagli
 
   //esercizio = datiEsercizio
   //scheda contiene tutti gli es senza dati
@@ -80,6 +81,17 @@ function dettaglioEsercizioScheda() {
 
     fetchScheda();
   }, [schedaId, esercizioId]);*/
+
+  let breve = "";
+  let dettagliata = "";
+  let righeBreve = [];
+  let righeDettagliate = [];
+
+  if (esercizioRaw) {
+    [breve, dettagliata] = esercizioRaw.descrizione.split("|");
+    righeBreve = breve.split("§").map(r => r.trim());
+    righeDettagliate = dettagliata ? dettagliata.split("§").map(r => r.trim()) : [];
+  }
 
   useEffect(() => {
     async function fetchScheda() {
@@ -262,11 +274,20 @@ function dettaglioEsercizioScheda() {
   }
 
   const impostaRecupero = () => {
-    let tempoRecupero = []
-    console.log(tempoRecupero);
-    for(let i=0; i<esercizio.serie; i++) tempoRecupero[i] = (datiEs[2]);
-    setTempoRecupero(tempoRecupero);
-    console.log(tempoRecupero);
+    if(esercizioRaw.repOrTime){
+      let tempoRecupero = []
+      console.log(tempoRecupero);
+      for(let i=0; i<esercizio.serie; i++) tempoRecupero[i] = (esercizio.ripetizioni);
+      setTempoRecupero(tempoRecupero);
+      console.log(tempoRecupero);
+    } else {
+      let tempoRecupero = []
+      console.log(tempoRecupero);
+      for(let i=0; i<esercizio.serie; i++) tempoRecupero[i] = (datiEs[2]);
+      setTempoRecupero(tempoRecupero);
+      console.log(tempoRecupero);
+    }
+
   }
 
   if (loading || !esercizioRaw) {
@@ -296,23 +317,24 @@ function dettaglioEsercizioScheda() {
           <div style={{textAlign:"left"}}>
             <h5>Dati esercizio:</h5>
             <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-              <p style={{ margin: 0}}>Ripetizioni: {datiEs[0]}</p>
-              <p style={{ margin: 0, textAlign: "center", flex: 1 }}>Carico: {datiEs[1]}</p>
-              <p style={{ margin: 0, textAlign: "right" }}>Recupero: {datiEs[2]}s</p>
+              {datiEs[0] > 0 && <p style={{ margin: 0}}>{esercizioRaw.repOrTime ? "Durata:" : "Ripetizioni:"} {datiEs[0]}</p>}
+              {datiEs[1] > 0 && <p style={{ margin: 0, textAlign: "center", flex: 1 }}>Carico: {datiEs[1]}</p>}
+              {datiEs[2] > 0 && <p style={{ margin: 0, textAlign: "right" }}>Recupero: {datiEs[2]}s</p>}
             </div>
             {esercizioDB.getLastRep().length > 0 && 
               <>
                 <h5 style={{marginTop:"15px"}}>Riepilogo Scorso Allenamento:</h5>
-                <p style={{margin:"5px"}}>Ripetizioni: {esercizioDB.getLastRep().join(" - ")}</p>
-                <p style={{margin:"5px"}}>Carico: {esercizioDB.getLastCarico().join(" - ")}</p>
-                <p style={{margin:"5px"}}>Tempo Di Recupero: {esercizioDB.getLastTempoRecupero().join(" - ")}</p>
+                {datiEs[2] > 0 && <p style={{margin:"5px"}}>Ripetizioni: {esercizioDB.getLastRep().join(" - ")}</p>}
+                {datiEs[2] > 0 && <p style={{margin:"5px"}}>Carico: {esercizioDB.getLastCarico().join(" - ")}</p>}
+                {datiEs[2] > 0 && <p style={{margin:"5px"}}>Tempo Di Recupero: {esercizioDB.getLastTempoRecupero().join(" - ")}</p>}
               </>
             }
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "15px", alignItems: "center" }}>
-          <Button style={{marginTop:"20px"}} variant="primary" onClick={() => startTimer(Number(datiEs[2]))} disabled={isRunning}>{isRunning ? `${timeLeft}s` : `Avvia timer: ${datiEs[2]}s`}</Button>
-          <Button onClick={() => impostaRecupero()}>imposta <strong>{datiEs[2]}s</strong> su tutte le serie</Button>
+          {esercizio.tempoRecupero > 0 && <Button style={{marginTop:"20px"}} variant="primary" onClick={() => startTimer(Number(datiEs[2]))} disabled={isRunning}>{isRunning ? `${timeLeft}s` : `Timer Recupero: ${datiEs[2]}s`}</Button>}
+          {esercizioRaw.repOrTime && <Button variant="primary" onClick={() => startTimer(Number(esercizio.ripetizioni))} disabled={isRunning}>{isRunning ? `${timeLeft}s` : `Timer Durata Esercizio: ${Number(esercizio.ripetizioni)}s`}</Button>}
+          <Button onClick={() => impostaRecupero()}>imposta <strong>{esercizioRaw.repOrTime ? Number(esercizio.ripetizioni) : datiEs[2]}s</strong> su tutte le serie</Button>
           </div>
 
           <>
@@ -321,46 +343,52 @@ function dettaglioEsercizioScheda() {
                 {Array.from({ length: esercizio.serie}, (_, i) => (
                   <div key={i} className="flex gap-2 mb-2">
                     {/* Ripetizioni */}
-                    <Form.Control
-                      type="number"
-                      placeholder={esercizioRaw.repOrTime ? "Secondi" : "Ripetizioni"}
-                      className="input-viola"
-                      value={ripetizioni[i] || ""}
-                      onChange={(e) => {
-                        const newRipetizioni = [...ripetizioni];
-                        newRipetizioni[i] = e.target.value || "";
-                        setRipetizioni(newRipetizioni);
-                      }}
-                    />
-
-                    {/* Carico */}
-                    <Form.Control
-                      type="number"
-                      placeholder="Carico"
-                      className="input-viola"
-                      value={carico[i] || ""}
-                      onChange={(e) => {
-                        const newCarico = [...carico];
-                        newCarico[i] = e.target.value || "";
-                        setCarico(newCarico);
-                      }}
-                    />
-
-                    {/* Tempo di Recupero */}
-                    <InputGroup>
+                    {datiEs[0] > 0 && (
                       <Form.Control
                         type="number"
-                        placeholder="Tempo di Recupero"
+                        placeholder={esercizioRaw.repOrTime ? "Secondi" : "Ripetizioni"}
                         className="input-viola"
-                        value={tempoRecupero[i] || ""}
+                        value={ripetizioni[i] || ""}
                         onChange={(e) => {
-                          const newTempoRecupero = [...tempoRecupero];
-                          newTempoRecupero[i] = e.target.value || "";
-                          setTempoRecupero(newTempoRecupero);
+                          const newRipetizioni = [...ripetizioni];
+                          newRipetizioni[i] = e.target.value || "";
+                          setRipetizioni(newRipetizioni);
                         }}
                       />
-                      <InputGroup.Text style={{background:"transparent", color:"#d8b3ff", border:"2px solid #5B1C86"}}>s</InputGroup.Text>
-                    </InputGroup>
+                    )}
+
+                    {/* Carico */}
+                    {datiEs[1] > 0 && (
+                      <Form.Control
+                        type="number"
+                        placeholder="Carico"
+                        className="input-viola"
+                        value={carico[i] || ""}
+                        onChange={(e) => {
+                          const newCarico = [...carico];
+                          newCarico[i] = e.target.value || "";
+                          setCarico(newCarico);
+                        }}
+                      />
+                    )}
+
+                    {/* Tempo di Recupero */}
+                    {datiEs[2] > 0 && (
+                      <InputGroup>
+                        <Form.Control
+                          type="number"
+                          placeholder="Tempo di Recupero"
+                          className="input-viola"
+                          value={tempoRecupero[i] || ""}
+                          onChange={(e) => {
+                            const newTempoRecupero = [...tempoRecupero];
+                            newTempoRecupero[i] = e.target.value || "";
+                            setTempoRecupero(newTempoRecupero);
+                          }}
+                        />
+                        <InputGroup.Text style={{background:"transparent", color:"#d8b3ff", border:"2px solid #5B1C86"}}>s</InputGroup.Text>
+                      </InputGroup>
+                    )}
                   </div>
                 ))}
 
@@ -373,11 +401,35 @@ function dettaglioEsercizioScheda() {
             <Grafico esercizio={esercizioDB}></Grafico>
           </>
 
-        {esercizioRaw.descrizione.split('|').map((sezione, i) => (
-          sezione.split("§").map((sezione, i) => (
-            <p key={i} style={{textAlign:"left"}}>{sezione.trim()}</p>
-          ))
-        ))}
+        {/* Spiegazione breve */}
+        <div style={{ marginBottom: "1rem" }}>
+          {righeBreve.map((riga, i) => (
+            <p key={i} style={{ textAlign: "left", margin: "0.25rem 0" }}>
+              {riga.trim()}
+            </p>
+          ))}
+        </div>
+
+        {righeDettagliate.length > 0 && (
+          <button
+            className="btn login-button"
+            style={{marginBottom:"20px"}}
+            onClick={() => setShowDettagli(!showDettagli)}
+          >
+            {showDettagli ? "Nascondi spiegazione dettagliata" : "Visualizza spiegazione dettagliata"}
+          </button>
+        )}
+
+        {/* Spiegazione dettagliata */}
+        {showDettagli && (
+          <div style={{ marginBottom: "1.5rem" }}>
+            {righeDettagliate.map((riga, i) => (
+              <p key={i} style={{ textAlign: "left", margin: "0.25rem 0" }}>
+                {riga.trim()}
+              </p>
+            ))}
+          </div>
+        )}
 
         <img 
           src={esercizioRaw.immaginiVideo[esercizioRaw.immaginiVideo.length - 1]} 

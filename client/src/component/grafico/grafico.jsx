@@ -24,7 +24,7 @@ export default function Grafico({ esercizio }) {
   };
 
   return (
-<div className="p-4 w-full">
+    <div className="p-4 w-full">
       <h2 className="text-xl font-semibold mb-4 text-white">Andamento esercizio</h2>
 
       <div

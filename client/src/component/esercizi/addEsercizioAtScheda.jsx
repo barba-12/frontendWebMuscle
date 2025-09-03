@@ -23,10 +23,42 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
   const [showMessage, setShowMessage] = useState(false);
   const [message, setMessage] = useState("");
 
-    const scrollToTarget = () => {
-      const element = document.getElementById("target");
-      element?.scrollIntoView({ behavior: "smooth", block: "center" });
-    };
+  const scrollToTarget = () => {
+    const element = document.getElementById("target");
+    element?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
+  useEffect(() => {
+    if (!showForm) return;
+
+    async function caricaEsercizio() {
+      try {
+        const esDB = await getEsercizioBase(esercizio.id); // Recupera da IndexedDB
+        console.log(esercizio.id);
+        console.log(esDB);
+        if (esDB) {
+          // Popola i campi con i dati salvati
+          setSerie(esDB.serie?.[0]?.toString() || "");
+          setRipetizioni(esDB.ripetizioni?.[0]?.toString() || "");
+          setCarico(esDB.carico?.[0]?.toString() || "");
+          setTempoRecupero(esDB.tempoRecupero?.[0]?.toString() || "");
+          
+          // Se vuoi anche selezionare il giorno usato in precedenza (opzionale)
+          if (esDB.giorno) setGiorno(esDB.giorno);
+        } else {
+          // Se non esiste, resetta i campi
+          setSerie("");
+          setRipetizioni("");
+          setCarico("");
+          setTempoRecupero("");
+        }
+      } catch (err) {
+        console.error("Errore nel recupero esercizio da IndexedDB:", err);
+      }
+    }
+
+    caricaEsercizio();
+  }, [showForm]);
 
     useEffect(() => {
       if (showForm) {
