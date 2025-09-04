@@ -25,7 +25,7 @@ export default function Login({ onLoginSuccess }) {
         localStorage.setItem("username", username);
         checkStatusExercise();
         onLoginSuccess(checked);
-        navigate("/");
+        navigate("/schede");
       } else {
         setMessage("Username non valido");
       }

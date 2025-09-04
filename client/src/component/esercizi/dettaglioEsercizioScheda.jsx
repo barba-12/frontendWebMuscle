@@ -315,12 +315,12 @@ function dettaglioEsercizioScheda() {
           <h1>{esercizioRaw.nome}</h1>
 
           <div style={{textAlign:"left"}}>
-            <h5>Dati esercizio:</h5>
-            <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-              {datiEs[0] > 0 && <p style={{ margin: 0}}>{esercizioRaw.repOrTime ? "Durata:" : "Ripetizioni:"} {datiEs[0]}</p>}
-              {datiEs[1] > 0 && <p style={{ margin: 0, textAlign: "center", flex: 1 }}>Carico: {datiEs[1]}</p>}
-              {datiEs[2] > 0 && <p style={{ margin: 0, textAlign: "right" }}>Recupero: {datiEs[2]}s</p>}
-            </div>
+            <h5 style={{marginTop:"15px"}}>Dati esercizio:</h5>
+            <>
+              {datiEs[0] > 0 && <p style={{ margin:"5px"}}>{esercizioRaw.repOrTime ? "Durata:" : "Ripetizioni:"} {datiEs[0]}</p>}
+              {datiEs[1] > 0 && <p style={{ margin:"5px"}}>Carico: {datiEs[1]}</p>}
+              {datiEs[2] > 0 && <p style={{ margin:"5px"}}>Recupero: {datiEs[2]}s</p>}
+            </>
             {esercizioDB.getLastRep().length > 0 && 
               <>
                 <h5 style={{marginTop:"15px"}}>Riepilogo Scorso Allenamento:</h5>
@@ -332,7 +332,7 @@ function dettaglioEsercizioScheda() {
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "15px", alignItems: "center" }}>
-          {esercizio.tempoRecupero > 0 && <Button style={{marginTop:"20px"}} variant="primary" onClick={() => startTimer(Number(datiEs[2]))} disabled={isRunning}>{isRunning ? `${timeLeft}s` : `Timer Recupero: ${datiEs[2]}s`}</Button>}
+          {Number(datiEs[2]) > 0 && <Button style={{marginTop:"20px"}} variant="primary" onClick={() => startTimer(Number(datiEs[2]))} disabled={isRunning}>{isRunning ? `${timeLeft}s` : `Timer Recupero: ${datiEs[2]}s`}</Button>}
           {esercizioRaw.repOrTime && <Button variant="primary" onClick={() => startTimer(Number(esercizio.ripetizioni))} disabled={isRunning}>{isRunning ? `${timeLeft}s` : `Timer Durata Esercizio: ${Number(esercizio.ripetizioni)}s`}</Button>}
           <Button onClick={() => impostaRecupero()}>imposta <strong>{esercizioRaw.repOrTime ? Number(esercizio.ripetizioni) : datiEs[2]}s</strong> su tutte le serie</Button>
           </div>

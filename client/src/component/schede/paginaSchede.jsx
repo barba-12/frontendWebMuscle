@@ -19,7 +19,12 @@ function PaginaSchede() {
     <Container fluid className="project-section">
       <Container>
         <Link to="/">
-          <Button variant="primary">Esercizi</Button>
+          <Button variant="primary" className="mb-3" style={{ marginRight: "20px" }}>Esercizi</Button>
+        </Link>
+        <Link to="/login">
+          <Button variant="primary" className="mb-3" style={{ marginRight: "20px" }}>
+            Login
+          </Button>
         </Link>
 
         <Row style={{ justifyContent: "center", paddingBottom: "5px" }}>

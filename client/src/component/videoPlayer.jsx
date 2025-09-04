@@ -2,8 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 
 function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
+  const [showControls, setShowControls] = useState(true);
   const videoRef = useRef(null);
+  const containerRef = useRef(null);
+  const timeoutRef = useRef(null);
 
   const thisVideoUniqueId = esercizioId + "-" + currentIndex;
   const videosWithoutLast = videos.slice(0, videos.length - 1);
@@ -13,10 +15,21 @@ function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
 
     if (activeVideoId === thisVideoUniqueId) {
       videoRef.current.play();
+      setShowControls(true);
+
+    clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => {
+        setShowControls(false);
+      }, 2000);
     } else {
       videoRef.current.pause();
+      clearTimeout(timeoutRef.current);
     }
   }, [activeVideoId, thisVideoUniqueId]);
+
+  useEffect(() => {
+    return () => clearTimeout(timeoutRef.current);
+  }, []);
 
   const togglePlay = () => {
     if (activeVideoId === thisVideoUniqueId) {
@@ -36,14 +49,13 @@ function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
     setActiveVideoId(null);
   };
 
-  // Play
+  // Icone
   const PlayIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24">
       <polygon points="6,4 20,12 6,20" fill="currentColor" />
     </svg>
   );
 
-  // Pause
   const PauseIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24">
       <rect x="6" y="4" width="4" height="16" fill="currentColor" />
@@ -51,14 +63,12 @@ function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
     </svg>
   );
 
-  // Freccia sinistra
   const LeftArrow = () => (
     <svg width="24" height="24" viewBox="0 0 24 24">
       <polygon points="15,4 7,12 15,20" fill="currentColor" />
     </svg>
   );
 
-  // Freccia destra
   const RightArrow = () => (
     <svg width="24" height="24" viewBox="0 0 24 24">
       <polygon points="9,4 17,12 9,20" fill="currentColor" />
@@ -66,13 +76,12 @@ function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
   );
 
   const isPlaying = activeVideoId === thisVideoUniqueId;
-  const showButtons = !isPlaying || isHovered;
 
   return (
     <div
+      ref={containerRef}
       className="content-video"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onClick={() => setShowControls(true)} // tap/click mostra subito i bottoni
     >
       <video
         ref={videoRef}
@@ -81,9 +90,8 @@ function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
         loop
       />
 
-      {showButtons && (
+      {showControls && (
         <>
-          {/* Bottone Play/Pausa */}
           <button
             onClick={togglePlay}
             className="botton-pause"

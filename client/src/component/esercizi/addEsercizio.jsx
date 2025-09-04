@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Card, Form, InputGroup } from "react-bootstrap";
 import VideoPlayer from "../videoPlayer";
 import { Link } from "react-router-dom";
+import { getEsercizioBase } from "../../db/DBdatiEsercizi"; 
 
 function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
   const [showForm, setShowForm] = useState(false);
@@ -34,6 +35,7 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
       try {
         // 🔹 Prima cerca in IndexedDB
         const esDB = await getEsercizioBase(esercizio.id);
+        console.log(esDB);
         if (esDB) {
           setGiorno(esDB.giorno || ""); // se hai il giorno salvato nel DB
           setSerie(esDB.serie?.toString() || "");

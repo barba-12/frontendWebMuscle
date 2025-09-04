@@ -95,11 +95,6 @@ function PaginaEsercizi({ esercizi }) {
               Schede
             </Button>
           </Link>
-          <Link to="/login">
-            <Button variant="primary" className="mb-3" style={{ marginRight: "20px" }}>
-              Login
-            </Button>
-          </Link>
 
           <Button variant="primary" className="mb-3" onClick={() => setShowModal(true)}>
             Filtri
@@ -168,19 +163,19 @@ function PaginaEsercizi({ esercizi }) {
           <div className="d-flex flex-wrap gap-2 mt-3">
             <Button
               className={typeSelected.includes("Corpo Libero") ? "btnSelected" : "btnOnSelect"}
-              onClick={() => toggleTypeFiltro("Corpo Libero")} // ✅ corretto
+              onClick={() => toggleTypeFiltro("Corpo Libero")} 
             >
               Corpo Libero
             </Button>
             <Button
               className={typeSelected.includes("Attrezzatura") ? "btnSelected" : "btnOnSelect"}
-              onClick={() => toggleTypeFiltro("Attrezzatura")} // ✅ corretto
+              onClick={() => toggleTypeFiltro("Attrezzatura")} 
             >
               Attrezzatura
             </Button>
             <Button
               className={typeSelected.includes("Allungamento") ? "btnSelected" : "btnOnSelect"}
-              onClick={() => toggleTypeFiltro("Allungamento")} // ✅ corretto
+              onClick={() => toggleTypeFiltro("Allungamento")} 
             >
               Allungamento
             </Button>
