@@ -30,21 +30,43 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
   useEffect(() => {
     if (!showForm) return;
 
-    const eserciziSelezionati = JSON.parse(sessionStorage.getItem("eserciziSelezionati")) || [];
-    
-    // Ciclo tutti i giorni e tutti gli esercizi per cercare quello con idEsercizio
-    for (const [giornoKey, esercizi] of eserciziSelezionati) {
-      const esTrovato = esercizi.find(e => e[0] === Number(esercizio.id));
-      if (esTrovato) {
-        // esTrovato = [idEsercizio, serie, ripetizioni, carico, tempoRecupero]
-        setGiorno(giornoKey);
-        setSerie(esTrovato[1].toString());
-        setRipetizioni(esTrovato[2].toString());
-        setCarico(esTrovato[3].toString());
-        setTempoRecupero(esTrovato[4].toString());
-        break;
+    const fetchEsercizio = async () => {
+      try {
+        // 🔹 Prima cerca in IndexedDB
+        const esDB = await getEsercizioBase(esercizio.id);
+        if (esDB) {
+          setGiorno(esDB.giorno || ""); // se hai il giorno salvato nel DB
+          setSerie(esDB.serie?.toString() || "");
+          setRipetizioni(esDB.ripetizioni?.[0]?.toString() || "");
+          setCarico(esDB.carico?.[0]?.toString() || "");
+          setTempoRecupero(esDB.tempoRecupero?.[0]?.toString() || "");
+          return;
+        }
+
+        // 🔹 Se non lo trova, controlla su sessionStorage
+        const eserciziSelezionati =
+          JSON.parse(sessionStorage.getItem("eserciziSelezionati")) || [];
+
+        for (const [giornoKey, esercizi] of eserciziSelezionati) {
+          const esTrovato = esercizi.find(
+            (e) => e[0] === Number(esercizio.id)
+          );
+          if (esTrovato) {
+            // [idEsercizio, serie, ripetizioni, carico, tempoRecupero]
+            setGiorno(giornoKey);
+            setSerie(esTrovato[1].toString());
+            setRipetizioni(esTrovato[2].toString());
+            setCarico(esTrovato[3].toString());
+            setTempoRecupero(esTrovato[4].toString());
+            break;
+          }
+        }
+      } catch (err) {
+        console.error("Errore nel recupero esercizio:", err);
       }
-    }
+    };
+
+    fetchEsercizio();
   }, [showForm, esercizio.id]);
 
   const salvaEsercizio = (e) => {
