@@ -113,6 +113,7 @@ function AggiungiScheda() {
             //e[4] || 0,   // tempo recupero
             //e[3] || 0,   // carico
             false,
+            e[5]
           ));
 
           saveEsercizioBase(new EsercizioScheda(

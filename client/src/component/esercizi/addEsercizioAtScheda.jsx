@@ -15,6 +15,7 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
   const [serie, setSerie] = useState("");
   const [ripetizioni, setRipetizioni] = useState("");
   const [carico, setCarico] = useState("");
+  const [comment, setComment] = useState("");
   const [tempoRecupero, setTempoRecupero] = useState("");
   const [schedaRaw, setSchedaRaw] = useState();
   const [scheda, setScheda] = useState();
@@ -95,7 +96,8 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
                 e.idUnivoco,
                 e.idEsercizio,
                 e.giorno,
-                e.completato
+                e.completato,
+                e.comment
             );
 
             nuovaScheda.addEsercizio(newEs);
@@ -142,6 +144,7 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
           esercizio.id,
           giorno,
           false,
+          comment
         ));
 
         saveScheda(scheda);
@@ -153,6 +156,7 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
         setRipetizioni("");
         setCarico("");
         setTempoRecupero("");
+        setComment("");
 
         navigate(`/giorni/${idScheda}`);
       }
@@ -243,6 +247,8 @@ function addEsercizio({ idScheda, esercizio, activeVideoId, setActiveVideoId }) 
                       <Form.Control type="number" placeholder="Tempo Di Recupero" className="input-viola" value={tempoRecupero} onChange={(e) => setTempoRecupero(e.target.value)} style={{marginBottom:"5px"}}/>
                       <InputGroup.Text style={{background:"transparent", color:"#d8b3ff", border:"2px solid #5B1C86", marginBottom:"5px"}}>s</InputGroup.Text>
                     </InputGroup>
+
+                    <textarea placeholder="Commenti" className="form-control input-viola" aria-label="With textarea" value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
                     
                     {showMessage && (
                       <div className="alert alert-warning alert-warning-login" role="alert">

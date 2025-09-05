@@ -62,7 +62,8 @@ function PaginaEserciziScheda() {
         e.idUnivoco,
         e.idEsercizio,
         e.giorno,
-        e.completato
+        e.completato,
+        e.comment
       );
       nuovaScheda.addEsercizio(newEs);
     });

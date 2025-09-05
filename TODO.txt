@@ -1,3 +1,4 @@
+
 aggiunta di esericizi in exercise.js:
 - Stacchi rumeni con bilanciere
 - Pressa
@@ -22,7 +23,6 @@ aggiunta di esericizi in exercise.js:
 - Alzate frontali
 - Curl
 - Bicipiti martello
-
 
 corpo libero:
 allungamento:
@@ -105,6 +105,7 @@ PAGINA utente:
     - se l'esercizio richiede una durata di tempo inserire timer pure per quella
     - se l'esercizio è gia stato agginto prima visualizzare i dati precedenti gia inseriti
     - OTTIMIZZAZIONE GENERALE
+    - aggiungere commento ad esercizio
 
  CLASSE EsercizioScheda:
     - creazione classe esercizio (creo id univoco tramite date.Now()) - aggiungiScheda.jsx 

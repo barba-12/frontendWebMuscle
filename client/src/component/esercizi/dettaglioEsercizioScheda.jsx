@@ -17,6 +17,7 @@ function dettaglioEsercizioScheda() {
   const [esercizioRaw, setEsercizioRaw] = useState();
   const [esercizio, setEsercizio] = useState();
   const [esercizioDB, setEsercizioDB] = useState();
+  const [esercizioClone, setEsercizioClone] = useState();
   const [datiEs, setDatiEs] = useState([0, 0, 0]);
   const [ripetizioni, setRipetizioni] = useState([]);
   const [carico, setCarico] = useState([]);
@@ -93,6 +94,7 @@ function dettaglioEsercizioScheda() {
     righeDettagliate = dettagliata ? dettagliata.split("§").map(r => r.trim()) : [];
   }
 
+  //filtri
   useEffect(() => {
     async function fetchScheda() {
       try {
@@ -112,6 +114,7 @@ function dettaglioEsercizioScheda() {
             e.idEsercizio,
             e.giorno,
             e.completato,
+            e.comment
           ));
         });
 
@@ -120,6 +123,8 @@ function dettaglioEsercizioScheda() {
         setScheda(nuovaScheda);
 
         const esercizioTrovato = nuovaScheda.getEsByIdUnivoco(esercizioId);
+        setEsercizioClone(esercizioTrovato);
+        console.log(esercizioTrovato);
 
         const esercizioDatiDB = await getEsercizioBase(esercizioTrovato.idEsercizio);
         const esercizioDati = await getEsercizioBaseOmettendoPrimi(esercizioTrovato.idEsercizio);
@@ -336,6 +341,13 @@ function dettaglioEsercizioScheda() {
           {esercizioRaw.repOrTime && <Button variant="primary" onClick={() => startTimer(Number(esercizio.ripetizioni))} disabled={isRunning}>{isRunning ? `${timeLeft}s` : `Timer Durata Esercizio: ${Number(esercizio.ripetizioni)}s`}</Button>}
           <Button onClick={() => impostaRecupero()}>imposta <strong>{esercizioRaw.repOrTime ? Number(esercizio.ripetizioni) : datiEs[2]}s</strong> su tutte le serie</Button>
           </div>
+
+          {esercizioClone.comment != "" && 
+            <div style={{textAlign:"left"}}>
+              <h5 style={{marginTop:"15px"}}>Commento Esercizio:</h5>
+              <p>{esercizioClone.comment}</p>
+            </div>
+          }
 
           <>
             <Form>

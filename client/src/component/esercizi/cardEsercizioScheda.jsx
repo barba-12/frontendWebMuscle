@@ -96,6 +96,7 @@ function cardEsercizioScheda({ schedaId, esercizioId, activeVideoId, setActiveVi
           e.idEsercizio,
           e.giorno,
           e.completato,
+          e.comment
         ));
       });
 

@@ -11,6 +11,7 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
   const [ripetizioni, setRipetizioni] = useState("");
   const [carico, setCarico] = useState("");
   const [tempoRecupero, setTempoRecupero] = useState("");
+  const [comment, setComment] = useState("");
   const [showMessage, setShowMessage] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -33,19 +34,7 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
 
     const fetchEsercizio = async () => {
       try {
-        // 🔹 Prima cerca in IndexedDB
-        const esDB = await getEsercizioBase(esercizio.id);
-        console.log(esDB);
-        if (esDB) {
-          setGiorno(esDB.giorno || ""); // se hai il giorno salvato nel DB
-          setSerie(esDB.serie?.toString() || "");
-          setRipetizioni(esDB.ripetizioni?.[0]?.toString() || "");
-          setCarico(esDB.carico?.[0]?.toString() || "");
-          setTempoRecupero(esDB.tempoRecupero?.[0]?.toString() || "");
-          return;
-        }
-
-        // 🔹 Se non lo trova, controlla su sessionStorage
+        // sessionStorage
         const eserciziSelezionati =
           JSON.parse(sessionStorage.getItem("eserciziSelezionati")) || [];
 
@@ -60,8 +49,22 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
             setRipetizioni(esTrovato[2].toString());
             setCarico(esTrovato[3].toString());
             setTempoRecupero(esTrovato[4].toString());
-            break;
+            setComment(esTrovato[5] || "");
+            return;
           }
+        }
+
+        //IndexedDB
+        const esDB = await getEsercizioBase(esercizio.id);
+        console.log(esDB);
+        if (esDB) {
+          setGiorno(esDB.giorno || ""); // se hai il giorno salvato nel DB
+          setSerie(esDB.serie?.toString() || "");
+          setRipetizioni(esDB.ripetizioni?.[0]?.toString() || "");
+          setCarico(esDB.carico?.[0]?.toString() || "");
+          setTempoRecupero(esDB.tempoRecupero?.[0]?.toString() || "");
+          setComment("");
+          return;
         }
       } catch (err) {
         console.error("Errore nel recupero esercizio:", err);
@@ -86,7 +89,7 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
           // aggiungiamo il nuovo esercizio come array
           return [
             g,
-            [...listaEsercizi, [Number(esercizio.id), Number(serie), Number(ripetizioni), Number(carico), Number(tempoRecupero)]]
+            [...listaEsercizi, [Number(esercizio.id), Number(serie), Number(ripetizioni), Number(carico), Number(tempoRecupero), comment]]
           ];
         }
 
@@ -102,6 +105,7 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
       setRipetizioni("");
       setCarico("");
       setTempoRecupero("");
+      setComment("");
     }
     else {
       setShowMessage(true);
@@ -124,10 +128,6 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
     if(Number(tempoRecupero) < 0) return {ok : false, message: "Inserire un tempo di recupero positivo"};
     // Se tutti i controlli passano
     return { ok: true, message: "Dati validi" };
-  }
-
-  const chiudiForm = () => {
-    setShowForm(false);
   }
 
    //AGGIUNGERE CONTROLLI NON HTML5
@@ -196,6 +196,8 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
                       <Form.Control type="number" placeholder="Tempo Di Recupero" className="input-viola" value={tempoRecupero} onChange={(e) => setTempoRecupero(e.target.value)} style={{marginBottom:"5px"}}/>
                       <InputGroup.Text style={{background:"transparent", color:"#d8b3ff", border:"2px solid #5B1C86", marginBottom:"5px"}}>s</InputGroup.Text>
                     </InputGroup>
+
+                    <textarea placeholder="Commenti" className="form-control input-viola" aria-label="With textarea" value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
 
                     {showMessage && (
                       <div className="alert alert-warning alert-warning-login" role="alert">
