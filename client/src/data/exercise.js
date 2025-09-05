@@ -153,6 +153,50 @@ import pistolSquatFront from "../assets/videoEsercizi/esercizi/pistolSquat/male-
 import pistolSquatSide from "../assets/videoEsercizi/esercizi/pistolSquat/male-Bodyweight-bodyweight-single-leg-squat-side.mp4";
 import pistolSquatActivationMuscle from "../assets/videoEsercizi/esercizi/pistolSquat/pistolSquatMuscoliAttivati.png";
 
+//new cal
+import boatHold from "../assets/videoEsercizi/esercizi/boatHold/boatHold.png";  //addominaliCentraliAttivazioneMuscolo
+
+import LsitHold from "../assets/videoEsercizi/esercizi/LsitHold/LsitHold.png"; //addominaliCentraliAttivazioneMuscolo
+
+import archerPushups from "../assets/videoEsercizi/esercizi/archerPushups/archerPushUps.mkv";  //allungamentoSpalleActivationMuscle
+
+import bicepsCurlChair from "../assets/videoEsercizi/esercizi/bicepsCurlChair/bicepsCurlWhitChair.mkv";  //allungamentoBicipitiActivationMuscle
+
+import diamondToRegular from "../assets/videoEsercizi/esercizi/diamondToRegular/diamondToRegular.mkv";  //flessioniDeclinateActivationMuscle
+
+import skullCrasher from "../assets/videoEsercizi/esercizi/skullCrasher/skullCrasher.mkv";  //allungamentoSpalleActivationMuscle
+
+import sweezeDiamond from "../assets/videoEsercizi/esercizi/sweezeDiamond/sweezeDiamond.mkv";  //allungamentoPettoActivationMuscle
+
+import widePushups from "../assets/videoEsercizi/esercizi/widePushups/widePushUps.mkv";  //allungamentoSpalleActivationMuscle
+
+import montainClimbersFront from "./assets/videoEsercizi/esercizi/regularMontainClimbers/male-bodyweight-mountain-climber-front.mp4";
+import montainClimbersSide from "./assets/videoEsercizi/esercizi/regularMontainClimbers/male-bodyweight-mountain-climber-side.mp4";
+import addominaliCentraliAttivazioneMuscolo from "./assets/videoEsercizi/esercizi/regularMontainClimbers/addominatiAttivazioneMuscolo.png";  
+
+import burpeeFront from "./assets/videoEsercizi/esercizi/burpee/male-bodyweight-burpee-front.mp4";
+import burpeeSide from "./assets/videoEsercizi/esercizi/burpee/male-bodyweight-burpee-side.mp4";
+import burpeeAttivazioneMuscolo from "./assets/videoEsercizi/esercizi/burpee/burpeeMuscoliAttivati.png";   
+
+import russianTwistFront from "./assets/videoEsercizi/esercizi/russianTwist/male-bodyweight-russian-twist-front.mp4";  //allungamentoAddominaliActivationMuscle
+import russianTwistSide from "./assets/videoEsercizi/esercizi/russianTwist/male-bodyweight-side-russian-twist-side.mp4";  
+
+import bicyclesFront from "./assets/videoEsercizi/esercizi/bicycles/male-Bodyweight-bicycle-crunch-front.mp4";  //addominaliCentraliAttivazioneMuscolo
+import bicyclesSide from "./assets/videoEsercizi/esercizi/bicycles/male-Bodyweight-bicycle-crunch-side.mp4"; 
+
+import legRaisesFront from "./assets/videoEsercizi/esercizi/legRaises/female-Bodyweight-laying-leg-raises-front.mp4";  //addominaliCentraliAttivazioneMuscolo
+import legRaisesSide from "./assets/videoEsercizi/esercizi/legRaises/female-Bodyweight-laying-leg-raises-side.mp4"; 
+
+import benchDipsFront from "./assets/videoEsercizi/esercizi/benchDips/male-Bodyweight-bench-dips-front.mp4";  //allungamentoTricipitiActivationMuscle
+import benchDipsSide from "./assets/videoEsercizi/esercizi/benchDips/male-Bodyweight-bench-dips-side.mp4"; 
+
+import diamondKneePushupsFront from "./assets/videoEsercizi/esercizi/diamondKneePushups/male-Bodyweight-bodyweight-diamond-knee-push-ups-front.mp4";
+import diamondKneePushupsSide from "./assets/videoEsercizi/esercizi/diamondKneePushups/male-Bodyweight-bodyweight-diamond-knee-push-ups-side.mp4";
+import diamondKneePushupsAttivazioneMuscolo from "./assets/videoEsercizi/esercizi/diamondKneePushups/diamondKneePushups.png";   
+
+import squatFreeBodyFront from "./assets/videoEsercizi/esercizi/squatFreeBody/male-Bodyweight-bodyweight-squat-front.mp4";  //squatActivationMuscle
+import squatFreeBodySide from "./assets/videoEsercizi/esercizi/squatFreeBody/male-Bodyweight-bodyweight-squat-side.mp4"; 
+
 const exerciseData = [
   new Esercizio(
     1,
@@ -323,7 +367,7 @@ const exerciseData = [
     false
   ), new Esercizio(
     11,
-    "Squat",
+    "Squat con Bilanciere",
     "1. Stai in piedi con i piedi alla larghezza delle spalle. Mantieni la naturale curvatura della schiena, stringi le scapole e solleva il petto.§" +
     "2. Impugna il bilanciere appoggiandolo sulle spalle e sostenendolo sulla parte superiore della schiena. Togli il bilanciere dai supporti raddrizzando le gambe e fai un passo indietro.§" +
     "3. Piega le ginocchia mentre abbassi il peso, mantenendo la schiena invariata, finché le anche sono sotto le ginocchia.§" + 
@@ -355,7 +399,7 @@ const exerciseData = [
     "Non rimbalzare in basso.§" +
     "Non sollevare talloni o punte dei piedi.",
     ["Quadricipiti", "Glutei", "Femorali"],
-    ["Nessuna attrezzatura richiesta", "Bilancere", "Manubri"],
+    ["Bilancere", "Manubri"],
     "Medio",
     [squatFront, squatSide, squatActivationMuscle],
     false,
@@ -750,6 +794,18 @@ const exerciseData = [
     "Difficile",
     [pistolSquatFront, pistolSquatSide, pistolSquatActivationMuscle],
     false,
+    false
+  ), new Esercizio(
+    41,
+    "Boat Hold",
+    "1. *§" +
+    "2. *§" + 
+    "3. *",
+    ["Addominali"],
+    ["Nessuna attrezzatura richiesta"],
+    "Medio",
+    [boatHold, allungamentoAddominaliActivationMuscle],
+    true,
     false
   ),
 ];

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { getAllSchedeDB, clearDB, resetAllStatusEs } from "../../db/DBschede"; // Assumo sia implementata
 import { getAllEserciziBase, clearDB as clearDBDati, getAllEsercizi, resetEserciziKeepFirst} from "../../db/DBdatiEsercizi";
 import { clearAllIndexedDB } from "../../db/clearAllDB";
+import { clearDBExercise } from "../../db/db";
 
 function PagAmm() {
   const [sessionData, setSessionData] = useState([]);
@@ -221,6 +222,10 @@ function PagAmm() {
 
           <Button variant="warning" className="m-2" onClick={() => { setShowModalReset(true); }}>
             Resetta stato esercizi
+          </Button>
+
+          <Button variant="warning" className="m-2" onClick={() => { clearDBExercise() }}>
+            resetta DB exercise
           </Button>
         </div>
 

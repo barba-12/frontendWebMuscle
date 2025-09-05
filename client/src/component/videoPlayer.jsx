@@ -10,22 +10,27 @@ function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
   const thisVideoUniqueId = esercizioId + "-" + currentIndex;
   const videosWithoutLast = videos.slice(0, videos.length - 1);
 
+  // Funzione per verificare se l'URL è un'immagine
+  const isImage = (url) => {
+    return /\.(jpeg|jpg|gif|png|webp|svg)$/i.test(url);
+  };
+
   useEffect(() => {
     if (!videoRef.current) return;
 
-    if (activeVideoId === thisVideoUniqueId) {
+    if (activeVideoId === thisVideoUniqueId && !isImage(videosWithoutLast[currentIndex])) {
       videoRef.current.play();
       setShowControls(true);
 
-    clearTimeout(timeoutRef.current);
+      clearTimeout(timeoutRef.current);
       timeoutRef.current = setTimeout(() => {
         setShowControls(false);
       }, 2000);
-    } else {
+    } else if (videoRef.current) {
       videoRef.current.pause();
       clearTimeout(timeoutRef.current);
     }
-  }, [activeVideoId, thisVideoUniqueId]);
+  }, [activeVideoId, thisVideoUniqueId, currentIndex]);
 
   useEffect(() => {
     return () => clearTimeout(timeoutRef.current);
@@ -81,16 +86,24 @@ function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
     <div
       ref={containerRef}
       className="content-video"
-      onClick={() => setShowControls(true)} // tap/click mostra subito i bottoni
+      onClick={() => setShowControls(true)}
     >
-      <video
-        ref={videoRef}
-        src={videosWithoutLast[currentIndex]}
-        style={{ width: "100%", height: "auto", display: "block" }}
-        loop
-      />
+      {isImage(videosWithoutLast[currentIndex]) ? (
+        <img
+          src={videosWithoutLast[currentIndex]}
+          alt={`Esercizio ${currentIndex}`}
+          style={{ width: "100%", height: "auto", display: "block" }}
+        />
+      ) : (
+        <video
+          ref={videoRef}
+          src={videosWithoutLast[currentIndex]}
+          style={{ width: "100%", height: "auto", display: "block" }}
+          loop
+        />
+      )}
 
-      {showControls && (
+      {showControls && !isImage(videosWithoutLast[currentIndex]) && (
         <>
           <button
             onClick={togglePlay}
