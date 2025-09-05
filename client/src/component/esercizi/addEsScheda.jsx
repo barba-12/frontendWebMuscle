@@ -1,27 +1,47 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import exerciseData from "../../data/exercise";
 import AddEsercizio from "./addEsercizio";
 import { getAllMuscle } from "../../db/functionExercise";
+import { getEsercizi, saveEsercizi, getFiltri, saveFiltri } from "../../db/db";
+import exerciseData from "../../data/exercise"; // opzionale se vuoi inizializzare DB
 
-function addEsScheda() {
-  const [es, setEs] = useState(exerciseData);
+function AddEsScheda() {
+  const [es, setEs] = useState([]);
   const [activeVideoId, setActiveVideoId] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [allMuscle, setAllMuscle] = useState(getAllMuscle());
-  const navigate = useNavigate();
+  const [allMuscle, setAllMuscle] = useState([]);
   const [nome, setNome] = useState("");
-  // recupero filtri da sessionStorage
-  const [muscleSelected, setMuscleSelected] = useState(() => {
-    const saved = sessionStorage.getItem("filtriEsercizi");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [muscleSelected, setMuscleSelected] = useState([]);
+  const [typeSelected, setTypeSelected] = useState([]);
+  const navigate = useNavigate();
 
-  const [typeSelected, setTypeSelected] = useState(() => {
-    const saved = sessionStorage.getItem("filtriEsercizi2");
-    return saved ? JSON.parse(saved) : [];
-  });
+  // 🔹 Caricamento iniziale esercizi e filtri
+  useEffect(() => {
+    async function loadData() {
+      let eserciziDB = await getEsercizi();
+      if (!eserciziDB || eserciziDB.length === 0) {
+        // Prima volta: inizializza DB da file JSON
+        await saveEsercizi(exerciseData);
+        eserciziDB = exerciseData;
+      }
+      setEs(eserciziDB);
+
+      // Filtri salvati
+      const filtri = await getFiltri();
+      setMuscleSelected(filtri.muscle || []);
+      setTypeSelected(filtri.type || []);
+
+      // Lista muscoli
+      setAllMuscle(getAllMuscle());
+    }
+    loadData();
+  }, []);
+
+  // 🔹 Salvataggio filtri persistenti
+  useEffect(() => {
+    saveFiltri({ muscle: muscleSelected, type: typeSelected });
+  }, [muscleSelected, typeSelected]);
 
   const toggleMuscleFiltro = (filtro) => {
     setMuscleSelected((prev) =>
@@ -41,58 +61,59 @@ function addEsScheda() {
     setNome("");
   };
 
-  const cercaFiltri = () => {
-    setShowModal(false);
-  };
+  const cercaFiltri = () => setShowModal(false);
 
-  // applico filtri
-  useEffect(() => {
-    let listaEs = [...exerciseData];
+  // 🔹 Filtraggio ottimizzato
+  const filteredEsercizi = useMemo(() => {
+    let lista = [...es];
 
     if (muscleSelected.length > 0) {
-      listaEs = listaEs.filter((es) =>
-        es.muscoliAllenati?.some((muscolo) => muscleSelected.includes(muscolo))
+      lista = lista.filter((ex) =>
+        ex.muscoliAllenati?.some((m) => muscleSelected.includes(m))
       );
     }
 
     if (typeSelected.length > 0) {
-      listaEs = listaEs.filter((es) => {
+      lista = lista.filter((ex) => {
         const corpoLiberoMatch =
           typeSelected.includes("Corpo Libero") &&
-          es.attrezzatura?.[0] === "Nessuna attrezzatura richiesta";
+          ex.attrezzatura?.[0] === "Nessuna attrezzatura richiesta";
 
         const attrezzaturaMatch =
           typeSelected.includes("Attrezzatura") &&
-          es.attrezzatura?.[0] !== "Nessuna attrezzatura richiesta";
+          ex.attrezzatura?.[0] !== "Nessuna attrezzatura richiesta";
 
         const allungamentoMatch =
-          typeSelected.includes("Allungamento") && es.isStreching;
+          typeSelected.includes("Allungamento") && ex.isStreching;
 
         return corpoLiberoMatch || attrezzaturaMatch || allungamentoMatch;
       });
     }
 
-    if(nome != ""){
-      listaEs = listaEs.filter((es) => 
-        es.nome.toLowerCase().includes(nome.toLowerCase())
+    if (nome !== "") {
+      lista = lista.filter((ex) =>
+        ex.nome.toLowerCase().includes(nome.toLowerCase())
       );
     }
 
-    setEs(listaEs);
-  }, [muscleSelected, typeSelected, nome]);
-
-  // salvo i filtri
-  useEffect(() => {
-    sessionStorage.setItem("filtriEsercizi", JSON.stringify(muscleSelected));
-    sessionStorage.setItem("filtriEsercizi2", JSON.stringify(typeSelected));
-  }, [muscleSelected, typeSelected]);
+    return lista;
+  }, [es, muscleSelected, typeSelected, nome]);
 
   return (
     <>
       <Container fluid className="project-section">
         <Container>
-          <Button variant="primary" className="mb-3" style={{marginRight:"20px"}} onClick={() => navigate("/aggiungiScheda")}>back</Button>
-          <Button variant="primary" className="mb-3" onClick={() => {setShowModal(true)}}>Filtri</Button>
+          <Button
+            variant="primary"
+            className="mb-3"
+            style={{ marginRight: "20px" }}
+            onClick={() => navigate("/aggiungiScheda")}
+          >
+            Back
+          </Button>
+          <Button variant="primary" className="mb-3" onClick={() => setShowModal(true)}>
+            Filtri
+          </Button>
 
           <h1 className="project-heading">Select Exercise</h1>
 
@@ -103,7 +124,7 @@ function addEsScheda() {
           )}
 
           <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
-            {es.map((ex, i) => (
+            {filteredEsercizi.map((ex, i) => (
               <Col md={4} className="project-card desktop-margin-right" key={i}>
                 <AddEsercizio
                   esercizio={ex}
@@ -122,12 +143,10 @@ function addEsScheda() {
         </Modal.Header>
 
         <Modal.Body className="modal-header-glass">
-          {/* 🔹 Filtro per nome */}
           <div className="mb-3">
             <input
               type="text"
               className="form-control input-custom"
-              aria-describedby="emailHelp"
               placeholder="Nome"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
@@ -136,14 +155,13 @@ function addEsScheda() {
 
           <hr />
 
-          {/* 🔹 Filtro muscoli */}
           <Form.Label style={{ margin: "0px" }}>Muscoli</Form.Label>
           <div className="d-flex flex-wrap gap-2 mt-3">
             {allMuscle.map((filtro, idx) => (
               <Button
                 key={idx}
                 className={muscleSelected.includes(filtro) ? "btnSelected" : "btnOnSelect"}
-                onClick={() => toggleMuscleFiltro(filtro)} // ✅ corretto
+                onClick={() => toggleMuscleFiltro(filtro)}
               >
                 {filtro}
               </Button>
@@ -152,32 +170,30 @@ function addEsScheda() {
 
           <hr />
 
-          {/* 🔹 Filtro tipologia */}
           <Form.Label style={{ margin: "0px" }}>Tipologia</Form.Label>
           <div className="d-flex flex-wrap gap-2 mt-3">
             <Button
               className={typeSelected.includes("Corpo Libero") ? "btnSelected" : "btnOnSelect"}
-              onClick={() => toggleTypeFiltro("Corpo Libero")} // corretto
+              onClick={() => toggleTypeFiltro("Corpo Libero")}
             >
               Corpo Libero
             </Button>
             <Button
               className={typeSelected.includes("Attrezzatura") ? "btnSelected" : "btnOnSelect"}
-              onClick={() => toggleTypeFiltro("Attrezzatura")} // corretto
+              onClick={() => toggleTypeFiltro("Attrezzatura")}
             >
               Attrezzatura
             </Button>
             <Button
               className={typeSelected.includes("Allungamento") ? "btnSelected" : "btnOnSelect"}
-              onClick={() => toggleTypeFiltro("Allungamento")} // corretto
+              onClick={() => toggleTypeFiltro("Allungamento")}
             >
               Allungamento
             </Button>
           </div>
 
-          {/* 🔹 Conteggio risultati */}
           <Form.Label style={{ marginTop: "20px" }}>
-            Sono stati trovati {es.length} esercizi
+            Sono stati trovati {filteredEsercizi.length} esercizi
           </Form.Label>
         </Modal.Body>
 
@@ -194,4 +210,4 @@ function addEsScheda() {
   );
 }
 
-export default addEsScheda;
+export default AddEsScheda;
