@@ -158,44 +158,44 @@ import boatHold from "../assets/videoEsercizi/esercizi/boatHold/boatHold.png";  
 
 import LsitHold from "../assets/videoEsercizi/esercizi/LsitHold/LsitHold.png"; //addominaliCentraliAttivazioneMuscolo
 
-import archerPushups from "../assets/videoEsercizi/esercizi/archerPushups/archerPushUps.mkv";  //allungamentoSpalleActivationMuscle
+import archerPushups from "../assets/videoEsercizi/esercizi/archerPushups/archerPushUps.mp4";  //allungamentoSpalleActivationMuscle
 
-import bicepsCurlChair from "../assets/videoEsercizi/esercizi/bicepsCurlChair/bicepsCurlWhitChair.mkv";  //allungamentoBicipitiActivationMuscle
+import bicepsCurlChair from "../assets/videoEsercizi/esercizi/bicepsCurlChair/bicepsCurlWhitChair.mp4";  //allungamentoBicipitiActivationMuscle
 
-import diamondToRegular from "../assets/videoEsercizi/esercizi/diamondToRegular/diamondToRegular.mkv";  //flessioniDeclinateActivationMuscle
+import diamondToRegular from "../assets/videoEsercizi/esercizi/diamondToRegular/diamondToRegular.mp4";  //flessioniDeclinateActivationMuscle
 
-import skullCrasher from "../assets/videoEsercizi/esercizi/skullCrasher/skullCrasher.mkv";  //allungamentoSpalleActivationMuscle
+import skullCrasher from "../assets/videoEsercizi/esercizi/skullCrasher/skullCrasher.mp4";  //allungamentoSpalleActivationMuscle
 
-import sweezeDiamond from "../assets/videoEsercizi/esercizi/sweezeDiamond/sweezeDiamond.mkv";  //allungamentoPettoActivationMuscle
+import sweezeDiamond from "../assets/videoEsercizi/esercizi/sweezeDiamond/sweezeDiamond.mp4";  //allungamentoPettoActivationMuscle
 
-import widePushups from "../assets/videoEsercizi/esercizi/widePushups/widePushUps.mkv";  //allungamentoSpalleActivationMuscle
+import widePushups from "../assets/videoEsercizi/esercizi/widePushups/widePushUps.mp4";  //allungamentoSpalleActivationMuscle
 
-import montainClimbersFront from "./assets/videoEsercizi/esercizi/regularMontainClimbers/male-bodyweight-mountain-climber-front.mp4";
-import montainClimbersSide from "./assets/videoEsercizi/esercizi/regularMontainClimbers/male-bodyweight-mountain-climber-side.mp4";
-import addominaliCentraliAttivazioneMuscolo from "./assets/videoEsercizi/esercizi/regularMontainClimbers/addominatiAttivazioneMuscolo.png";  
+import montainClimbersFront from "../assets/videoEsercizi/esercizi/regularMontainClimbers/male-bodyweight-mountain-climber-front.mp4";
+import montainClimbersSide from "../assets/videoEsercizi/esercizi/regularMontainClimbers/male-bodyweight-mountain-climber-side.mp4";
+import addominaliCentraliAttivazioneMuscolo from "../assets/videoEsercizi/esercizi/regularMontainClimbers/addominatiAttivazioneMuscolo.png";  
 
-import burpeeFront from "./assets/videoEsercizi/esercizi/burpee/male-bodyweight-burpee-front.mp4";
-import burpeeSide from "./assets/videoEsercizi/esercizi/burpee/male-bodyweight-burpee-side.mp4";
-import burpeeAttivazioneMuscolo from "./assets/videoEsercizi/esercizi/burpee/burpeeMuscoliAttivati.png";   
+import burpeeFront from "../assets/videoEsercizi/esercizi/burpee/male-bodyweight-burpee-front.mp4";
+import burpeeSide from "../assets/videoEsercizi/esercizi/burpee/male-bodyweight-burpee-side.mp4";
+import burpeeAttivazioneMuscolo from "../assets/videoEsercizi/esercizi/burpee/burpeeMuscoliAttivati.png";   
 
-import russianTwistFront from "./assets/videoEsercizi/esercizi/russianTwist/male-bodyweight-russian-twist-front.mp4";  //allungamentoAddominaliActivationMuscle
-import russianTwistSide from "./assets/videoEsercizi/esercizi/russianTwist/male-bodyweight-side-russian-twist-side.mp4";  
+import russianTwistFront from "../assets/videoEsercizi/esercizi/russianTwist/male-bodyweight-russian-twist-front.mp4";  //allungamentoAddominaliActivationMuscle
+import russianTwistSide from "../assets/videoEsercizi/esercizi/russianTwist/male-bodyweight-side-russian-twist-side.mp4";  
 
-import bicyclesFront from "./assets/videoEsercizi/esercizi/bicycles/male-Bodyweight-bicycle-crunch-front.mp4";  //addominaliCentraliAttivazioneMuscolo
-import bicyclesSide from "./assets/videoEsercizi/esercizi/bicycles/male-Bodyweight-bicycle-crunch-side.mp4"; 
+import bicyclesFront from "../assets/videoEsercizi/esercizi/bicycles/male-Bodyweight-bicycle-crunch-front.mp4";  //addominaliCentraliAttivazioneMuscolo
+import bicyclesSide from "../assets/videoEsercizi/esercizi/bicycles/male-Bodyweight-bicycle-crunch-side.mp4"; 
 
-import legRaisesFront from "./assets/videoEsercizi/esercizi/legRaises/female-Bodyweight-laying-leg-raises-front.mp4";  //addominaliCentraliAttivazioneMuscolo
-import legRaisesSide from "./assets/videoEsercizi/esercizi/legRaises/female-Bodyweight-laying-leg-raises-side.mp4"; 
+import legRaisesFront from "../assets/videoEsercizi/esercizi/legRaises/female-Bodyweight-laying-leg-raises-front.mp4";  //addominaliCentraliAttivazioneMuscolo
+import legRaisesSide from "../assets/videoEsercizi/esercizi/legRaises/female-Bodyweight-laying-leg-raises-side.mp4"; 
 
-import benchDipsFront from "./assets/videoEsercizi/esercizi/benchDips/male-Bodyweight-bench-dips-front.mp4";  //allungamentoTricipitiActivationMuscle
-import benchDipsSide from "./assets/videoEsercizi/esercizi/benchDips/male-Bodyweight-bench-dips-side.mp4"; 
+import benchDipsFront from "../assets/videoEsercizi/esercizi/benchDips/male-Bodyweight-bench-dips-front.mp4";  //allungamentoTricipitiActivationMuscle
+import benchDipsSide from "../assets/videoEsercizi/esercizi/benchDips/male-Bodyweight-bench-dips-side.mp4"; 
 
-import diamondKneePushupsFront from "./assets/videoEsercizi/esercizi/diamondKneePushups/male-Bodyweight-bodyweight-diamond-knee-push-ups-front.mp4";
-import diamondKneePushupsSide from "./assets/videoEsercizi/esercizi/diamondKneePushups/male-Bodyweight-bodyweight-diamond-knee-push-ups-side.mp4";
-import diamondKneePushupsAttivazioneMuscolo from "./assets/videoEsercizi/esercizi/diamondKneePushups/diamondKneePushups.png";   
+import diamondKneePushupsFront from "../assets/videoEsercizi/esercizi/diamondKneePushups/male-Bodyweight-bodyweight-diamond-knee-push-ups-front.mp4";
+import diamondKneePushupsSide from "../assets/videoEsercizi/esercizi/diamondKneePushups/male-Bodyweight-bodyweight-diamond-knee-push-ups-side.mp4";
+import diamondKneePushupsAttivazioneMuscolo from "../assets/videoEsercizi/esercizi/diamondKneePushups/diamondKneePushups.png";   
 
-import squatFreeBodyFront from "./assets/videoEsercizi/esercizi/squatFreeBody/male-Bodyweight-bodyweight-squat-front.mp4";  //squatActivationMuscle
-import squatFreeBodySide from "./assets/videoEsercizi/esercizi/squatFreeBody/male-Bodyweight-bodyweight-squat-side.mp4"; 
+import squatFreeBodyFront from "../assets/videoEsercizi/esercizi/squatFreeBody/male-Bodyweight-bodyweight-squat-front.mp4";  //squatActivationMuscle
+import squatFreeBodySide from "../assets/videoEsercizi/esercizi/squatFreeBody/male-Bodyweight-bodyweight-squat-side.mp4"; 
 
 const exerciseData = [
   new Esercizio(
@@ -798,16 +798,201 @@ const exerciseData = [
   ), new Esercizio(
     41,
     "Boat Hold",
-    "1. *§" +
-    "2. *§" + 
-    "3. *",
+    "1. Siediti a terra, schiena dritta e addominali attivi.§" +
+    "2. Solleva i piedi da terra, braccia tese in avanti per equilibrio.§" + 
+    "3. Mantieni la posizione respirando, aumentando il tempo gradualmente (più difficile se stendi le gambe).",
     ["Addominali"],
     ["Nessuna attrezzatura richiesta"],
-    "Medio",
+    "Facile",
     [boatHold, allungamentoAddominaliActivationMuscle],
     true,
     false
+  ), new Esercizio(
+    42,
+    "L Sit Hold",
+    "1. Siediti a terra con le gambe tese in avanti e le mani accanto ai fianchi.§" +
+    "2. Spingi forte con le braccia, sollevando il corpo da terra.§" + 
+    "3. Mantieni le gambe dritte a formare una “L” e stringi gli addominali, aumentando il tempo gradualmente.",
+    ["Addominali"],
+    ["Nessuna attrezzatura richiesta"],
+    "Medio",
+    [LsitHold, allungamentoAddominaliActivationMuscle],
+    true,
+    false
+  ), new Esercizio(
+    43,
+    "Archer push-ups",
+    "1. Posizione iniziale: parti in plank, mani più larghe delle spalle.§" +
+    "2. Discesa: piega un braccio portando il petto verso quella mano, l’altro resta quasi disteso.§" + 
+    "3. Spinta: risali tornando al centro, poi alterna lato destro e sinistro.",
+    ["Petto", "Tricipiti", "Spalle"],
+    ["Nessuna attrezzatura richiesta"],
+    "Medio",
+    [archerPushups, allungamentoSpalleActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    44,
+    "Wide push-ups",
+    "1. Posizione: entra in plank con le mani più larghe delle spalle.§" +
+    "2. Discesa: piega i gomiti portando il petto verso il pavimento.§" + 
+    "3. Spinta: risali mantenendo il core attivo e la schiena dritta.",
+    ["Petto", "Tricipiti", "Spalle"],
+    ["Nessuna attrezzatura richiesta"],
+    "Medio",
+    [widePushups, allungamentoSpalleActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    45,
+    "Diamont to Regular push-ups",
+    "1. Posizione iniziale: parti in diamond push up (mani unite a forma di diamante sotto il petto).§" +
+    "2. Discesa e spinta: fai un push up, poi mentre risali sposta lentamente le mani verso l’esterno.§" + 
+    "3. Arrivo: continua a spostare le mani finché sei in regular push up (mani alla larghezza spalle) e completa il movimento.",
+    ["Petto", "Tricipiti", "Spalle"],
+    ["Nessuna attrezzatura richiesta"],
+    "Medio",
+    [diamondToRegular, flessioniDeclinateActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    46,
+    "Diamond Elevated Sweeze push-ups",
+    "1. Posizione iniziale: mani a diamante su un rialzo (panca, box o step), corpo in plank.§" +
+    "2. Discesa: scendi lentamente piegando i gomiti, portando il petto verso le mani.§" + 
+    "3. Spinta + squeeze: risali spremendo il petto al centro, come se volessi avvicinare i palmi tra loro.",
+    ["Petto", "Tricipiti", "Spalle"],
+    ["Nessuna attrezzatura richiesta"],
+    "Medio",
+    [sweezeDiamond, allungamentoPettoActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    47,
+    "Skull Crusher",
+    "1. Posizione iniziale: appoggia le mani su una panca, sbarra o anelli, con presa stretta (mani vicine). Corpo in plank inclinato.§" +
+    "2. Discesa: piega i gomiti portando la testa oltre le mani, come se volessi “andarci sotto”.§" + 
+    "3. Spinta: estendi le braccia riportando il corpo in linea retta.",
+    ["Petto", "Tricipiti", "Spalle"],
+    ["Nessuna attrezzatura richiesta"],
+    "Medio",
+    [skullCrasher, allungamentoSpalleActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    48,
+    "Biceps Curl whit Chair",
+    "1. Posizione iniziale: siediti sotto una sedia stabile, afferra i bordi del sedile con i palmi rivolti verso di te.§" +
+    "2. Movimento: mantieni i piedi a terra e tira con le braccia flettendo i gomiti, come se stessi “arricciando” il corpo verso la sedia.§" + 
+    "3. Controllo: torna lentamente alla posizione iniziale mantenendo tensione sui bicipiti.",
+    ["Bicipiti", "Avambracci"],
+    ["Nessuna attrezzatura richiesta", "Sedia"],
+    "Medio",
+    [bicepsCurlChair, allungamentoBicipitiActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    49,
+    "Montain Climbers",
+    "1. Per eseguire un alpinista a corpo libero, parti dalla posizione di plank con le mani posizionate direttamente sotto le spalle.§" +
+    "2. Porta il ginocchio destro verso il petto, mantenendo il piede vicino alla mano. Cambia rapidamente gamba, portando il ginocchio sinistro verso il petto.§" + 
+    "3. Continua questo movimento, alternando le gambe, a ritmo rapido per un tempo prestabilito o per un numero di ripetizioni.",
+    ["Addominali"],
+    ["Nessuna attrezzatura richiesta"],
+    "Facile",
+    [montainClimbersSide, montainClimbersFront, addominaliCentraliAttivazioneMuscolo],
+    false,
+    false
+  ), new Esercizio(
+    50,
+    "Russian Twist",
+    "1. Mantieni i talloni appena sollevati da terra.§" +
+    "2. Spingi il petto in fuori e mantieni la schiena neutra. Fai sì che tutto il movimento avvenga nel tratto medio-alto della colonna vertebrale.§" + 
+    "3. Porta il petto verso sinistra, poi ruota la colonna finché il petto non è rivolto a destra.",
+    ["Addominali"],
+    ["Nessuna attrezzatura richiesta"],
+    "Facile",
+    [russianTwistFront, russianTwistSide, allungamentoAddominaliActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    51,
+    "Bicycles",
+    "1. Sdraiati sulla schiena.§" +
+    "2. Piega le ginocchia, mani dietro la testa.§" + 
+    "3. Ruota il busto, tocca il gomito al ginocchio opposto. Ripeti.",
+    ["Addominali"],
+    ["Nessuna attrezzatura richiesta"],
+    "Facile",
+    [bicyclesSide, bicyclesFront, addominaliCentraliAttivazioneMuscolo],
+    false,
+    false
+  ), new Esercizio(
+    52,
+    "Knee Diamond push-ups",
+    "1. Inizia in posizione di push-up, con le mani a forma di diamante sotto il petto.§" +
+    "2. Abbassa il corpo, tenendo i gomiti stretti.§" + 
+    "3. Spingi indietro fino alla posizione iniziale.",
+    ["Tricipiti"],
+    ["Nessuna attrezzatura richiesta"],
+    "Facile",
+    [diamondKneePushupsSide, diamondKneePushupsFront, diamondKneePushupsAttivazioneMuscolo],
+    false,
+    false
+  ), new Esercizio(
+    53,
+    "Squat Corpo Libero",
+    "1. Stai in piedi con i piedi alla larghezza delle spalle.§" +
+    "2. fletti le ginocchia e i fianchi e siediti indietro nello squat mentre abbassi il corpo§" + 
+    "3. Continua a scendere fino alla massima profondità.§" +
+    "4. Torna alla posizione iniziale.",
+    ["Quadricipiti", "Glutei"],
+    ["Nessuna attrezzatura richiesta"],
+    "Medio",
+    [squatFreeBodyFront, squatFreeBodySide, squatActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    54,
+    "Bench Dips",
+    "1. Afferra il bordo della panca con le mani, tieni i piedi uniti e le gambe dritte.§" +
+    "2. Abbassa il corpo mantenendolo verticale.§" + 
+    "3. Spingi lentamente verso l'alto fino alla posizione di partenza.§" +
+    "4. SUGGERIMENTO: Per rendere l'esercizio più difficile, solleva i piedi da terra e aggiungi peso.",
+    ["Tricipiti"],
+    ["Nessuna attrezzatura richiesta"],
+    "Facile",
+    [benchDipsFront, benchDipsSide, allungamentoTricipitiActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    55,
+    "Leg Raises",
+    "1. Sdraiati sulla schiena con le braccia lungo i fianchi, palmi rivolti verso il basso.§" +
+    "2. Mantieni le gambe unite e quanto più dritte possibile.§" + 
+    "3. Solleva lentamente le gambe fino a un angolo di 90°, trattienile in questa posizione o portale all'altezza massima che riesci, poi abbassale lentamente.§" +
+    "4. Esegui questi movimenti lentamente, in modo da non sfruttare lo slancio e ottenere il massimo dall'esercizio.",
+    ["Addominali"],
+    ["Nessuna attrezzatura richiesta"],
+    "Facile",
+    [legRaisesFront, legRaisesSide, addominaliCentraliAttivazioneMuscolo],
+    false,
+    false
+  ), new Esercizio(
+    56,
+    "Burpees",
+    "1. Inizia in piedi con i piedi alla larghezza dei fianchi. Scendi in posizione di squat e appoggia le mani a terra davanti a te.§" +
+    "2. Salta rapidamente indietro portando i piedi in posizione di plank, mantenendo il corpo in linea retta dalla testa alle punte dei piedi.§" + 
+    "3. Esegui una flessione, mantenendo il core contratto e i gomiti vicini al corpo.§" +
+    "4. Porta i piedi indietro verso le mani con un salto, poi salta in alto portando le braccia sopra la testa.§" + 
+    "5. Atterra dolcemente e subito riabbassa il corpo in posizione di squat per ripetere il movimento.",
+    ["Petto", "Tricipiti", "Spalle", "Addominali", "Quadricipiti", "Glutei"],
+    ["Nessuna attrezzatura richiesta"],
+    "Medio",
+    [burpeeFront, burpeeSide, burpeeAttivazioneMuscolo],
+    false,
+    false
   ),
-];
+]; 
 
 export default exerciseData;

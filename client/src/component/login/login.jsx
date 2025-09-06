@@ -35,6 +35,7 @@ export default function Login({ onLoginSuccess }) {
   }
 
   return (
+    <>
     <Container fluid className="contenitore-login">
       <Container>
         <Card className="card-login">
@@ -86,6 +87,11 @@ export default function Login({ onLoginSuccess }) {
           </form>
          </Card>
       </Container>
+        {/* Scritta della versione in basso a destra */}
     </Container>
+    <div style={{ position: "absolute", bottom: 10, right: 10, fontSize: "14px", color: "rgba(119, 53, 136, 0.459)" }}>
+      Versione 1.0.62
+    </div>
+    </>
   );
 }
