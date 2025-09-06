@@ -17,6 +17,7 @@ function cardEsercizioScheda({ schedaId, esercizioId, activeVideoId, setActiveVi
   const [carico, setCarico] = useState("");
   const [tempoRecupero, setTempoRecupero] = useState("");
   const [giorno, setGiorno] = useState("");
+  const [comment, setComment] = useState("");
   const [scheda, setScheda] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
@@ -101,6 +102,10 @@ function cardEsercizioScheda({ schedaId, esercizioId, activeVideoId, setActiveVi
       });
 
       nuovaScheda.changeGiorno(esercizio.idUnivoco, giorno);
+
+      let esercizioClone = nuovaScheda.getEsByIdUnivoco(esercizio.idUnivoco);
+      esercizioClone.setComment(comment);
+
       saveScheda(nuovaScheda);
 
       esercizioDati.modifica(Number(serie), Number(ripetizioni), Number(carico), Number(tempoRecupero));
@@ -205,6 +210,9 @@ function cardEsercizioScheda({ schedaId, esercizioId, activeVideoId, setActiveVi
                 {/* TEMPO DI RECUPERO ESERCIZIO */}
                 <Form.Label>Tempo Di Recupero</Form.Label>
                 <Form.Control type="number" value={tempoRecupero} onChange={(e) => setTempoRecupero(e.target.value)} className="form-control input-custom"/>
+
+                {/* COMMENTO */}
+                <textarea style={{marginTop:"20px"}} placeholder="Commenti" className="form-control input-viola" aria-label="With textarea" value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
 
                 {showMessage && (
                   <div className="alert alert-warning alert-warning-login" role="alert">
