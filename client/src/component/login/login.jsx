@@ -91,7 +91,7 @@ export default function Login({ onLoginSuccess }) {
     </Container>
     <div style={{ position: "absolute", bottom: 10, right: 10, fontSize: "14px", color: "rgba(119, 53, 136, 0.459)" }}>
       {/*versione: 1.deploy.commit */}
-      Versione 1.24.65
+      Versione 1.27.67
     </div>
     </>
   );
