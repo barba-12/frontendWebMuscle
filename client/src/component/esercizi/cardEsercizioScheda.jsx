@@ -76,6 +76,29 @@ function cardEsercizioScheda({ schedaId, esercizioId, activeVideoId, setActiveVi
       fetchEsercizio();
     }
   }, [scheda, esercizioId]);
+      
+  const setCommento = () =>{
+    //modificare giorno anche per esercizio singolo
+    const nuovaScheda = new Scheda({
+      id: scheda.id,
+      tipologia: scheda.tipologia,
+      giorniAllenamento: scheda.giorni.length,
+    });
+    nuovaScheda.setGiorni(scheda.giorni);
+
+    scheda.esercizi.forEach(e => {
+      nuovaScheda.addEsercizio(new EsercizioDoppione(
+        e.idUnivoco,
+        e.idEsercizio,
+        e.giorno,
+        e.completato,
+        e.comment
+      ));
+    });
+
+    let esercizioClone = nuovaScheda.getEsByIdUnivoco(esercizio.idUnivoco);
+    setComment(esercizioClone.comment);
+  }
 
   //cercare esercizio in exercisedata da idEsercizio cosi da trovare l'es raw
   const handleSave = (e) => {
@@ -174,7 +197,7 @@ function cardEsercizioScheda({ schedaId, esercizioId, activeVideoId, setActiveVi
               </Button>
             </Link>
 
-            <Button variant="primary" onClick={() => setShowModal(true)}>
+            <Button variant="primary"   onClick={() => {setShowModal(true); setCommento();}}>
               Modifica
             </Button>
           </div>
