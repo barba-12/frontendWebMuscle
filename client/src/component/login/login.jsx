@@ -15,7 +15,7 @@ export default function Login({ onLoginSuccess }) {
 
   function handleLogin(e) {
     e.preventDefault(); // 🔹 impedisce il refresh della pagina
-    if(utenti.includes(username) && password === "Amministratore12"){
+    if(utenti.includes(username) && password === "121612"){
       localStorage.setItem("username", username);
       checkStatusExercise();
       onLoginSuccess(checked);
@@ -90,7 +90,8 @@ export default function Login({ onLoginSuccess }) {
         {/* Scritta della versione in basso a destra */}
     </Container>
     <div style={{ position: "absolute", bottom: 10, right: 10, fontSize: "14px", color: "rgba(119, 53, 136, 0.459)" }}>
-      Versione 1.0.62
+      {/*versione: 1.deploy.commit */}
+      Versione 1.22.63
     </div>
     </>
   );

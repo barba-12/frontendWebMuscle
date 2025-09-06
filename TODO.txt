@@ -35,12 +35,11 @@ biceps curl whit chair *  ("Bicipiti", "Avambracci")
 20) regular squat - https://musclewiki.com/it-it/exercise/bodyweight-squat   ("Quadricipiti", "Glutei")
 
 
-
 aggiunta di esericizi in exercise.js:
 - Stacchi rumeni con bilanciere
 - Pressa
 - Affondi bulgari con panca e manubri
-* Hyperextension glutei
+- Hyperextension glutei    ("Femorali", "Glutei")
 - Slanci posteriori al cavo
 - Lat machine
 - Pulley

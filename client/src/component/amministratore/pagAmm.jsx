@@ -17,7 +17,7 @@ function PagAmm() {
   const [showModalJSON, setShowModalJSON] = useState(false);
   const [pass, setPass] = useState("");
   const [showMessage, setShowMessage] = useState(false);
-  const STORE_NAME = "schede";
+  const PASSAMM = "121612";
 
   // nuovo stato per conferma eliminazione
   const [showConfirm, setShowConfirm] = useState(false);
@@ -41,7 +41,7 @@ function PagAmm() {
 
   //da eliminare dati su DB
   const scaricaJSONEsercizi = async () => {
-    if (pass !== "Amministratore12") {
+    if (pass !== PASSAMM) {
       setShowMessage(true);
       return;
     }
@@ -68,7 +68,7 @@ function PagAmm() {
   };
 
   const resettaEs = async () => {
-    if(pass == "Amministratore12"){
+    if(pass == PASSAMM){
       await resetAllStatusEs();
       setShowModalReset(false);
       setPass("");
@@ -77,7 +77,7 @@ function PagAmm() {
   }
 
   const handleClear = async (type) => {
-    if(pass == "Amministratore12"){
+    if(pass == PASSAMM){
       if (type === "session") {
         sessionStorage.clear();
         setSessionData([]);

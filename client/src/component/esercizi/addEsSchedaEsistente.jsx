@@ -3,7 +3,7 @@ import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import AddEsercizioAtScheda from "./addEsercizioAtScheda";
 import { getAllMuscle } from "../../db/functionExercise";
-import { getEsercizi, saveEsercizi, getFiltri, saveFiltri } from "../../db/db";
+import { getEsercizi, saveEsercizi } from "../../db/db";
 import exerciseData from "../../data/exercise";
 
 function AddEsSchedaEsistente() {
@@ -13,36 +13,67 @@ function AddEsSchedaEsistente() {
   const [showModal, setShowModal] = useState(false);
   const [allMuscle, setAllMuscle] = useState([]);
   const navigate = useNavigate();
-  const [nome, setNome] = useState("");
   const [muscleSelected, setMuscleSelected] = useState([]);
   const [typeSelected, setTypeSelected] = useState([]);
+  const [nome, setNome] = useState("");
+  const [filtriLoaded, setFiltriLoaded] = useState(false);
 
-  // 🔹 Caricamento iniziale esercizi e filtri da IndexedDB
+  // Caricamento iniziale esercizi e lista muscoli
   useEffect(() => {
     async function loadData() {
       let eserciziDB = await getEsercizi();
       if (!eserciziDB || eserciziDB.length === 0) {
-        // Se DB vuoto, inizializza con exerciseData
         await saveEsercizi(exerciseData);
         eserciziDB = exerciseData;
       }
       setEs(eserciziDB);
-
-      // Filtri salvati
-      const filtri = await getFiltri();
-      setMuscleSelected(filtri.muscle || []);
-      setTypeSelected(filtri.type || []);
-
-      // Lista muscoli
       setAllMuscle(getAllMuscle());
     }
     loadData();
   }, []);
 
-  // 🔹 Salvataggio filtri persistenti
+  // Carica filtri da sessionStorage una sola volta al mount
   useEffect(() => {
-    saveFiltri({ muscle: muscleSelected, type: typeSelected });
-  }, [muscleSelected, typeSelected]);
+    try {
+      const raw = sessionStorage.getItem("filtri");
+      if (raw) {
+        const saved = JSON.parse(raw);
+        setMuscleSelected(saved.muscle ?? []);
+        setTypeSelected(saved.type ?? []);
+        setNome(saved.nome ?? "");
+      } else {
+        // se non esiste, mantieni i default
+        setMuscleSelected([]);
+        setTypeSelected([]);
+        setNome("");
+      }
+    } catch (err) {
+      console.error("Errore parsing filtri da sessionStorage:", err);
+      setMuscleSelected([]);
+      setTypeSelected([]);
+      setNome("");
+    } finally {
+      // segnala che abbiamo finito di caricare i filtri
+      setFiltriLoaded(true);
+    }
+  }, []);
+
+  // Salvataggio filtri persistenti — SOLO dopo che li abbiamo caricati la prima volta
+  useEffect(() => {
+    if (!filtriLoaded) return; // evita di sovrascrivere i filtri durante il mount iniziale
+
+    const toSave = {
+      muscle: muscleSelected,
+      type: typeSelected,
+      nome: nome, // includi sempre nome (anche stringa vuota)
+    };
+
+    try {
+      sessionStorage.setItem("filtri", JSON.stringify(toSave));
+    } catch (err) {
+      console.error("Impossibile salvare filtri in sessionStorage:", err);
+    }
+  }, [muscleSelected, typeSelected, nome, filtriLoaded]);
 
   const toggleMuscleFiltro = (filtro) => {
     setMuscleSelected((prev) =>
@@ -60,9 +91,10 @@ function AddEsSchedaEsistente() {
     setMuscleSelected([]);
     setTypeSelected([]);
     setNome("");
+    sessionStorage.removeItem("filtri");
+    // mantenere filtriLoaded true: il salvataggio successivo non avverrà finché non cambiano gli stati,
+    // ma togliere l'item garantisce che al prossimo salvataggio venga scritto l'oggetto vuoto (se voluto).
   };
-
-  const cercaFiltri = () => setShowModal(false);
 
   const changePag = () => {
     navigate(`/giorni/${idScheda}`);
@@ -117,9 +149,9 @@ function AddEsSchedaEsistente() {
 
           <h1 className="project-heading">Select Exercise</h1>
 
-          {(muscleSelected.length > 0 || typeSelected.length > 0) && (
+          {(muscleSelected.length > 0 || typeSelected.length > 0 || nome !== "") && (
             <p className="project-text">
-              Filtri applicati: {[...typeSelected, ...muscleSelected].join(", ")}
+              Filtri applicati: {[...typeSelected, ...muscleSelected, ...(nome ? [nome] : [])].join(", ")}
             </p>
           )}
 
@@ -202,7 +234,7 @@ function AddEsSchedaEsistente() {
           <Button variant="primary" onClick={resetFiltri}>
             Reset
           </Button>
-          <Button variant="primary" onClick={cercaFiltri}>
+          <Button variant="primary" onClick={() => setShowModal(false)}>
             Applica
           </Button>
         </Modal.Footer>

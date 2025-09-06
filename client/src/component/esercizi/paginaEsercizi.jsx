@@ -3,41 +3,74 @@ import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
 import Esercizio from "./esercizio";
 import { Link } from "react-router-dom";
 import { getAllMuscle } from "../../db/functionExercise";
-import { saveEsercizi, getEsercizi, saveFiltri, getFiltri } from "../../db/db";
+import { saveEsercizi, getEsercizi, clearDBExercise } from "../../db/db";
+import exerciseData from "../../data/exercise";
 
 function PaginaEsercizi({ esercizi }) {
   const [es, setEs] = useState([]);
   const [activeVideoId, setActiveVideoId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [allMuscle, setAllMuscle] = useState([]);
-  const [nome, setNome] = useState("");
   const [muscleSelected, setMuscleSelected] = useState([]);
   const [typeSelected, setTypeSelected] = useState([]);
+  const [nome, setNome] = useState("");
+  const [filtriLoaded, setFiltriLoaded] = useState(false);
 
-  // 🔹 Caricamento iniziale da IndexedDB
+  // Caricamento iniziale da IndexedDB
   useEffect(() => {
     async function loadData() {
-      const savedEsercizi = await getEsercizi();
-      if (savedEsercizi) {
-        setEs(savedEsercizi);
-      } else {
-        setEs(esercizi);
-        await saveEsercizi(esercizi);
+      let eserciziDB = await getEsercizi();
+      if (!eserciziDB || eserciziDB.length === 0) {
+        await saveEsercizi(exerciseData);
+        eserciziDB = exerciseData;
       }
-
+      setEs(eserciziDB);
       setAllMuscle(getAllMuscle());
-
-      const savedFiltri = await getFiltri();
-      setMuscleSelected(savedFiltri.muscle || []);
-      setTypeSelected(savedFiltri.type || []);
     }
     loadData();
-  }, [esercizi]);
+  }, []);
 
-  // 🔹 Salvataggio filtri
+  // Salvataggio filtri su sessionStorage
   useEffect(() => {
-    saveFiltri({ muscle: muscleSelected, type: typeSelected });
-  }, [muscleSelected, typeSelected]);
+    try {
+      const raw = sessionStorage.getItem("filtri");
+      if (raw) {
+        const saved = JSON.parse(raw);
+        setMuscleSelected(saved.muscle ?? []);
+        setTypeSelected(saved.type ?? []);
+        setNome(saved.nome ?? "");
+      } else {
+        // se non esiste, mantieni i default
+        setMuscleSelected([]);
+        setTypeSelected([]);
+        setNome("");
+      }
+    } catch (err) {
+      console.error("Errore parsing filtri da sessionStorage:", err);
+      setMuscleSelected([]);
+      setTypeSelected([]);
+      setNome("");
+    } finally {
+      // segnala che abbiamo finito di caricare i filtri
+      setFiltriLoaded(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!filtriLoaded) return; // evita di sovrascrivere i filtri durante il mount iniziale
+
+    const toSave = {
+      muscle: muscleSelected,
+      type: typeSelected,
+      nome: nome, // includi sempre nome (anche stringa vuota)
+    };
+
+    try {
+      sessionStorage.setItem("filtri", JSON.stringify(toSave));
+    } catch (err) {
+      console.error("Impossibile salvare filtri in sessionStorage:", err);
+    }
+  }, [muscleSelected, typeSelected, nome, filtriLoaded]);
 
   const toggleMuscleFiltro = (filtro) => {
     setMuscleSelected((prev) =>
@@ -55,8 +88,11 @@ function PaginaEsercizi({ esercizi }) {
     setMuscleSelected([]);
     setTypeSelected([]);
     setNome("");
+    sessionStorage.removeItem("filtri");
+    // mantenere filtriLoaded true: il salvataggio successivo non avverrà finché non cambiano gli stati,
+    // ma togliere l'item garantisce che al prossimo salvataggio venga scritto l'oggetto vuoto (se voluto).
   };
-
+  
   // 🔹 Filtraggio ottimizzato con useMemo
   const filteredEsercizi = useMemo(() => {
     let lista = [...es];
@@ -101,6 +137,9 @@ function PaginaEsercizi({ esercizi }) {
             Schede
           </Button>
         </Link>
+        <Button variant="primary" className="mb-3" style={{ marginRight: "20px" }} onClick={() => clearDBExercise()}>
+          Refresh
+        </Button>
         <Button variant="primary" className="mb-3" onClick={() => setShowModal(true)}>
           Filtri
         </Button>

@@ -59,29 +59,3 @@ export async function getEsercizi() {
     req.onerror = () => reject(req.error);
   });
 }
-
-// 🔹 Salva o aggiorna i filtri
-export async function saveFiltri(filtri) {
-  const db = await openDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE_NAME, "readwrite");
-    const store = tx.objectStore(STORE_NAME);
-    const req = store.put({ key: "filtri", value: filtri });
-
-    req.onsuccess = () => resolve(true);
-    req.onerror = () => reject(req.error);
-  });
-}
-
-// 🔹 Recupera i filtri
-export async function getFiltri() {
-  const db = await openDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE_NAME, "readonly");
-    const store = tx.objectStore(STORE_NAME);
-    const req = store.get("filtri");
-
-    req.onsuccess = () => resolve(req.result?.value || { muscle: [], type: [] });
-    req.onerror = () => reject(req.error);
-  });
-}

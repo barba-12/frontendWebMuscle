@@ -52,7 +52,7 @@ function Giorni() {
   };
 
   const eliminaScheda = () => {
-    if(pass == "Amministratore12"){
+    if(pass == "121612"){
       deleteScheda(Number(schedaId));
       navigate("/schede");
     } else setShowMessage(true);

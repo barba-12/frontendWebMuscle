@@ -3,7 +3,7 @@ import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import AddEsercizio from "./addEsercizio";
 import { getAllMuscle } from "../../db/functionExercise";
-import { getEsercizi, saveEsercizi, getFiltri, saveFiltri } from "../../db/db";
+import { getEsercizi, saveEsercizi } from "../../db/db";
 import exerciseData from "../../data/exercise"; // opzionale se vuoi inizializzare DB
 
 function AddEsScheda() {
@@ -11,37 +11,68 @@ function AddEsScheda() {
   const [activeVideoId, setActiveVideoId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [allMuscle, setAllMuscle] = useState([]);
-  const [nome, setNome] = useState("");
+  const navigate = useNavigate();
   const [muscleSelected, setMuscleSelected] = useState([]);
   const [typeSelected, setTypeSelected] = useState([]);
-  const navigate = useNavigate();
+  const [nome, setNome] = useState("");
+  const [filtriLoaded, setFiltriLoaded] = useState(false);
 
-  // 🔹 Caricamento iniziale esercizi e filtri
+  // Caricamento iniziale esercizi e filtri
   useEffect(() => {
     async function loadData() {
       let eserciziDB = await getEsercizi();
       if (!eserciziDB || eserciziDB.length === 0) {
-        // Prima volta: inizializza DB da file JSON
         await saveEsercizi(exerciseData);
         eserciziDB = exerciseData;
       }
       setEs(eserciziDB);
-
-      // Filtri salvati
-      const filtri = await getFiltri();
-      setMuscleSelected(filtri.muscle || []);
-      setTypeSelected(filtri.type || []);
-
-      // Lista muscoli
       setAllMuscle(getAllMuscle());
     }
     loadData();
   }, []);
 
-  // 🔹 Salvataggio filtri persistenti
+  // Carica filtri da sessionStorage una sola volta al mount
   useEffect(() => {
-    saveFiltri({ muscle: muscleSelected, type: typeSelected });
-  }, [muscleSelected, typeSelected]);
+    try {
+      const raw = sessionStorage.getItem("filtri");
+      if (raw) {
+        const saved = JSON.parse(raw);
+        setMuscleSelected(saved.muscle ?? []);
+        setTypeSelected(saved.type ?? []);
+        setNome(saved.nome ?? "");
+      } else {
+        // se non esiste, mantieni i default
+        setMuscleSelected([]);
+        setTypeSelected([]);
+        setNome("");
+      }
+    } catch (err) {
+      console.error("Errore parsing filtri da sessionStorage:", err);
+      setMuscleSelected([]);
+      setTypeSelected([]);
+      setNome("");
+    } finally {
+      // segnala che abbiamo finito di caricare i filtri
+      setFiltriLoaded(true);
+    }
+  }, []);
+
+  // Salvataggio filtri persistenti — SOLO dopo che li abbiamo caricati la prima volta
+  useEffect(() => {
+    if (!filtriLoaded) return; // evita di sovrascrivere i filtri durante il mount iniziale
+
+    const toSave = {
+      muscle: muscleSelected,
+      type: typeSelected,
+      nome: nome, // includi sempre nome (anche stringa vuota)
+    };
+
+    try {
+      sessionStorage.setItem("filtri", JSON.stringify(toSave));
+    } catch (err) {
+      console.error("Impossibile salvare filtri in sessionStorage:", err);
+    }
+  }, [muscleSelected, typeSelected, nome, filtriLoaded]);
 
   const toggleMuscleFiltro = (filtro) => {
     setMuscleSelected((prev) =>
@@ -59,9 +90,10 @@ function AddEsScheda() {
     setMuscleSelected([]);
     setTypeSelected([]);
     setNome("");
+    sessionStorage.removeItem("filtri");
+    // mantenere filtriLoaded true: il salvataggio successivo non avverrà finché non cambiano gli stati,
+    // ma togliere l'item garantisce che al prossimo salvataggio venga scritto l'oggetto vuoto (se voluto).
   };
-
-  const cercaFiltri = () => setShowModal(false);
 
   // 🔹 Filtraggio ottimizzato
   const filteredEsercizi = useMemo(() => {
@@ -201,7 +233,7 @@ function AddEsScheda() {
           <Button variant="primary" onClick={resetFiltri}>
             Reset
           </Button>
-          <Button variant="primary" onClick={cercaFiltri}>
+          <Button variant="primary" onClick={() => setShowModal(false)}>
             Applica
           </Button>
         </Modal.Footer>

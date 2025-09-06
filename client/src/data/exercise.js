@@ -153,6 +153,8 @@ import pistolSquatFront from "../assets/videoEsercizi/esercizi/pistolSquat/male-
 import pistolSquatSide from "../assets/videoEsercizi/esercizi/pistolSquat/male-Bodyweight-bodyweight-single-leg-squat-side.mp4";
 import pistolSquatActivationMuscle from "../assets/videoEsercizi/esercizi/pistolSquat/pistolSquatMuscoliAttivati.png";
 
+import hyperextension from "../assets/videoEsercizi/esercizi/hyperextension/hyperextension.mp4";  //squatActivationMuscle
+
 //new cal
 import boatHold from "../assets/videoEsercizi/esercizi/boatHold/boatHold.png";  //addominaliCentraliAttivazioneMuscolo
 
@@ -990,6 +992,18 @@ const exerciseData = [
     ["Nessuna attrezzatura richiesta"],
     "Medio",
     [burpeeFront, burpeeSide, burpeeAttivazioneMuscolo],
+    false,
+    false
+  ), new Esercizio(
+    57,
+    "Hyperextension",
+    "1. Posizionamento: Sdraiati sulla panca per hyperextension con i piedi ben saldi sui supporti e le caviglie bloccate. Il bacino deve poggiare sul cuscinetto, permettendo al busto di muoversi liberamente in avanti e indietro.§" +
+    "2. Movimento: Piegati lentamente in avanti all’altezza dei fianchi, mantenendo la schiena dritta e gli addominali contratti. Scendi fino a sentire un leggero allungamento nella parte bassa della schiena.§" + 
+    "3. Ritorno: Solleva il busto tornando alla posizione iniziale fino a quando la schiena è in linea con le gambe, senza iperestendere la colonna. Mantieni il movimento controllato e ripeti.",
+    ["Femorali", "Glutei"],
+    ["Panca"],
+    "Facile",
+    [hyperextension, squatActivationMuscle],
     false,
     false
   ),
