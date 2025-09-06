@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { HashRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import PaginaEsercizi from './component/esercizi/paginaEsercizi';
 import PaginaSchede from "./component/schede/paginaSchede";
 import Giorni from "./component/schede/giorni";
