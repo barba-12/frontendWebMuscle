@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
 import Esercizio from "./esercizio";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAllMuscle } from "../../db/functionExercise";
 import { saveEsercizi, getEsercizi, clearDBExercise } from "../../db/db";
 import exerciseData from "../../data/exercise";
@@ -15,6 +15,7 @@ function PaginaEsercizi({ esercizi }) {
   const [typeSelected, setTypeSelected] = useState([]);
   const [nome, setNome] = useState("");
   const [filtriLoaded, setFiltriLoaded] = useState(false);
+  const navigate = useNavigate();
 
   // Caricamento iniziale da IndexedDB
   useEffect(() => {
@@ -137,7 +138,7 @@ function PaginaEsercizi({ esercizi }) {
             Schede
           </Button>
         </Link>
-        <Button variant="primary" className="mb-3" style={{ marginRight: "20px" }} onClick={() => clearDBExercise()}>
+        <Button variant="primary" className="mb-3" style={{ marginRight: "20px" }} onClick={() => {clearDBExercise(); navigate("/schede");}}>
           Refresh
         </Button>
         <Button variant="primary" className="mb-3" onClick={() => setShowModal(true)}>

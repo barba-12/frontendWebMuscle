@@ -199,6 +199,21 @@ import diamondKneePushupsAttivazioneMuscolo from "../assets/videoEsercizi/eserci
 import squatFreeBodyFront from "../assets/videoEsercizi/esercizi/squatFreeBody/male-Bodyweight-bodyweight-squat-front.mp4";  //squatActivationMuscle
 import squatFreeBodySide from "../assets/videoEsercizi/esercizi/squatFreeBody/male-Bodyweight-bodyweight-squat-side.mp4"; 
 
+import spallePettoTricipitiMuscoliAttivati from "../assets/videoEsercizi/esercizi/dips/tricipitiSpallaPettoMuscoliAttivati.png"
+
+import widePullup from "../assets/videoEsercizi/esercizi/widePullup/widePullup.mp4";  //trazioniSbarraActivationMuscle
+
+import pullupFront from "../assets/videoEsercizi/esercizi/pullup/male-bodyweight-pullup-front.mp4";
+import pullupSide from "../assets/videoEsercizi/esercizi/pullup/male-bodyweight-pullup-side.mp4";
+import pullupMuscoliAttivati from "../assets/videoEsercizi/esercizi/pullup/pull-upsMuscoliAttivati.png";
+
+import LSitSospensioneFront from "../assets/videoEsercizi/esercizi/LSitSospensione/male-Bodyweight-bodyweight-hanging-l-sit-front.mp4";   //addominaliCentraliAttivazioneMuscolo
+import LSitSospensioneSide from "../assets/videoEsercizi/esercizi/LSitSospensione/male-Bodyweight-bodyweight-hanging-l-sit-side.mp4";
+
+import dipsFront from "../assets/videoEsercizi/esercizi/dips/male-Bodyweight-parralel-bar-dips-front.mp4";   //spallePettoTricipitiMuscoliAttivati
+import dipsSide from "../assets/videoEsercizi/esercizi/dips/male-Bodyweight-parralel-bar-dips-side.mp4";
+
+
 const exerciseData = [
   new Esercizio(
     1,
@@ -743,7 +758,7 @@ const exerciseData = [
     "2. Con il corpo appeso e le braccia completamente distese, tirati su finché il mento supera la barra.§" + 
     "3. Torna lentamente alla posizione di partenza. Ripeti.",
     ["Avambracci", "Bicipiti", "Dorsale"],
-    ["Sbarra"],
+    ["Nessuna attrezzatura richiesta", "Sbarra"],
     "Medio",
     [trazioniSbarraSide, trazioniSbarraFront, trazioniSbarraActivationMuscle],
     false,
@@ -756,7 +771,7 @@ const exerciseData = [
     "3. Una volta che hai sollevato le ginocchia il più in alto possibile, abbassa le gambe e ripeti. Esegui il movimento lentamente per non sfruttare lo slancio, così da ottenere il massimo dall'esercizio.§" +
     "4. Esegui questi movimenti lentamente; evita di usare lo slancio per ottenere il massimo dall'esercizio.",
     ["Addominali"],
-    ["Sbarra"],
+    ["Nessuna attrezzatura richiesta", "Sbarra"],
     "Facile",
     [alzateGinocchiaAppeseSide, alzateGinocchiaAppeseFront, alzateGinocchiaAppeseActivationMuscle],
     false,
@@ -830,7 +845,7 @@ const exerciseData = [
     ["Petto", "Tricipiti", "Spalle"],
     ["Nessuna attrezzatura richiesta"],
     "Medio",
-    [archerPushups, allungamentoSpalleActivationMuscle],
+    [archerPushups, spallePettoTricipitiMuscoliAttivati],
     false,
     false
   ), new Esercizio(
@@ -842,7 +857,7 @@ const exerciseData = [
     ["Petto", "Tricipiti", "Spalle"],
     ["Nessuna attrezzatura richiesta"],
     "Medio",
-    [widePushups, allungamentoSpalleActivationMuscle],
+    [widePushups, spallePettoTricipitiMuscoliAttivati],
     false,
     false
   ), new Esercizio(
@@ -854,7 +869,7 @@ const exerciseData = [
     ["Petto", "Tricipiti", "Spalle"],
     ["Nessuna attrezzatura richiesta"],
     "Medio",
-    [diamondToRegular, flessioniDeclinateActivationMuscle],
+    [diamondToRegular, spallePettoTricipitiMuscoliAttivati],
     false,
     false
   ), new Esercizio(
@@ -866,7 +881,7 @@ const exerciseData = [
     ["Petto", "Tricipiti", "Spalle"],
     ["Nessuna attrezzatura richiesta"],
     "Medio",
-    [sweezeDiamond, allungamentoPettoActivationMuscle],
+    [sweezeDiamond, spallePettoTricipitiMuscoliAttivati],
     false,
     false
   ), new Esercizio(
@@ -878,7 +893,7 @@ const exerciseData = [
     ["Petto", "Tricipiti", "Spalle"],
     ["Nessuna attrezzatura richiesta"],
     "Medio",
-    [skullCrasher, allungamentoSpalleActivationMuscle],
+    [skullCrasher, spallePettoTricipitiMuscoliAttivati],
     false,
     false
   ), new Esercizio(
@@ -890,7 +905,7 @@ const exerciseData = [
     ["Bicipiti", "Avambracci"],
     ["Nessuna attrezzatura richiesta", "Sedia"],
     "Medio",
-    [bicepsCurlChair, allungamentoBicipitiActivationMuscle],
+    [bicepsCurlChair, spallePettoTricipitiMuscoliAttivati],
     false,
     false
   ), new Esercizio(
@@ -1004,6 +1019,54 @@ const exerciseData = [
     ["Panca"],
     "Facile",
     [hyperextension, squatActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    58,
+    "Wide Pull-ups",
+    "1. presa larga alla sbarra, corpo disteso, addome attivo.§" +
+    "2. tira su il petto verso la sbarra, gomiti giù e indietro.§" + 
+    "3. scendi piano fino a braccia distese.",
+    ["Gran Dorsale"],
+    ["Nessuna attrezzatura richiesta", "Sbarra"],
+    "Medio",
+    [widePullup, trazioniSbarraActivationMuscle],
+    false,
+    false
+  ), new Esercizio(
+    59,
+    "Pull-ups",
+    "1. Afferra la barra con presa prona, braccia e spalle completamente estese.§" +
+    "2. Sollevati finché il mento non supera la barra.§" + 
+    "3. Riporta il corpo alla posizione di partenza.",
+    ["Gran Dorsale", "Bicipiti"],
+    ["Nessuna attrezzatura richiesta", "Sbarra"],
+    "Medio",
+    [pullupFront, pullupSide, pullupMuscoliAttivati],
+    false,
+    false
+  ), new Esercizio(
+    60,
+    "L Sit a Sospensione",
+    "1. Afferra la barra, appenditi con le braccia distese, corpo in linea.§" +
+    "2. Attiva il core, solleva le ginocchia verso il petto.§" + 
+    "3. Mantieni quella posizione per il tempo indicato.",
+    ["Gran Dorsale", "Bicipiti"],
+    ["Nessuna attrezzatura richiesta", "Sbarra"],
+    "Medio",
+    [LSitSospensioneFront, LSitSospensioneSide, addominaliCentraliAttivazioneMuscolo],
+    false,
+    false
+  ), new Esercizio(
+    61,
+    "Dips",
+    "1. Afferra le barre con le braccia estese, spalle sopra le mani. Tieni le gambe dritte o piegate.§" +
+    "2. Abbassa lentamente fino a portare i gomiti a 90°.§" + 
+    "3. Spingi verso l'alto fino alla posizione iniziale, estendendo completamente le braccia.",
+    ["Gran Dorsale", "Bicipiti"],
+    ["Nessuna attrezzatura richiesta", "Parallele"],
+    "Medio",
+    [dipsFront, dipsSide, spallePettoTricipitiMuscoliAttivati],
     false,
     false
   ),
