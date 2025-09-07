@@ -1055,7 +1055,7 @@ const exerciseData = [
     ["Nessuna attrezzatura richiesta", "Sbarra"],
     "Medio",
     [LSitSospensioneFront, LSitSospensioneSide, addominaliCentraliAttivazioneMuscolo],
-    false,
+    true,
     false
   ), new Esercizio(
     61,
