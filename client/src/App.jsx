@@ -102,7 +102,7 @@ function App() {
           </PrivateRoute>
         } />
 
-        <Route path="*" element={<Navigate to={isLoggedIn ? "/" : "/login"} />} />
+        <Route path="*" element={<Navigate to={isLoggedIn ? "/Schede" : "/login"} />} />
       </Routes>
     </Router>
   );
