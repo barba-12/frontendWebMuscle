@@ -28,60 +28,18 @@ function dettaglioEsercizioScheda() {
   const [showMessage, setShowMessage] = useState(false);
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(null); // tempo rimanente
-  const [isRunning, setIsRunning] = useState(false);
+
+  const [timeLeftRec, setTimeLeftRec] = useState(null); // tempo rimanente
+  const [isRunningRec, setIsRunningRec] = useState(false);
+
+  const [timeLeftEs, setTimeLeftEs] = useState(null); // tempo rimanente
+  const [isRunningEs, setIsRunningEs] = useState(false);
+
   const [showDettagli, setShowDettagli] = useState(false); // stato per dettagli
 
   //esercizio = datiEsercizio
   //scheda contiene tutti gli es senza dati
   //raw = raw
-
-  /*useEffect(() => {
-    async function fetchScheda() {
-      try {
-        const tutteLeSchede = await getAllSchede();
-        const schedaTrovata = tutteLeSchede.find(s => s.id.toString() === schedaId);
-
-        const nuovaScheda = new Scheda({
-          id: schedaTrovata.id,
-          tipologia: schedaTrovata.tipologia,
-          giorniAllenamento: schedaTrovata.giorni.length,
-        });
-        nuovaScheda.setGiorni(schedaTrovata.giorni);
-
-        schedaTrovata.esercizi.forEach(e => {
-          nuovaScheda.addEsercizio(new EsercizioDoppione(
-            e.idUnivoco,
-            e.idEsercizio,
-            e.giorno,
-            e.completato,
-            e.activated
-          ));
-        });
-
-        // la scheda
-        setScheda(nuovaScheda);
-
-        const esercizioTrovato = nuovaScheda.getEsByIdUnivoco(esercizioId);
-        const esercizioDatiDB = await getEsercizioBase(esercizioTrovato.idEsercizio);
-        setEsercizio(new EsercizioScheda(
-          esercizioTrovato.idEsercizio,
-          esercizioDatiDB.ripetizioni,
-          esercizioDatiDB.serie,
-          esercizioDatiDB.tempoRecupero,
-          esercizioDatiDB.carico
-        ));
-
-        setEsercizioRaw(exerciseData.find(es => es.id == esercizioTrovato.idEsercizio));
-      } catch (error) {
-        console.error("Errore nel recupero delle schede:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchScheda();
-  }, [schedaId, esercizioId]);*/
 
   let breve = "";
   let dettagliata = "";
@@ -181,23 +139,40 @@ function dettaglioEsercizioScheda() {
     });
   }, [esercizio]);
 
-  // Effetto che gestisce il timer
+  // timer recupero
   useEffect(() => {
     let interval = null;
-    if (isRunning && timeLeft > 0) {
+    if (isRunningRec && timeLeftRec > 0) {
       interval = setInterval(() => {
-        setTimeLeft((prev) => prev - 1);
+        setTimeLeftRec((prev) => prev - 1);
       }, 1000);
-    } else if (timeLeft === 0) {
-      setIsRunning(false);
+    } else if (timeLeftRec === 0) {
+      setIsRunningRec(false);
     }
     return () => clearInterval(interval);
-  }, [isRunning, timeLeft]);
+  }, [isRunningRec, timeLeftRec]);
 
-  // Avvia timer
-  const startTimer = (seconds) => {
-    setTimeLeft(seconds);
-    setIsRunning(true);
+  const startTimerRec = (seconds) => {
+    setTimeLeftRec(seconds);
+    setIsRunningRec(true);
+  };
+
+  // timer durata esercizio
+  useEffect(() => {
+    let interval = null;
+    if (isRunningEs && timeLeftEs > 0) {
+      interval = setInterval(() => {
+        setTimeLeftEs((prev) => prev - 1);
+      }, 1000);
+    } else if (timeLeftEs === 0) {
+      setIsRunningEs(false);
+    }
+    return () => clearInterval(interval);
+  }, [isRunningEs, timeLeftEs]);
+
+  const startTimerEs = (seconds) => {
+    setTimeLeftEs(seconds);
+    setIsRunningEs(true);
   };
 
   //quando una rep è 0 e non "" rimuovo allo stesso indice anche carico e tempo
@@ -236,7 +211,7 @@ function dettaglioEsercizioScheda() {
 
       esercizio.addRipetizione(newRip.map(Number));
       esercizio.addTempoRecupero(newTempo.map(Number));
-      esercizio.addCarico(newCarico.map(Number));
+      esercizio.addCarico(newCarico.map(parseNumber));
 
       saveEsercizioBase(esercizio);
 
@@ -251,17 +226,17 @@ function dettaglioEsercizioScheda() {
 
   const checkError = () => {
     for(let i=0; i<ripetizioni.length; i++){
-      if(ripetizioni[i] == "") return {ok : false, message: `Inserire ripetizioni nella ${i+1} serie` };
+      if(ripetizioni[i] == "" && esercizio.ripetizioni[0] > 0) return {ok : false, message: `Inserire ripetizioni nella ${i+1} serie` };
       if(Number(ripetizioni[i]) < 0) return {ok : false, message: `Inserire ripetizione positiva nella ${i+1} serie` };
     }
 
     for(let i=0; i<carico.length; i++){
-      if(carico[i] == "") return {ok : false, message: `Inserire carico nella ${i+1} serie` };
-      if(Number(carico[i]) < 0) return {ok : false, message: `Inserire carico positivo nella ${i+1} serie` };
+      if(carico[i] == "" && esercizio.carico[0] > 0) return {ok : false, message: `Inserire carico nella ${i+1} serie` };
+      if(parseNumber(carico[i]) < 0) return {ok : false, message: `Inserire carico positivo nella ${i+1} serie` };
     }
 
     for(let i=0; i<tempoRecupero.length; i++){
-      if(tempoRecupero[i] == "") return {ok : false, message: `Inserire tempo di recupero nella ${i+1} serie` };
+      if(tempoRecupero[i] == "" && esercizio.tempoRecupero[0] > 0) return {ok : false, message: `Inserire tempo di recupero nella ${i+1} serie` };
       if(Number(tempoRecupero[i]) < 0) return {ok : false, message: `Inserire tempo di recupero positivo nella ${i+1} serie` };
     }
 
@@ -279,20 +254,22 @@ function dettaglioEsercizioScheda() {
   }
 
   const impostaRecupero = () => {
-    if(esercizioRaw.repOrTime){
-      let tempoRecupero = []
-      console.log(tempoRecupero);
-      for(let i=0; i<esercizio.serie; i++) tempoRecupero[i] = (esercizio.ripetizioni);
-      setTempoRecupero(tempoRecupero);
-      console.log(tempoRecupero);
-    } else {
-      let tempoRecupero = []
-      console.log(tempoRecupero);
-      for(let i=0; i<esercizio.serie; i++) tempoRecupero[i] = (datiEs[2]);
-      setTempoRecupero(tempoRecupero);
-      console.log(tempoRecupero);
-    }
+    let tempoRecupero = []
+    for(let i=0; i<esercizio.serie; i++) tempoRecupero[i] = (datiEs[2]);
+    setTempoRecupero(tempoRecupero);
+  }
 
+  const parseNumber = (val) => {
+    if (typeof val === "string") {
+      val = val.replace(",", "."); // converte virgola in punto
+    }
+    return Number(val);
+  };
+
+  const impostaDurataEs = () => {
+    let rep = []
+    for(let i=0; i<esercizio.serie; i++) rep[i] = (esercizio.ripetizioni[0]);
+    setRipetizioni(rep);
   }
 
   if (loading || !esercizioRaw) {
@@ -329,17 +306,18 @@ function dettaglioEsercizioScheda() {
             {esercizioDB.getLastRep().length > 0 && 
               <>
                 <h5 style={{marginTop:"15px"}}>Riepilogo Scorso Allenamento:</h5>
-                {datiEs[2] > 0 && <p style={{margin:"5px"}}>Ripetizioni: {esercizioDB.getLastRep().join(" - ")}</p>}
-                {datiEs[2] > 0 && <p style={{margin:"5px"}}>Carico: {esercizioDB.getLastCarico().join(" - ")}</p>}
+                {datiEs[0] > 0 && <p style={{margin:"5px"}}>Ripetizioni: {esercizioDB.getLastRep().join(" - ")}</p>}
+                {datiEs[1] > 0 && <p style={{margin:"5px"}}>Carico: {esercizioDB.getLastCarico().join(" - ")}</p>}
                 {datiEs[2] > 0 && <p style={{margin:"5px"}}>Tempo Di Recupero: {esercizioDB.getLastTempoRecupero().join(" - ")}</p>}
               </>
             }
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "15px", alignItems: "center" }}>
-          {Number(datiEs[2]) > 0 && <Button style={{marginTop:"20px"}} variant="primary" onClick={() => startTimer(Number(datiEs[2]))} disabled={isRunning}>{isRunning ? `${timeLeft}s` : `Timer Recupero: ${datiEs[2]}s`}</Button>}
-          {esercizioRaw.repOrTime && <Button variant="primary" onClick={() => startTimer(Number(esercizio.ripetizioni))} disabled={isRunning}>{isRunning ? `${timeLeft}s` : `Timer Durata Esercizio: ${Number(esercizio.ripetizioni)}s`}</Button>}
-          <Button onClick={() => impostaRecupero()}>imposta <strong>{esercizioRaw.repOrTime ? Number(esercizio.ripetizioni) : datiEs[2]}s</strong> su tutte le serie</Button>
+          {Number(datiEs[2]) > 0 && <Button style={{marginTop:"20px"}} variant="primary" onClick={() => startTimerRec(Number(datiEs[2]))} disabled={isRunningRec}>{isRunningRec ? `${timeLeftRec}s` : `Timer Recupero: ${datiEs[2]}s`}</Button>}
+          {esercizioRaw.repOrTime && <Button variant="primary" onClick={() => startTimerEs(Number(esercizio.ripetizioni[0]))} disabled={isRunningEs}>{isRunningEs ? `${timeLeftEs}s` : `Timer Durata Esercizio: ${Number(esercizio.ripetizioni[0])}s`}</Button>}
+          {esercizioRaw.repOrTime && <Button onClick={() => impostaDurataEs()}>imposta <strong>{Number(esercizio.ripetizioni[0])}s</strong> su tutte le serie</Button>}
+          {Number(datiEs[2]) > 0 && <Button onClick={() => impostaRecupero()}>imposta <strong>{datiEs[2]}s</strong> su tutte le serie</Button>}
           </div>
 
           {esercizioClone.comment != "" && 
@@ -410,7 +388,7 @@ function dettaglioEsercizioScheda() {
               </Form.Group>
             </Form>
             
-            <Grafico esercizio={esercizioDB}></Grafico>
+            <Grafico esercizio={esercizioDB} secondi={esercizioRaw.repOrTime}></Grafico>
           </>
 
         {/* Spiegazione breve */}

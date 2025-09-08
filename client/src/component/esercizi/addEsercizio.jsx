@@ -89,7 +89,7 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
           // aggiungiamo il nuovo esercizio come array
           return [
             g,
-            [...listaEsercizi, [Number(esercizio.id), Number(serie), Number(ripetizioni), Number(carico), Number(tempoRecupero), comment]]
+            [...listaEsercizi, [Number(esercizio.id), Number(serie), Number(ripetizioni), parseNumber(carico), Number(tempoRecupero), comment]]
           ];
         }
 
@@ -114,6 +114,13 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
     
   };
 
+  const parseNumber = (val) => {
+    if (typeof val === "string") {
+      val = val.replace(",", "."); // converte virgola in punto
+    }
+    return Number(val);
+  };
+
   const checkError = () => {
     if(!giorno) return {ok : false, message: "Selezionare un giorno"};
 
@@ -124,8 +131,13 @@ function addEsercizio({ esercizio, activeVideoId, setActiveVideoId }) {
 
     if(Number(serie) < 1) return {ok : false, message: "Inserire almeno una serie"};
     if(Number(ripetizioni) < 1) return {ok : false, message: "Inserire almeno una ripetizione"};
-    if(Number(carico) < 0) return {ok : false, message: "Inserire un carico positivo"};
+    if(parseNumber(carico) < 0) return {ok : false, message: "Inserire un carico positivo"};
     if(Number(tempoRecupero) < 0) return {ok : false, message: "Inserire un tempo di recupero positivo"};
+
+    if (!Number.isInteger(Number(serie))) return { ok: false, message: "Il numero di serie deve essere un intero" };
+    if (!Number.isInteger(Number(ripetizioni))) return { ok: false, message: "Le ripetizioni devono essere un numero intero" };
+    if (!Number.isInteger(Number(tempoRecupero))) return { ok: false, message: "Il tempo di recupero deve essere un numero intero" };
+
     // Se tutti i controlli passano
     return { ok: true, message: "Dati validi" };
   }

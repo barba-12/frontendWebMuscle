@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from "recharts";
 
-export default function Grafico({ esercizio }) {
+export default function Grafico({ esercizio, secondi}) {
   const [numRel, setNumRel] = useState(10);
   const reps = esercizio.getRepSpec(numRel) || [];
   const carico = esercizio.getCaricoSpec(numRel) || [];
@@ -24,7 +24,7 @@ export default function Grafico({ esercizio }) {
   };
 
   return (
-    <div className="p-4 w-full">
+    <div className="p-0 w-full">
       <h2 className="text-xl font-semibold mb-4 text-white">Andamento esercizio</h2>
 
       <div
@@ -42,7 +42,7 @@ export default function Grafico({ esercizio }) {
           className="select-viola"
           style={{ flex: "1 1 150px", textAlign: "center" }} // occupa almeno 150px e cresce
         >
-          <option value="rep">Ripetizioni</option>
+          <option value="rep">{secondi ? "Secondi" : "Ripetizioni"}</option>
           <option value="carico">Carico</option>
           <option value="recupero">Tempo di Recupero</option>
         </select>
@@ -62,7 +62,7 @@ export default function Grafico({ esercizio }) {
       {/* Grafico full width, trasparente */}
       <div className="w-full" style={{ height: 300 }}>
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data} margin={{ top: 20, left: -45 }}>
+          <LineChart data={data} margin={{ top: 20, left: -35 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.2)" />
             <XAxis dataKey="serie" stroke="#ffffff" />
             <YAxis stroke="#ffffff" />

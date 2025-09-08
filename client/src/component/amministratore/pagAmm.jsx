@@ -227,6 +227,7 @@ function PagAmm() {
           <Button variant="warning" className="m-2" onClick={() => { clearDBExercise() }}>
             resetta DB exercise
           </Button>
+
         </div>
 
         {/* Modal per visualizzare contenuti */}

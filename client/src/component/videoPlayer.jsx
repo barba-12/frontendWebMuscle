@@ -100,6 +100,7 @@ function VideoPlayer({ videos, esercizioId, activeVideoId, setActiveVideoId }) {
           src={videosWithoutLast[currentIndex]}
           style={{ width: "100%", height: "auto", display: "block" }}
           loop
+          muted
         />
       )}
 

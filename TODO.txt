@@ -1,4 +1,3 @@
-
 wide pull up   //trazioniSbarraActivationMuscle
 
 pull up  https://musclewiki.com/it-it/exercise/pull-ups
@@ -158,6 +157,8 @@ PAGINA utente:
     - se l'esercizio è gia stato agginto prima visualizzare i dati precedenti gia inseriti
     - OTTIMIZZAZIONE GENERALE
     - aggiungere commento ad esercizio
+    - modificare che quando completo esercizio senza peso, rep ... si completi lo stesso senza dare errore
+    - togliere volume a video
 
  CLASSE EsercizioScheda:
     - creazione classe esercizio (creo id univoco tramite date.Now()) - aggiungiScheda.jsx 
