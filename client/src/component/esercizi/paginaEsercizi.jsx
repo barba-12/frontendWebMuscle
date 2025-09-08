@@ -138,7 +138,7 @@ function PaginaEsercizi({ esercizi }) {
             Schede
           </Button>
         </Link>
-        <Button variant="primary" className="mb-3" style={{ marginRight: "20px" }} onClick={() => {clearDBExercise(); navigate("/schede");}}>
+        <Button variant="primary" className="mb-3" style={{ marginRight: "20px" }} onClick={() => {clearDBExercise(); navigate("/");}}>
           Refresh
         </Button>
         <Button variant="primary" className="mb-3" onClick={() => setShowModal(true)}>

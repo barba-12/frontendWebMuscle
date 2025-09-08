@@ -27,7 +27,7 @@ function EsercizioScheda() {
       <Button
         type="submit"
         variant="primary"
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/pagEs")}
         style={{ margin: "1rem" }}
       >
         Back

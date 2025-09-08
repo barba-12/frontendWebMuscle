@@ -18,7 +18,7 @@ function PaginaSchede() {
   return (
     <Container fluid className="project-section">
       <Container>
-        <Link to="/">
+        <Link to="/pagEs">
           <Button variant="primary" className="mb-3" style={{ marginRight: "20px" }}>Esercizi</Button>
         </Link>
         <Link to="/login">

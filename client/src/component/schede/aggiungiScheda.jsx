@@ -132,7 +132,7 @@ function AggiungiScheda() {
         sessionStorage.removeItem("scheda");
         sessionStorage.removeItem("eserciziSelezionati");
         // Dopo il salvataggio vai alla pagina successiva
-        navigate("/schede");
+        navigate("/");
       } catch (err) {
         console.error("Errore salvataggio IndexedDB:", err);
       }
@@ -147,7 +147,7 @@ function AggiungiScheda() {
       <Col md={12} className="schede-card">
         <Card className="project-card-view">
           <Card.Body>
-            <Button variant="primary" onClick={() => navigate("/schede")}>Schede</Button>
+            <Button variant="primary" onClick={() => navigate("/")}>Schede</Button>
 
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-5">

@@ -54,7 +54,7 @@ function Giorni() {
   const eliminaScheda = () => {
     if(pass == "121612"){
       deleteScheda(Number(schedaId));
-      navigate("/schede");
+      navigate("/");
     } else setShowMessage(true);
   }
 
@@ -66,7 +66,7 @@ function Giorni() {
 
   return (
     <>
-      <Link to="/schede">
+      <Link to="/">
         <Button variant="primary">back</Button>
       </Link>
     

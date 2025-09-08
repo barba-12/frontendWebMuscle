@@ -48,7 +48,7 @@ function App() {
 
         <Route path="/" element={
           <PrivateRoute>
-            <PaginaEsercizi esercizi={exerciseData} />
+            <PaginaSchede />
           </PrivateRoute>
         } />
         <Route path="/pagAmm" element={
@@ -56,9 +56,9 @@ function App() {
             <PagAmm />
           </PrivateRoute>
         } />
-        <Route path="/schede" element={
+        <Route path="/pagEs" element={
           <PrivateRoute>
-            <PaginaSchede />
+            <PaginaEsercizi esercizi={exerciseData} />
           </PrivateRoute>
         } />
         <Route path="/addEsSchedaEsistente/:idScheda" element={
@@ -102,7 +102,7 @@ function App() {
           </PrivateRoute>
         } />
 
-        <Route path="*" element={<Navigate to={isLoggedIn ? "/Schede" : "/login"} />} />
+        <Route path="*" element={<Navigate to={isLoggedIn ? "/" : "/login"} />} />
       </Routes>
     </Router>
   );
