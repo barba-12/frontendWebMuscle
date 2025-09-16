@@ -1,4 +1,5 @@
 aggiornare stato esercizi anche quando si ha attivo il rember me
+quando ho il remember me attivo anche quando ritorno al login deve rimanere attivo
 
 wide pull up   //trazioniSbarraActivationMuscle
 
