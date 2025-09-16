@@ -1,3 +1,5 @@
+aggiornare stato esercizi anche quando si ha attivo il rember me
+
 wide pull up   //trazioniSbarraActivationMuscle
 
 pull up  https://musclewiki.com/it-it/exercise/pull-ups
