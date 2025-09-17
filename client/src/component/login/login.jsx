@@ -121,7 +121,7 @@ export default function Login({ onLoginSuccess }) {
           color: "rgba(119, 53, 136, 0.459)",
         }}
       > {/*1.deploy.commit*/}
-        Versione 1.33.77
+        Versione 1.34.78
       </div>
     </>
   );

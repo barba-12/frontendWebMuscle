@@ -138,6 +138,8 @@ function PaginaEserciziScheda() {
     );
   }
 
+  eserciziFiltrati.sort((a, b) => (exerciseData.find(es => es.id == b.idEsercizio).isStreching === true) - (exerciseData.find(es => es.id == a.idEsercizio).isStreching === true));
+
   function handleClick() {
     navigate(`/giorni/${schedaId}`);
   }
