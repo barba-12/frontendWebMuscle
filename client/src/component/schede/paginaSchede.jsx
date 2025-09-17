@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Scheda from "./Scheda";
-import { getAllSchedeDB } from "../../db/DBschede"; // Funzione dal servizio IndexedDB
+import { getAllSchedeDB, checkStatusExercise } from "../../db/DBschede"; // Funzione dal servizio IndexedDB
 import Card from "react-bootstrap/Card";
 
 function PaginaSchede() {
@@ -10,6 +10,8 @@ function PaginaSchede() {
 
   // Carica le schede dal DB quando il componente si monta
   useEffect(() => {
+    if(localStorage.getItem("rememberMe")) {checkStatusExercise()}
+
     getAllSchedeDB().then(rawSchede => {
       setSchede(rawSchede);
     });

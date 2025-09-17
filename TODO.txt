@@ -1,5 +1,6 @@
-aggiornare stato esercizi anche quando si ha attivo il rember me
-quando ho il remember me attivo anche quando ritorno al login deve rimanere attivo
+
+poter cambiare giorno a tutti gli es in contemporanea
+
 
 wide pull up   //trazioniSbarraActivationMuscle
 
@@ -162,6 +163,7 @@ PAGINA utente:
     - aggiungere commento ad esercizio
     - modificare che quando completo esercizio senza peso, rep ... si completi lo stesso senza dare errore
     - togliere volume a video
+    - aggiornare stato esercizi anche quando si ha attivo il rember me
 
  CLASSE EsercizioScheda:
     - creazione classe esercizio (creo id univoco tramite date.Now()) - aggiungiScheda.jsx 
