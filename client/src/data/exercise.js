@@ -213,6 +213,9 @@ import LSitSospensioneSide from "../assets/videoEsercizi/esercizi/LSitSospension
 import dipsFront from "../assets/videoEsercizi/esercizi/dips/male-Bodyweight-parralel-bar-dips-front.mp4";   //spallePettoTricipitiMuscoliAttivati
 import dipsSide from "../assets/videoEsercizi/esercizi/dips/male-Bodyweight-parralel-bar-dips-side.mp4";
 
+import crunchFront from "../assets/videoEsercizi/esercizi/crunch/male-bodyweight-crunch-front.mp4";
+import crunchSide from "../assets/videoEsercizi/esercizi/crunch/male-bodyweight-crunch-side.mp4";
+
 
 const exerciseData = [
   new Esercizio(
@@ -1067,6 +1070,18 @@ const exerciseData = [
     ["Nessuna attrezzatura richiesta", "Parallele"],
     "Medio",
     [dipsFront, dipsSide, spallePettoTricipitiMuscoliAttivati],
+    false,
+    false
+  ), new Esercizio(
+    62,
+    "Crunch Addominali",
+    "1. Sdraiati supino con le ginocchia piegate e i piedi appoggiati a terra, a circa un piede dalla zona lombare.§" +
+    "2. Posiziona le punte delle dita sulle tempie con i palmi rivolti verso l'esterno.§" + 
+    "3. Contrae l'addome portando l'ombelico verso la base della colonna vertebrale per attivare i muscoli, poi solleva testa e spalle da terra. Torna alla posizione iniziale e ripeti.",
+    ["Addominali"],
+    ["Nessuna attrezzatura richiesta"],
+    "Facile",
+    [crunchFront, crunchSide, addominaliCentraliAttivazioneMuscolo],
     false,
     false
   ),
