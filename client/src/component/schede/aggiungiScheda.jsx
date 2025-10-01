@@ -116,6 +116,7 @@ function AggiungiScheda() {
             e[5]
           ));
 
+          //se lesercizio esiste gia sostituisco solo i dati con index 0 lasciando intatti gli altri dati gia presenti
           saveEsercizioBase(new EsercizioScheda(
             e[0],        // id esercizio
             e[2] || 0,   // ripetizioni
